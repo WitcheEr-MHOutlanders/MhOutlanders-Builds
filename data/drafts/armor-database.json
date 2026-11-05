@@ -444,6 +444,218 @@
         ],
         "effect": "Using environmental interactive objects to damage a monster or inflict a negative effect increases damage by 4% for 120 seconds."
       }
+    },
+    {
+      "name": "Legiana Set III",
+      "rarity": "8/10",
+      "status": "draft_from_user_screenshots_2026_11_05",
+      "armor": [
+        {
+          "slot": "head",
+          "name": "Legiana Helm III",
+          "skills": [
+            [
+              "Ice Resistance",
+              2,
+              3
+            ],
+            [
+              "Blessing",
+              1,
+              5
+            ]
+          ]
+        },
+        {
+          "slot": "chest",
+          "name": "Legiana Mail III",
+          "skills": [
+            [
+              "Flash Draw",
+              2,
+              7
+            ],
+            [
+              "Weakspot Exploit",
+              1,
+              3
+            ]
+          ],
+          "rarity_10_unlocks": [
+            [
+              "Windproof",
+              1,
+              3
+            ]
+          ]
+        },
+        {
+          "slot": "arms",
+          "name": "Legiana Vambraces III",
+          "skills": [
+            [
+              "Weakspot Exploit",
+              1,
+              3
+            ],
+            [
+              "Blessing",
+              1,
+              5
+            ],
+            [
+              "Ice Damage Up",
+              1,
+              7
+            ]
+          ],
+          "rarity_10_unlocks": [
+            [
+              "Ice Damage Up",
+              2,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "waist",
+          "name": "Legiana Coil III",
+          "skills": [
+            [
+              "Blessing",
+              2,
+              5
+            ],
+            [
+              "Ice Damage Up",
+              1,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "legs",
+          "name": "Legiana Greaves III",
+          "skills": [
+            [
+              "Ammo Enhancement",
+              2,
+              4
+            ],
+            [
+              "Suppression Recovery",
+              1,
+              3
+            ]
+          ],
+          "rarity_10_unlocks": [
+            [
+              "Critical Element",
+              1,
+              3
+            ]
+          ]
+        }
+      ],
+      "set_bonus": {
+        "name": "Legiana Dance",
+        "required_pieces": 2,
+        "skill_bonus": [
+          "Ice Resistance",
+          1
+        ],
+        "effect": "Ice resistance +6."
+      },
+      "combined_skill_totals_before_rarity_10": [
+        [
+          "Blessing",
+          4,
+          5
+        ],
+        [
+          "Weakspot Exploit",
+          2,
+          3
+        ],
+        [
+          "Ice Damage Up",
+          2,
+          7
+        ],
+        [
+          "Ice Resistance",
+          2,
+          3
+        ],
+        [
+          "Flash Draw",
+          2,
+          7
+        ],
+        [
+          "Ammo Enhancement",
+          2,
+          4
+        ],
+        [
+          "Suppression Recovery",
+          1,
+          3
+        ]
+      ],
+      "combined_skill_totals_at_rarity_10_interpreted": [
+        [
+          "Blessing",
+          4,
+          5
+        ],
+        [
+          "Weakspot Exploit",
+          2,
+          3
+        ],
+        [
+          "Ice Damage Up",
+          4,
+          7
+        ],
+        [
+          "Ice Resistance",
+          2,
+          3
+        ],
+        [
+          "Flash Draw",
+          2,
+          7
+        ],
+        [
+          "Ammo Enhancement",
+          2,
+          4
+        ],
+        [
+          "Suppression Recovery",
+          1,
+          3
+        ],
+        [
+          "Windproof",
+          1,
+          3
+        ],
+        [
+          "Critical Element",
+          1,
+          3
+        ]
+      ],
+      "notes": [
+        "Rarity 10 unlock skills are separate from regular skills.",
+        "Per user-confirmed original interpretation, Vambraces Rarity 10 Ice Damage Up 2/7 is an additional two levels, giving set total 4/7; verify in-game at rarity 10.",
+        "Set bonus screenshot shows 1/2 inactive in single-piece preview.",
+        "Draft only; do not publish without approval."
+      ]
     }
   ]
 }
