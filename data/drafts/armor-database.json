@@ -805,7 +805,23 @@
         {
           "slot": "head",
           "name": "Tzitzi Headgear III",
-          "skills": [],
+          "skills": [
+            [
+              "Relentless Pursuit",
+              1,
+              3
+            ],
+            [
+              "Blessing",
+              1,
+              5
+            ],
+            [
+              "Piercing Strike",
+              1,
+              7
+            ]
+          ],
           "rarity_9_unlocks": [
             [
               "Piercing Strike",
@@ -921,9 +937,9 @@
       },
       "notes": [
         "Rarity 9 unlocks recorded separately; do not activate at rarity 8.",
-        "Headgear base skills not shown; empty array means unknown, not no skills.",
         "Greaves unlock screen not provided.",
-        "Draft only; do not publish without approval."
+        "Draft only; do not publish without approval.",
+        "Headgear base skills confirmed from additional screenshot."
       ]
     }
   ]
