@@ -29,6 +29,17 @@ def validate(data):
             raise ValueError(f'{key} must be a list')
         for value in data[key]:
             text(value, key)
+    for key in ('character_stats', 'visage', 'buddy'):
+        if key in data:
+            if not isinstance(data[key], list):
+                raise ValueError(f'{key} must be a list')
+            for value in data[key]:
+                text(value, key)
+    if 'progression' in data:
+        if not isinstance(data['progression'], dict):
+            raise ValueError('progression must be an object')
+        for key in ('skill', 'current', 'target', 'note'):
+            text(data['progression'].get(key), f'progression {key}')
     if not isinstance(data.get('screenshots'), list) or not data['screenshots']:
         raise ValueError('At least one screenshot is required')
     for shot in data['screenshots']:
@@ -44,7 +55,7 @@ def validate(data):
             raise ValueError(f'Missing or unsafe screenshot: {asset}')
     return data
 
-def document(title, body):
+def document(title, body, featured=False):
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,7 +64,7 @@ def document(title, body):
 <title>{escape(title)} | Outlanders Arsenal</title>
 <link rel="stylesheet" href="../assets/builds.css">
 </head>
-<body>
+<body{' class="showcase"' if featured else ''}>
 <a class="skip-link" href="#main">Skip to content</a>
 <header><nav aria-label="Main navigation"><a href="../index.html">⚔ Outlanders Arsenal</a><a href="index.html">Build library</a></nav></header>
 <main id="main">{body}</main>
@@ -70,14 +81,22 @@ def section(title, items, ordered=False):
 
 def page(data):
     body = f'<div class="hero"><p class="eyebrow">{escape(data["weapon_type"])}</p><h1>{escape(data["title"])}</h1><p class="summary">{escape(data["summary"])}</p></div>'
+    if 'progression' in data:
+        progress = data['progression']
+        shot = data['screenshots'][0]
+        body += f'<figure class="build-cover"><img src="../assets/builds/{data["slug"]}/{escape(shot["file"])}" alt="{escape(shot["alt"])}" width="1280" height="591"><figcaption>{escape(shot["caption"])}</figcaption></figure>'
+        body += f'<section class="upgrade panel" aria-labelledby="upgrade-heading"><p class="eyebrow">Equipped vs. upgrade target</p><h2 id="upgrade-heading">{escape(progress["skill"])}</h2><div class="upgrade-values"><p>Current · screenshot<strong>{escape(progress["current"])}</strong></p><p>Fully upgraded · author target<strong>{escape(progress["target"])}</strong></p></div><p>{escape(progress["note"])}</p></section>'
+    body += section('Character stats · captured loadout', data.get('character_stats', []))
     body += f'<section class="panel"><h2>Weapon</h2><p>{escape(data["weapon"])}</p></section><div class="grid">'
     body += section('Armor loadout', data['armor']) + section('Skills', data['skills']) + '</div>'
+    if data.get('visage') or data.get('buddy'):
+        body += '<div class="grid">' + section('Visage · Ink of Flames', data.get('visage', [])) + section('Buddy · SSR Kojiro', data.get('buddy', [])) + '</div>'
     body += section('Combat rotation', data['rotation'], True) + section('Build notes', data['notes'])
     body += '<section aria-labelledby="screenshots"><h2 id="screenshots">Build screenshots</h2><div class="gallery">'
     for shot in data['screenshots']:
         src = f'../assets/builds/{data["slug"]}/{shot["file"]}'
         body += f'<figure class="panel"><a href="{escape(src)}"><img src="{escape(src)}" alt="{escape(shot["alt"])}" loading="lazy" decoding="async"></a><figcaption>{escape(shot["caption"])}</figcaption></figure>'
-    return document(data['title'], body + '</div></section>')
+    return document(data['title'], body + '</div></section>', featured='progression' in data)
 
 def outputs():
     result = {}
