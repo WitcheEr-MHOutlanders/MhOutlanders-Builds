@@ -1,0 +1,14 @@
+{
+  "slug": "replace-with-unique-build-slug",
+  "title": "Replace with verified build title",
+  "summary": "Brief description supported by the screenshots or user.",
+  "weapon": "Exact weapon name from source",
+  "weapon_type": "Weapon type from source",
+  "armor": ["Head: exact item name", "Chest: exact item name"],
+  "skills": ["Exact skill name — visible level (label targets separately)"],
+  "rotation": [],
+  "notes": ["List source limitations or user-confirmed advice here."],
+  "screenshots": [
+    {"file": "loadout.png", "alt": "Describe the visible equipment and skills", "caption": "Equipment screenshot supplied by the build author."}
+  ]
+}
