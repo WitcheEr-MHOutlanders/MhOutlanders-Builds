@@ -56,5 +56,20 @@ class BuildTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             builder.validate(self.data)
 
+    def test_progression_separates_equipped_and_target(self):
+        self.data['progression'] = {'skill': 'Fire Damage Up', 'current': '6/7', 'target': '7/7', 'note': 'Target supplied by author <not equipped>'}
+        self.data['character_stats'] = ['Physical Attack: 679']
+        self.data['visage'] = ['Ink of Flames 4/4']
+        self.data['buddy'] = ['SSR Kojiro']
+        page = builder.page(builder.validate(self.data))
+        self.assertIn('Current · screenshot<strong>6/7</strong>', page)
+        self.assertIn('Fully upgraded · author target<strong>7/7</strong>', page)
+        self.assertIn('&lt;not equipped&gt;', page)
+        for value in ['Physical Attack: 679', 'Ink of Flames 4/4', 'SSR Kojiro']:
+            self.assertIn(value, page)
+        del self.data['progression']['target']
+        with self.assertRaises(ValueError):
+            builder.validate(self.data)
+
 if __name__ == '__main__':
     unittest.main()
