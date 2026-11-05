@@ -941,6 +941,142 @@
         "Draft only; do not publish without approval.",
         "Headgear base skills confirmed from additional screenshot."
       ]
+    },
+    {
+      "name": "Odogaron Set III",
+      "rarity": "7/9",
+      "status": "draft_from_user_screenshots_2026_11_05",
+      "armor": [
+        {
+          "slot": "head",
+          "name": "Odogaron Helm III",
+          "skills": [
+            [
+              "Hunting Instinct",
+              1,
+              3
+            ],
+            [
+              "Recovery Booster",
+              1,
+              3
+            ],
+            [
+              "Stamina Conversion",
+              1,
+              7
+            ]
+          ],
+          "rarity_10_upgrades": [
+            [
+              "Stamina Conversion",
+              2,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "chest",
+          "name": "Odogaron Mail III",
+          "skills": [
+            [
+              "Demonic Strength",
+              2,
+              4
+            ],
+            [
+              "Recovery Booster",
+              1,
+              3
+            ]
+          ],
+          "rarity_10_upgrades": [
+            [
+              "Hunting Instinct",
+              1,
+              3
+            ]
+          ]
+        },
+        {
+          "slot": "arms",
+          "name": "Odogaron Vambraces III",
+          "skills": [
+            [
+              "Bleeding Resistance",
+              2,
+              3
+            ],
+            [
+              "Rejuvenation",
+              1,
+              3
+            ]
+          ],
+          "rarity_10_upgrades": null
+        },
+        {
+          "slot": "waist",
+          "name": "Odogaron Coil III",
+          "skills": [
+            [
+              "Charge Up",
+              2,
+              7
+            ],
+            [
+              "Rejuvenation",
+              1,
+              3
+            ]
+          ],
+          "rarity_10_upgrades": [
+            [
+              "Charge Up",
+              3,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "legs",
+          "name": "Odogaron Greaves III",
+          "skills": [
+            [
+              "Weakspot Exploit",
+              1,
+              3
+            ],
+            [
+              "Recovery Booster",
+              1,
+              3
+            ],
+            [
+              "Charge Up",
+              1,
+              7
+            ]
+          ],
+          "rarity_10_upgrades": [
+            [
+              "Charge Up",
+              2,
+              7
+            ]
+          ]
+        }
+      ],
+      "set_bonus": {
+        "name": "Odogaron's Tenacity",
+        "required_pieces": 2,
+        "effect": "Bleeding Resistance +1: Reduces damage while bleeding."
+      },
+      "notes": [
+        "Rarity 10 upgrade levels are replacement totals, not additive bonuses.",
+        "Vambraces Rarity 10 unlock not visible in provided screenshots; unknown, not assumed absent.",
+        "Draft only; not published to main."
+      ]
     }
   ]
 }
