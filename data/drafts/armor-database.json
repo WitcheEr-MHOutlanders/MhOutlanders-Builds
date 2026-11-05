@@ -1,0 +1,449 @@
+{
+  "version": 1,
+  "status": "draft_only_not_published",
+  "sets": [
+    {
+      "name": "Radiant Tzitzi-Ya-Ku Set IV",
+      "rarity": "10/10",
+      "status": "draft_from_official_release_screenshots",
+      "armor": [
+        {
+          "slot": "head",
+          "name": "Radiant Tzitzi Headgear IV",
+          "skills": [
+            [
+              "Health Recovery",
+              1,
+              3
+            ],
+            [
+              "Item Master",
+              1,
+              3
+            ],
+            [
+              "Water Damage Up",
+              1,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "chest",
+          "name": "Radiant Tzitzi Mail IV",
+          "skills": [
+            [
+              "Item Master",
+              2,
+              3
+            ],
+            [
+              "Piercing Strike",
+              1,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "arms",
+          "name": "Radiant Tzitzi Vambraces IV",
+          "skills": [
+            [
+              "Sleep Resistance",
+              2,
+              3
+            ],
+            [
+              "Health Recovery",
+              1,
+              3
+            ]
+          ]
+        },
+        {
+          "slot": "waist",
+          "name": "Radiant Tzitzi Coil IV",
+          "skills": [
+            [
+              "Piercing Strike",
+              3,
+              7
+            ],
+            [
+              "Health Recovery",
+              1,
+              3
+            ]
+          ]
+        },
+        {
+          "slot": "legs",
+          "name": "Radiant Tzitzi Greaves IV",
+          "skills": [
+            [
+              "Water Damage Up",
+              3,
+              7
+            ],
+            [
+              "Sleep Resistance",
+              1,
+              3
+            ]
+          ]
+        }
+      ],
+      "set_bonus": {
+        "name": "Tzitzi-Ya-Ku's Precision",
+        "required_pieces": 2,
+        "effect": "Ballistics +1: Shortens the distance before ammo and arrows reach maximum power."
+      },
+      "notes": [
+        "Individual skill totals cross-checked.",
+        "Set effect screen shows 1/2 because preview has only one matching piece.",
+        "Draft only; do not publish to main without user approval."
+      ]
+    },
+    {
+      "name": "Ruger Aidal Set IV",
+      "rarity": "9/10",
+      "status": "fresh_draft_from_user_screenshots_2026_11_05",
+      "armor": [
+        {
+          "slot": "head",
+          "name": "Ruger Aidal Oath IV",
+          "skills": [
+            [
+              "Suppression Recovery",
+              2,
+              3
+            ],
+            [
+              "Grace Under Pressure",
+              1,
+              3
+            ]
+          ]
+        },
+        {
+          "slot": "chest",
+          "name": "Ruger Aidal Guard IV",
+          "skills": [
+            [
+              "Counter Boost",
+              3,
+              7
+            ],
+            [
+              "Rejuvenation",
+              1,
+              3
+            ]
+          ]
+        },
+        {
+          "slot": "arms",
+          "name": "Ruger Aidal Verdict IV",
+          "skills": [
+            [
+              "Stamina Conversion",
+              2,
+              7
+            ],
+            [
+              "Rejuvenation",
+              1,
+              3
+            ],
+            [
+              "Weakspot Follow-Up",
+              1,
+              5
+            ]
+          ]
+        },
+        {
+          "slot": "waist",
+          "name": "Ruger Aidal Devotion IV",
+          "skills": [
+            [
+              "Stamina Conversion",
+              2,
+              7
+            ],
+            [
+              "Suppression Recovery",
+              1,
+              3
+            ],
+            [
+              "Weakspot Follow-Up",
+              1,
+              5
+            ]
+          ]
+        },
+        {
+          "slot": "legs",
+          "name": "Ruger Aidal Resolve IV",
+          "skills": [
+            [
+              "Adversity",
+              1,
+              1
+            ],
+            [
+              "Morph Boost",
+              2,
+              4
+            ],
+            [
+              "Relentless Pursuit",
+              1,
+              3
+            ]
+          ]
+        }
+      ],
+      "set_bonus": {
+        "name": "Ruger Aidal's Intimidation",
+        "required_pieces": 3,
+        "effect": "Weakspot Follow-Up +1: Attacking a monster's broken part has a 75% chance to deal 4% additional damage."
+      },
+      "notes": [
+        "New user-supplied screenshots after database reset; not restored from old draft.",
+        "All five individual armor pieces cross-checked.",
+        "Set effect 1/3 in preview; full five-piece setup meets threshold.",
+        "Do not publish to main without approval."
+      ]
+    },
+    {
+      "name": "Radiant Paolumu Set IV",
+      "rarity": "9/10",
+      "status": "fresh_draft_from_user_screenshots_2026_11_05",
+      "armor": [
+        {
+          "slot": "head",
+          "name": "Radiant Lumu Hat IV",
+          "skills": [
+            [
+              "Item Master",
+              1,
+              3
+            ],
+            [
+              "Blessing",
+              1,
+              5
+            ],
+            [
+              "Charged Power Shot",
+              1,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "chest",
+          "name": "Radiant Lumu Mail IV",
+          "skills": [
+            [
+              "Grace Under Pressure",
+              2,
+              3
+            ],
+            [
+              "Item Master",
+              1,
+              3
+            ]
+          ]
+        },
+        {
+          "slot": "arms",
+          "name": "Radiant Lumu Vambraces IV",
+          "skills": [
+            [
+              "Ballistics",
+              1,
+              1
+            ],
+            [
+              "Gathering Master",
+              1,
+              1
+            ],
+            [
+              "Charged Power Shot",
+              2,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "waist",
+          "name": "Radiant Lumu Coil IV",
+          "skills": [
+            [
+              "Airborne",
+              3,
+              7
+            ],
+            [
+              "Item Master",
+              1,
+              3
+            ]
+          ]
+        },
+        {
+          "slot": "legs",
+          "name": "Radiant Lumu Greaves IV",
+          "skills": [
+            [
+              "Airborne",
+              2,
+              7
+            ],
+            [
+              "Radiant Sense",
+              1,
+              5
+            ],
+            [
+              "Blessing",
+              1,
+              5
+            ]
+          ]
+        }
+      ],
+      "set_bonus": {
+        "name": "Paolumu's Airflow",
+        "required_pieces": 2,
+        "effect": "Grace Under Pressure +1: Increases adventurer defense by 20 when Radiant monsters are in Radiant Rage."
+      },
+      "notes": [
+        "Fresh screenshots after database reset; not restored from deleted draft.",
+        "All individual skill levels checked against combined totals.",
+        "1/2 shown on set-effect preview; five pieces meet activation threshold.",
+        "Draft only; do not publish without approval."
+      ]
+    },
+    {
+      "name": "Pink Rathian Set IV",
+      "rarity": "9/10",
+      "armor": [
+        {
+          "slot": "head",
+          "name": "Rath Heart Helm IV",
+          "skills": [
+            [
+              "Fire Damage Up",
+              2,
+              7
+            ],
+            [
+              "Hunting Instinct",
+              1,
+              3
+            ],
+            [
+              "Health Boost",
+              1,
+              3
+            ]
+          ]
+        },
+        {
+          "slot": "chest",
+          "name": "Rath Heart Mail IV",
+          "skills": [
+            [
+              "Poison Resistance",
+              2,
+              3
+            ],
+            [
+              "Recovery Booster",
+              1,
+              3
+            ]
+          ]
+        },
+        {
+          "slot": "arms",
+          "name": "Rath Heart Braces IV",
+          "skills": [
+            [
+              "Capacity Boost",
+              2,
+              7
+            ],
+            [
+              "Hunting Instinct",
+              1,
+              3
+            ],
+            [
+              "Recovery Booster",
+              1,
+              3
+            ]
+          ]
+        },
+        {
+          "slot": "waist",
+          "name": "Rath Heart Coil IV",
+          "skills": [
+            [
+              "Capacity Boost",
+              2,
+              7
+            ],
+            [
+              "Health Boost",
+              1,
+              3
+            ],
+            [
+              "Insight",
+              1,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "legs",
+          "name": "Rath Heart Greaves IV",
+          "skills": [
+            [
+              "Instinct",
+              1,
+              1
+            ],
+            [
+              "Spirit Bind Blade",
+              2,
+              4
+            ],
+            [
+              "Recovery Booster",
+              1,
+              3
+            ]
+          ]
+        }
+      ],
+      "set_bonus": {
+        "name": "Pink Rathian's Acuity",
+        "required_pieces": 3,
+        "skill_bonus": [
+          "Hunting Instinct",
+          1
+        ],
+        "effect": "Using environmental interactive objects to damage a monster or inflict a negative effect increases damage by 4% for 120 seconds."
+      }
+    }
+  ]
+}
