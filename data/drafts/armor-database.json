@@ -796,6 +796,135 @@
         "Set bonus shown as 1/2 inactive in preview.",
         "Draft only; do not publish without approval."
       ]
+    },
+    {
+      "name": "Tzitzi-Ya-Ku Set III",
+      "rarity": "8/10",
+      "status": "partial_draft_from_user_screenshots_2026_11_05",
+      "armor": [
+        {
+          "slot": "head",
+          "name": "Tzitzi Headgear III",
+          "skills": [],
+          "rarity_9_unlocks": [
+            [
+              "Piercing Strike",
+              2,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "chest",
+          "name": "Tzitzi Mail III",
+          "skills": [
+            [
+              "Water Damage Up",
+              2,
+              7
+            ],
+            [
+              "Blessing",
+              1,
+              5
+            ]
+          ],
+          "rarity_9_unlocks": [
+            [
+              "Water Damage Up",
+              3,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "arms",
+          "name": "Tzitzi Vambraces III",
+          "skills": [
+            [
+              "Piercing Strike",
+              2,
+              7
+            ],
+            [
+              "Sleep Resistance",
+              1,
+              3
+            ]
+          ],
+          "rarity_9_unlocks": [
+            [
+              "Piercing Strike",
+              3,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "waist",
+          "name": "Tzitzi Coil III",
+          "skills": [
+            [
+              "Relentless Pursuit",
+              1,
+              3
+            ],
+            [
+              "Stun Resistance",
+              1,
+              3
+            ],
+            [
+              "Water Damage Up",
+              1,
+              7
+            ]
+          ],
+          "rarity_9_unlocks": [
+            [
+              "Water Damage Up",
+              2,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "legs",
+          "name": "Tzitzi Greaves III",
+          "skills": [
+            [
+              "Capturing Expert",
+              1,
+              1
+            ],
+            [
+              "Stun Resistance",
+              1,
+              3
+            ],
+            [
+              "Blessing",
+              1,
+              5
+            ]
+          ]
+        }
+      ],
+      "set_bonus": {
+        "name": "Tzitzi-Ya-Ku's Pursuit",
+        "required_pieces": 3,
+        "skill_bonus": [
+          "Relentless Pursuit",
+          1
+        ],
+        "effect": "After a monster is staggered or suppressed, adventurer damage increases by 4% for 15 seconds."
+      },
+      "notes": [
+        "Rarity 9 unlocks recorded separately; do not activate at rarity 8.",
+        "Headgear base skills not shown; empty array means unknown, not no skills.",
+        "Greaves unlock screen not provided.",
+        "Draft only; do not publish without approval."
+      ]
     }
   ]
 }
