@@ -1,0 +1,102 @@
+{
+  "name": "Radiant Tzitzi-Ya-Ku Set IV",
+  "rarity": "10/10",
+  "status": "draft_from_official_release_screenshots",
+  "armor": [
+    {
+      "slot": "head",
+      "name": "Radiant Tzitzi Headgear IV",
+      "skills": [
+        [
+          "Health Recovery",
+          1,
+          3
+        ],
+        [
+          "Item Master",
+          1,
+          3
+        ],
+        [
+          "Water Damage Up",
+          1,
+          7
+        ]
+      ]
+    },
+    {
+      "slot": "chest",
+      "name": "Radiant Tzitzi Mail IV",
+      "skills": [
+        [
+          "Item Master",
+          2,
+          3
+        ],
+        [
+          "Piercing Strike",
+          1,
+          7
+        ]
+      ]
+    },
+    {
+      "slot": "arms",
+      "name": "Radiant Tzitzi Vambraces IV",
+      "skills": [
+        [
+          "Sleep Resistance",
+          2,
+          3
+        ],
+        [
+          "Health Recovery",
+          1,
+          3
+        ]
+      ]
+    },
+    {
+      "slot": "waist",
+      "name": "Radiant Tzitzi Coil IV",
+      "skills": [
+        [
+          "Piercing Strike",
+          3,
+          7
+        ],
+        [
+          "Health Recovery",
+          1,
+          3
+        ]
+      ]
+    },
+    {
+      "slot": "legs",
+      "name": "Radiant Tzitzi Greaves IV",
+      "skills": [
+        [
+          "Water Damage Up",
+          3,
+          7
+        ],
+        [
+          "Sleep Resistance",
+          1,
+          3
+        ]
+      ]
+    }
+  ],
+  "set_bonus": {
+    "name": "Tzitzi-Ya-Ku's Precision",
+    "required_pieces": 2,
+    "effect": "Ballistics +1: Shortens the distance before ammo and arrows reach maximum power."
+  },
+  "notes": [
+    "Individual skill totals cross-checked.",
+    "Set effect screen shows 1/2 because preview has only one matching piece.",
+    "Draft only; do not publish to main without user approval."
+  ]
+}
