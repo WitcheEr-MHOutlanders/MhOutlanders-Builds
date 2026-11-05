@@ -1,0 +1,102 @@
+{
+  "name": "Legiana Set III",
+  "rarity": "8/9",
+  "status": "draft_from_official_release_video",
+  "armor": [
+    {
+      "slot": "head",
+      "name": "Legiana Helm III",
+      "skills": [
+        [
+          "Ice Resistance",
+          2,
+          3
+        ],
+        [
+          "Blessing",
+          1,
+          5
+        ]
+      ]
+    },
+    {
+      "slot": "chest",
+      "name": "Legiana Mail III",
+      "skills": [
+        [
+          "Flash Draw",
+          2,
+          7
+        ],
+        [
+          "Weakspot Exploit",
+          1,
+          3
+        ]
+      ]
+    },
+    {
+      "slot": "arms",
+      "name": "Legiana Vambraces III",
+      "skills": [
+        [
+          "Weakspot Exploit",
+          1,
+          3
+        ],
+        [
+          "Blessing",
+          1,
+          5
+        ],
+        [
+          "Ice Damage Up",
+          1,
+          7
+        ]
+      ]
+    },
+    {
+      "slot": "waist",
+      "name": "Legiana Coil III",
+      "skills": [
+        [
+          "Blessing",
+          2,
+          5
+        ],
+        [
+          "Ice Damage Up",
+          1,
+          7
+        ]
+      ]
+    },
+    {
+      "slot": "legs",
+      "name": "Legiana Greaves III",
+      "skills": [
+        [
+          "Ammo Enhancement",
+          2,
+          4
+        ],
+        [
+          "Suppression Recovery",
+          1,
+          3
+        ]
+      ]
+    }
+  ],
+  "set_bonus": {
+    "name": "Legiana's Dance",
+    "required_pieces": 2,
+    "effect": "Ice Resistance +1"
+  },
+  "notes": [
+    "Video includes Rarity 10 unlock-only skills, such as Critical Element and Windproof; excluded from active totals.",
+    "Extracted from user's 120-second video; retain draft until verified and approved for public builder.",
+    "Rarity shown on items is 8/9."
+  ]
+}
