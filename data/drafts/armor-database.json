@@ -656,6 +656,146 @@
         "Set bonus screenshot shows 1/2 inactive in single-piece preview.",
         "Draft only; do not publish without approval."
       ]
+    },
+    {
+      "name": "Paolumu Set III",
+      "rarity": "8/10",
+      "status": "draft_from_user_screenshots_2026_11_05",
+      "armor": [
+        {
+          "slot": "head",
+          "name": "Lumu Hat III",
+          "skills": [
+            [
+              "Windproof",
+              1,
+              3
+            ],
+            [
+              "Flawless",
+              1,
+              3
+            ],
+            [
+              "Ammo Enhancement",
+              1,
+              4
+            ]
+          ],
+          "rarity_10_unlocks": [
+            [
+              "Ammo Enhancement",
+              2,
+              4
+            ]
+          ]
+        },
+        {
+          "slot": "chest",
+          "name": "Lumu Mail III",
+          "skills": [
+            [
+              "Offensive Defense",
+              2,
+              7
+            ],
+            [
+              "Blessing",
+              1,
+              5
+            ]
+          ],
+          "rarity_10_unlocks": [
+            [
+              "Offensive Defense",
+              3,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "arms",
+          "name": "Lumu Vambraces III",
+          "skills": [
+            [
+              "Airborne",
+              2,
+              7
+            ],
+            [
+              "Windproof",
+              1,
+              3
+            ]
+          ],
+          "rarity_10_unlocks": [
+            [
+              "Airborne",
+              3,
+              7
+            ]
+          ]
+        },
+        {
+          "slot": "waist",
+          "name": "Lumu Coil III",
+          "skills": [
+            [
+              "Health Recovery",
+              2,
+              3
+            ],
+            [
+              "Blessing",
+              1,
+              5
+            ]
+          ]
+        },
+        {
+          "slot": "legs",
+          "name": "Lumu Greaves III",
+          "skills": [
+            [
+              "Flawless",
+              1,
+              3
+            ],
+            [
+              "Windproof",
+              1,
+              3
+            ],
+            [
+              "Offensive Defense",
+              1,
+              7
+            ]
+          ],
+          "rarity_10_unlocks": [
+            [
+              "Offensive Defense",
+              2,
+              7
+            ]
+          ]
+        }
+      ],
+      "set_bonus": {
+        "name": "Paolumu's Presence",
+        "required_pieces": 2,
+        "skill_bonus": [
+          "Health Recovery",
+          1
+        ],
+        "effect": "When taking damage, the gray health gauge's auto-recovery speed increases by 2x."
+      },
+      "notes": [
+        "Rarity 10 unlock values transcribed verbatim from screenshots, separate from regular skills; do not apply before rarity 10.",
+        "No rarity 10 unlock screen provided for Lumu Coil III.",
+        "Set bonus shown as 1/2 inactive in preview.",
+        "Draft only; do not publish without approval."
+      ]
     }
   ]
 }
