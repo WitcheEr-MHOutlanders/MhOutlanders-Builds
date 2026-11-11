@@ -196,7 +196,7 @@ const equippedVisages=Array(5).fill(null);
 
 const visageRoot=document.getElementById("visages"),resultRoot=document.getElementById("results");
 visageRoot.className="visage-card-list";
-const slotState=Array.from({length:5},()=>({ink:"Ink of Flames",name:"",rolls:["",""],tiers:["high","high"],tiers:["high","high"]}));
+const slotState=Array.from({length:5},()=>({ink:"Ink of Flames",name:"",rolls:["",""],tiers:["high","high"]}));
 let expandedSlot=0;
 const rollOptions={"Ruger Aidal":[{id:"charge",name:"Ultimate Charge Rate",low:2.92,high:2.92},{id:"elemental",name:"Elemental Damage",low:4.27,high:4.27}],"Great Jagras":[{id:"charge",name:"Ultimate Charge Rate",low:1.67,high:3.34},{id:"elemental",name:"Elemental Damage",low:2.44,high:4.88}]};
 function rollValue(x,tier){return tier==="low"?x.low:x.high}
