@@ -171,7 +171,22 @@
 .visage-reset:hover{background:#473024}
 #results h3{color:#ffbd71;margin:20px 0 10px}
 @media(max-width:420px){.visage-overview{gap:8px}.visage-overview-stat{padding:11px}.visage-card-body{padding:12px}}
-</style><style id="visage-roll-tier-style">.visage-roll-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.visage-roll-button{padding:10px;border:1px solid #875b3d;border-radius:12px;background:#272124;color:#e5c8aa;font-weight:700}.visage-roll-button.selected{background:#a66a34;border-color:#e7a35a;color:#fff5e8}.visage-roll-button:hover{border-color:#f0b477}</style><style id="visage-confirmed-style">.visage-confirmed-game{display:inline-block;width:fit-content;margin-top:5px;padding:5px 10px;border-radius:20px;border:1px solid #5d9871;background:#1c3829;color:#b7e7c4;font-size:12px;font-weight:700}</style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
+</style><style id="visage-roll-tier-style">.visage-roll-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.visage-roll-button{padding:10px;border:1px solid #875b3d;border-radius:12px;background:#272124;color:#e5c8aa;font-weight:700}.visage-roll-button.selected{background:#a66a34;border-color:#e7a35a;color:#fff5e8}.visage-roll-button:hover{border-color:#f0b477}</style><style id="visage-confirmed-style">.visage-confirmed-game{display:inline-block;width:fit-content;margin-top:5px;padding:5px 10px;border-radius:20px;border:1px solid #5d9871;background:#1c3829;color:#b7e7c4;font-size:12px;font-weight:700}</style><style id="visage-visual-picker-style">
+.visage-picker{position:relative;min-width:0}
+.visage-picker-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;border:1px solid #a97448;border-radius:11px;background:#302724;color:#f9eee1;text-align:left;font-weight:600}
+.visage-picker-trigger:hover,.visage-picker-trigger:focus-visible{border-color:#f5b36b}
+.visage-picker-list{max-height:355px;overflow-y:auto;margin-top:5px;border:1px solid #95633e;border-radius:12px;background:#241e1e;box-shadow:0 12px 30px #0008}
+.visage-picker-list[hidden]{display:none}
+.visage-picker-option{display:flex;width:100%;gap:13px;align-items:center;text-align:left;padding:10px 12px;background:transparent;color:#f8eee4;border:0;border-bottom:1px solid #513a2e;border-radius:0}
+.visage-picker-option:last-child{border-bottom:0}
+.visage-picker-option:hover,.visage-picker-option:focus-visible,.visage-picker-option.is-selected{background:#4a3025}
+.visage-picker-placeholder{flex:0 0 56px;height:56px;display:flex;align-items:center;justify-content:center;border:1px solid #b48348;border-radius:12px;background:linear-gradient(145deg,#5d4930,#302821);color:#e9bd79;font-size:28px}
+.visage-picker-info{display:flex;flex:1;min-width:0;flex-direction:column;gap:5px}
+.visage-picker-info strong{font-size:15px;overflow-wrap:anywhere}
+.visage-picker-info small{font-size:12px;color:#c7ac95}
+.visage-picker-cost{font-size:12px;font-weight:700;color:#ffd49c;background:#3e2b22;border:1px solid #a7744d;border-radius:18px;padding:4px 9px;white-space:nowrap}
+@media(max-width:450px){.visage-picker-option{gap:8px;padding:8px}.visage-picker-placeholder{flex-basis:46px;height:46px}.visage-picker-cost{padding:3px 6px}}
+</style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
 
 <main><p class="pill">FREE · INTERACTIVE BUILDER</p><h1>🔥 Build your hunter</h1><p class="muted">Choose your equipment and five Visages. Matching Ink sets activate automatically. No account needed.</p>
 <section class="panel"><h2>⚔ Equipment</h2><div class="grid" id="equipment"></div><div id="armor-home"></div></section>
@@ -235,11 +250,31 @@ function drawVisages(){
   const inkSelect=dropdown(body,sets,"Choose Ink Set");inkSelect.value=s.ink;
   inkSelect.addEventListener("change",()=>setSlot(i,{ink:inkSelect.value,name:"",rolls:["",""],tiers:["high","high"]}));
   el("label",{text:"Choose Visage · Name and Cost"},body);
-  const select=el("select",{},body);
-  el("option",{value:"",text:"Choose Visage"},select);
-  visageRows.filter(x=>x.inks.includes(s.ink)).sort((a,b)=>b.cost-a.cost||a.name.localeCompare(b.name)).forEach(x=>el("option",{value:x.name,text:x.name+" · Cost "+x.cost},select));
-  select.value=s.name;
-  select.addEventListener("change",()=>setSlot(i,{name:select.value,rolls:["",""],tiers:["high","high"]}));
+  const choices=visageRows.filter(x=>x.inks.includes(s.ink)).sort((a,b)=>b.cost-a.cost||a.name.localeCompare(b.name));
+  const picker=el("div",{class:"visage-picker"},body);
+  const pickerButton=el("button",{type:"button",class:"visage-picker-trigger","aria-expanded":"false"},picker);
+  const pickerName=el("span",{text:v?v.name+" · Cost "+v.cost:"Choose Visage"},pickerButton);
+  el("span",{text:"⌄"},pickerButton);
+  const pickerList=el("div",{class:"visage-picker-list",role:"listbox"},picker);
+  pickerList.hidden=true;
+  function closePicker(){pickerList.hidden=true;pickerButton.setAttribute("aria-expanded","false")}
+  pickerButton.addEventListener("click",()=>{pickerList.hidden=!pickerList.hidden;pickerButton.setAttribute("aria-expanded",String(!pickerList.hidden))});
+  const emptyOption=el("button",{type:"button",class:"visage-picker-option",role:"option"},pickerList);
+  el("span",{class:"visage-picker-placeholder",text:"◇"},emptyOption);
+  const emptyInfo=el("span",{class:"visage-picker-info"},emptyOption);
+  el("strong",{text:"Unequip Visage"},emptyInfo);
+  el("small",{text:"Clear this slot · Cost 0"},emptyInfo);
+  emptyOption.addEventListener("click",()=>setSlot(i,{name:"",rolls:["",""],tiers:["high","high"]}));
+  choices.forEach(x=>{
+   const option=el("button",{type:"button",class:"visage-picker-option"+(s.name===x.name?" is-selected":""),role:"option","aria-selected":String(s.name===x.name)},pickerList);
+   const icon=el("span",{class:"visage-picker-placeholder",text:"◇"},option);
+   icon.setAttribute("aria-hidden","true");
+   const info=el("span",{class:"visage-picker-info"},option);
+   el("strong",{text:x.name},info);
+   el("small",{text:confirmedInGameVisages.has(x.name)?"Superior Visage · Confirmed in-game":"Visage · Rarity pending verification"},info);
+   el("span",{class:"visage-picker-cost",text:"Cost "+x.cost},option);
+   option.addEventListener("click",()=>setSlot(i,{name:x.name,rolls:["",""],tiers:["high","high"]}));
+  });
   if(!v)continue;
   const selected=el("div",{class:"visage-selected"},body);
   el("strong",{text:v.name+" · Cost "+v.cost},selected);
