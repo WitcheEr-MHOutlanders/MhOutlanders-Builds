@@ -235,7 +235,7 @@ function drawVisages(){
   el("label",{text:"Choose Visage · Name and Cost"},body);
   const select=el("select",{},body);
   el("option",{value:"",text:"Choose Visage"},select);
-  visageRows.filter(x=>x.inks.includes(s.ink)).forEach(x=>el("option",{value:x.name,text:x.name+" · Cost "+x.cost},select));
+  visageRows.filter(x=>x.inks.includes(s.ink)).sort((a,b)=>b.cost-a.cost||a.name.localeCompare(b.name)).forEach(x=>el("option",{value:x.name,text:x.name+" · Cost "+x.cost},select));
   select.value=s.name;
   select.addEventListener("change",()=>setSlot(i,{name:select.value,rolls:["",""]}));
   if(!v)continue;
