@@ -331,7 +331,7 @@ function drawVisages(){
   armorEffects.replaceChildren();
   el("h3",{text:"Combined Selected Visage Effects"},armorEffects);
   const totalsGrid=el("div",{class:"armor-stat-totals visage-stat-totals"},armorEffects);
-  const visibleEffects=["Elemental Damage","Ultimate Charge Rate",...Object.keys(totalEffects).filter(name=>name!=="Elemental Damage"&&name!=="Ultimate Charge Rate")];
+  const visibleEffects=["Elemental Damage","Ultimate Charge Rate","Affinity",...Object.keys(totalEffects).filter(name=>!["Elemental Damage","Ultimate Charge Rate","Affinity"].includes(name))];
   visibleEffects.forEach(name=>{
    const card=el("div",{class:"armor-total-card"},totalsGrid);
    el("span",{class:"armor-total-label",text:"✧ "+name},card);
