@@ -22,7 +22,7 @@
         {
           "id": "forge-set1-piece1",
           "name": "Radiant Tzitzi Headgear IV",
-          "slot": "Helmet",
+          "slot": "Head armor",
           "set": "Radiant Tzitzi-Ya-Ku Set IV",
           "quality": "Epic",
           "rarity": 10,
@@ -101,7 +101,7 @@
         {
           "id": "forge-set1-piece3",
           "name": "Radiant Tzitzi Vambraces IV",
-          "slot": "Gloves",
+          "slot": "Arm armor",
           "set": "Radiant Tzitzi-Ya-Ku Set IV",
           "quality": "Epic",
           "rarity": 10,
@@ -137,7 +137,7 @@
         {
           "id": "forge-set1-piece4",
           "name": "Radiant Tzitzi Coil IV",
-          "slot": "Waist / shorts",
+          "slot": "Waist armor",
           "set": "Radiant Tzitzi-Ya-Ku Set IV",
           "quality": "Epic",
           "rarity": 10,
@@ -227,7 +227,7 @@
         {
           "id": "forge-set2-piece1",
           "name": "Ruger Aidal Oath IV",
-          "slot": "Helmet",
+          "slot": "Head armor",
           "set": "Ruger Aidal Set IV",
           "quality": "Epic",
           "rarity": 9,
@@ -299,7 +299,7 @@
         {
           "id": "forge-set2-piece3",
           "name": "Ruger Aidal Verdict IV",
-          "slot": "Gloves",
+          "slot": "Arm armor",
           "set": "Ruger Aidal Set IV",
           "quality": "Epic",
           "rarity": 9,
@@ -342,7 +342,7 @@
         {
           "id": "forge-set2-piece4",
           "name": "Ruger Aidal Devotion IV",
-          "slot": "Waist / shorts",
+          "slot": "Waist armor",
           "set": "Ruger Aidal Set IV",
           "quality": "Epic",
           "rarity": 9,
@@ -446,7 +446,7 @@
         {
           "id": "forge-set3-piece1",
           "name": "Radiant Lumu Hat IV",
-          "slot": "Helmet",
+          "slot": "Head armor",
           "set": "Radiant Paolumu Set IV",
           "quality": "Epic",
           "rarity": 9,
@@ -525,7 +525,7 @@
         {
           "id": "forge-set3-piece3",
           "name": "Radiant Lumu Vambraces IV",
-          "slot": "Gloves",
+          "slot": "Arm armor",
           "set": "Radiant Paolumu Set IV",
           "quality": "Epic",
           "rarity": 9,
@@ -568,7 +568,7 @@
         {
           "id": "forge-set3-piece4",
           "name": "Radiant Lumu Coil IV",
-          "slot": "Waist / shorts",
+          "slot": "Waist armor",
           "set": "Radiant Paolumu Set IV",
           "quality": "Epic",
           "rarity": 9,
@@ -665,7 +665,7 @@
         {
           "id": "forge-set4-piece1",
           "name": "Rath Heart Helm IV",
-          "slot": "Helmet",
+          "slot": "Head armor",
           "set": "Pink Rathian Set IV",
           "quality": "Epic",
           "rarity": 9,
@@ -744,7 +744,7 @@
         {
           "id": "forge-set4-piece3",
           "name": "Rath Heart Braces IV",
-          "slot": "Gloves",
+          "slot": "Arm armor",
           "set": "Pink Rathian Set IV",
           "quality": "Epic",
           "rarity": 9,
@@ -787,7 +787,7 @@
         {
           "id": "forge-set4-piece4",
           "name": "Rath Heart Coil IV",
-          "slot": "Waist / shorts",
+          "slot": "Waist armor",
           "set": "Pink Rathian Set IV",
           "quality": "Epic",
           "rarity": 9,
@@ -891,7 +891,7 @@
         {
           "id": "forge-set5-piece1",
           "name": "Legiana Helm III",
-          "slot": "Helmet",
+          "slot": "Head armor",
           "set": "Legiana Set III",
           "quality": "Epic",
           "rarity": 8,
@@ -977,7 +977,7 @@
         {
           "id": "forge-set5-piece3",
           "name": "Legiana Vambraces III",
-          "slot": "Gloves",
+          "slot": "Arm armor",
           "set": "Legiana Set III",
           "quality": "Epic",
           "rarity": 8,
@@ -1033,7 +1033,7 @@
         {
           "id": "forge-set5-piece4",
           "name": "Legiana Coil III",
-          "slot": "Waist / shorts",
+          "slot": "Waist armor",
           "set": "Legiana Set III",
           "quality": "Epic",
           "rarity": 8,
@@ -1137,7 +1137,7 @@
         {
           "id": "forge-set6-piece1",
           "name": "Lumu Hat III",
-          "slot": "Helmet",
+          "slot": "Head armor",
           "set": "Paolumu Set III",
           "quality": "Epic",
           "rarity": 8,
@@ -1242,7 +1242,7 @@
         {
           "id": "forge-set6-piece3",
           "name": "Lumu Vambraces III",
-          "slot": "Gloves",
+          "slot": "Arm armor",
           "set": "Paolumu Set III",
           "quality": "Epic",
           "rarity": 8,
@@ -1291,7 +1291,7 @@
         {
           "id": "forge-set6-piece4",
           "name": "Lumu Coil III",
-          "slot": "Waist / shorts",
+          "slot": "Waist armor",
           "set": "Paolumu Set III",
           "quality": "Epic",
           "rarity": 8,
@@ -1401,7 +1401,7 @@
         {
           "id": "forge-set7-piece1",
           "name": "Tzitzi Headgear III",
-          "slot": "Helmet",
+          "slot": "Head armor",
           "set": "Tzitzi-Ya-Ku Set III",
           "quality": "Epic",
           "rarity": 8,
@@ -1506,7 +1506,7 @@
         {
           "id": "forge-set7-piece3",
           "name": "Tzitzi Vambraces III",
-          "slot": "Gloves",
+          "slot": "Arm armor",
           "set": "Tzitzi-Ya-Ku Set III",
           "quality": "Epic",
           "rarity": 8,
@@ -1555,7 +1555,7 @@
         {
           "id": "forge-set7-piece4",
           "name": "Tzitzi Coil III",
-          "slot": "Waist / shorts",
+          "slot": "Waist armor",
           "set": "Tzitzi-Ya-Ku Set III",
           "quality": "Epic",
           "rarity": 8,
@@ -1658,7 +1658,7 @@
     {
       "id": "forge-set1-piece1",
       "name": "Radiant Tzitzi Headgear IV",
-      "slot": "Helmet",
+      "slot": "Head armor",
       "set": "Radiant Tzitzi-Ya-Ku Set IV",
       "quality": "Epic",
       "rarity": 10,
@@ -1737,7 +1737,7 @@
     {
       "id": "forge-set1-piece3",
       "name": "Radiant Tzitzi Vambraces IV",
-      "slot": "Gloves",
+      "slot": "Arm armor",
       "set": "Radiant Tzitzi-Ya-Ku Set IV",
       "quality": "Epic",
       "rarity": 10,
@@ -1773,7 +1773,7 @@
     {
       "id": "forge-set1-piece4",
       "name": "Radiant Tzitzi Coil IV",
-      "slot": "Waist / shorts",
+      "slot": "Waist armor",
       "set": "Radiant Tzitzi-Ya-Ku Set IV",
       "quality": "Epic",
       "rarity": 10,
@@ -1845,7 +1845,7 @@
     {
       "id": "forge-set2-piece1",
       "name": "Ruger Aidal Oath IV",
-      "slot": "Helmet",
+      "slot": "Head armor",
       "set": "Ruger Aidal Set IV",
       "quality": "Epic",
       "rarity": 9,
@@ -1917,7 +1917,7 @@
     {
       "id": "forge-set2-piece3",
       "name": "Ruger Aidal Verdict IV",
-      "slot": "Gloves",
+      "slot": "Arm armor",
       "set": "Ruger Aidal Set IV",
       "quality": "Epic",
       "rarity": 9,
@@ -1960,7 +1960,7 @@
     {
       "id": "forge-set2-piece4",
       "name": "Ruger Aidal Devotion IV",
-      "slot": "Waist / shorts",
+      "slot": "Waist armor",
       "set": "Ruger Aidal Set IV",
       "quality": "Epic",
       "rarity": 9,
@@ -2046,7 +2046,7 @@
     {
       "id": "forge-set3-piece1",
       "name": "Radiant Lumu Hat IV",
-      "slot": "Helmet",
+      "slot": "Head armor",
       "set": "Radiant Paolumu Set IV",
       "quality": "Epic",
       "rarity": 9,
@@ -2125,7 +2125,7 @@
     {
       "id": "forge-set3-piece3",
       "name": "Radiant Lumu Vambraces IV",
-      "slot": "Gloves",
+      "slot": "Arm armor",
       "set": "Radiant Paolumu Set IV",
       "quality": "Epic",
       "rarity": 9,
@@ -2168,7 +2168,7 @@
     {
       "id": "forge-set3-piece4",
       "name": "Radiant Lumu Coil IV",
-      "slot": "Waist / shorts",
+      "slot": "Waist armor",
       "set": "Radiant Paolumu Set IV",
       "quality": "Epic",
       "rarity": 9,
@@ -2247,7 +2247,7 @@
     {
       "id": "forge-set4-piece1",
       "name": "Rath Heart Helm IV",
-      "slot": "Helmet",
+      "slot": "Head armor",
       "set": "Pink Rathian Set IV",
       "quality": "Epic",
       "rarity": 9,
@@ -2326,7 +2326,7 @@
     {
       "id": "forge-set4-piece3",
       "name": "Rath Heart Braces IV",
-      "slot": "Gloves",
+      "slot": "Arm armor",
       "set": "Pink Rathian Set IV",
       "quality": "Epic",
       "rarity": 9,
@@ -2369,7 +2369,7 @@
     {
       "id": "forge-set4-piece4",
       "name": "Rath Heart Coil IV",
-      "slot": "Waist / shorts",
+      "slot": "Waist armor",
       "set": "Pink Rathian Set IV",
       "quality": "Epic",
       "rarity": 9,
@@ -2455,7 +2455,7 @@
     {
       "id": "forge-set5-piece1",
       "name": "Legiana Helm III",
-      "slot": "Helmet",
+      "slot": "Head armor",
       "set": "Legiana Set III",
       "quality": "Epic",
       "rarity": 8,
@@ -2541,7 +2541,7 @@
     {
       "id": "forge-set5-piece3",
       "name": "Legiana Vambraces III",
-      "slot": "Gloves",
+      "slot": "Arm armor",
       "set": "Legiana Set III",
       "quality": "Epic",
       "rarity": 8,
@@ -2597,7 +2597,7 @@
     {
       "id": "forge-set5-piece4",
       "name": "Legiana Coil III",
-      "slot": "Waist / shorts",
+      "slot": "Waist armor",
       "set": "Legiana Set III",
       "quality": "Epic",
       "rarity": 8,
@@ -2683,7 +2683,7 @@
     {
       "id": "forge-set6-piece1",
       "name": "Lumu Hat III",
-      "slot": "Helmet",
+      "slot": "Head armor",
       "set": "Paolumu Set III",
       "quality": "Epic",
       "rarity": 8,
@@ -2788,7 +2788,7 @@
     {
       "id": "forge-set6-piece3",
       "name": "Lumu Vambraces III",
-      "slot": "Gloves",
+      "slot": "Arm armor",
       "set": "Paolumu Set III",
       "quality": "Epic",
       "rarity": 8,
@@ -2837,7 +2837,7 @@
     {
       "id": "forge-set6-piece4",
       "name": "Lumu Coil III",
-      "slot": "Waist / shorts",
+      "slot": "Waist armor",
       "set": "Paolumu Set III",
       "quality": "Epic",
       "rarity": 8,
@@ -2929,7 +2929,7 @@
     {
       "id": "forge-set7-piece1",
       "name": "Tzitzi Headgear III",
-      "slot": "Helmet",
+      "slot": "Head armor",
       "set": "Tzitzi-Ya-Ku Set III",
       "quality": "Epic",
       "rarity": 8,
@@ -3034,7 +3034,7 @@
     {
       "id": "forge-set7-piece3",
       "name": "Tzitzi Vambraces III",
-      "slot": "Gloves",
+      "slot": "Arm armor",
       "set": "Tzitzi-Ya-Ku Set III",
       "quality": "Epic",
       "rarity": 8,
@@ -3083,7 +3083,7 @@
     {
       "id": "forge-set7-piece4",
       "name": "Tzitzi Coil III",
-      "slot": "Waist / shorts",
+      "slot": "Waist armor",
       "set": "Tzitzi-Ya-Ku Set III",
       "quality": "Epic",
       "rarity": 8,
