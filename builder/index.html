@@ -139,7 +139,7 @@
 #armor-gallery .armor-card-skill .pdf-skill-icon{width:16px!important;height:16px!important;flex:0 0 16px!important;min-width:16px!important;min-height:16px!important;margin:0!important;image-rendering:pixelated!important}
 #armor-gallery .armor-card-skill{align-items:center!important;gap:10px!important}
 #armor-gallery .armor-card-skill .skill-glyph{color:#d6a16c!important;min-width:16px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
-</style><style id="authentic-armor-icons">#armor-gallery .armor-type-art{background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;background-blend-mode:normal!important}</style><style id="visage-detail-card-style">#visages .visage-selection-details:not(:empty){padding:12px;border:1px solid #74523c;border-radius:10px;background:#251f1e;margin-top:8px;line-height:1.5}#visages .visage-selection-details p{margin:5px 0 0;overflow-wrap:anywhere}#visages .visage-selection-details strong{color:#ffd49b}</style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
+</style><style id="authentic-armor-icons">#armor-gallery .armor-type-art{background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;background-blend-mode:normal!important}</style><style id="visage-detail-card-style">#visages .visage-selection-details:not(:empty){padding:12px;border:1px solid #74523c;border-radius:10px;background:#251f1e;margin-top:8px;line-height:1.5}#visages .visage-selection-details p{margin:5px 0 0;overflow-wrap:anywhere}#visages .visage-selection-details strong{color:#ffd49b}</style><style id="visage-core-panel-style">#visages .visage-core-effect{margin-top:14px;padding:12px;border-top:1px solid #75523b;background:rgba(198,130,66,.07);border-radius:7px}#visages .visage-core-effect p{margin:7px 0 0;line-height:1.5}#visages .visage-core-effect strong{color:#ffd49b}</style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
 
 <main><p class="pill">FREE · INTERACTIVE BUILDER</p><h1>🔥 Build your hunter</h1><p class="muted">Choose your equipment and five Visages. Matching Ink sets activate automatically. No account needed.</p>
 <section class="panel"><h2>⚔ Equipment</h2><div class="grid" id="equipment"></div><div id="armor-home"></div></section>
@@ -186,9 +186,6 @@ for(let i=0;i<5;i++){
   equippedVisages[i]={...v,selectedInk};
   el("strong",{text:v.name+" · Cost "+v.cost},details);
   el("p",{class:"muted",text:"Ink Set: "+selectedInk},details);
-  if(v.effect){
-   el("p",{class:"muted",text:"Core Effect "+(i===0?"(Core slot)":"(inactive in this slot)")+": "+v.effect},details);
-  }else el("p",{class:"muted",text:"No Core Effect listed"},details);
   if(v.name==="Ruger Aidal"){
    const choices=[{value:"ultimate",label:"Ultimate Charge Rate +2.92%",stat:"Ultimate Charge Rate",amount:2.92},{value:"elemental",label:"Elemental Damage +4.27%",stat:"Elemental Damage",amount:4.27}];
    el("p",{class:"muted",text:"Choose two possible-effect rolls (duplicates allowed):"},details);
@@ -210,6 +207,11 @@ for(let i=0;i<5;i++){
    }
    updateRollSummary();
   }
+  if(v.effect){
+   const corePanel=el("div",{class:"visage-core-effect"},details);
+   el("strong",{text:i===0?"Core Effect · Slot 1":"Core Effect · Inactive in this slot"},corePanel);
+   el("p",{text:v.effect},corePanel);
+  }else el("p",{class:"muted",text:"No Core Effect listed"},details);
   render();
  }
  setSelect.addEventListener("change",refreshVisages);
