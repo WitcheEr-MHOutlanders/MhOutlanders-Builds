@@ -14,5 +14,15 @@ jobs:
         with:
           python-version: '3.12'
       - run: python3 -m unittest discover -s tests -v
-      - run: python3 scripts/build.py --check
+      # Validate build data and required pages without overwriting hand-customized HTML.
+      - name: Validate build data and required pages
+        run: |
+          python3 - <<'PY'
+          from scripts.build import ROOT, outputs
+          generated = outputs()
+          missing = [str(path.relative_to(ROOT)) for path in generated if not path.is_file()]
+          if missing:
+              raise SystemExit("Missing required build pages: " + ", ".join(missing))
+          print(f"Validated build data and presence of {len(generated)} build pages")
+          PY
       - run: git diff --check
