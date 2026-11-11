@@ -273,15 +273,14 @@ function drawVisages(){
  const armorEffects=document.getElementById("armor-visage-effects");
  if(armorEffects){
   armorEffects.replaceChildren();
-  if(Object.keys(totalEffects).length){
-   el("h3",{text:"Combined Selected Visage Effects"},armorEffects);
-   const totalsGrid=el("div",{class:"armor-stat-totals visage-stat-totals"},armorEffects);
-   Object.entries(totalEffects).forEach(([name,value])=>{
-    const card=el("div",{class:"armor-total-card"},totalsGrid);
-    el("span",{class:"armor-total-label",text:"✧ "+name},card);
-    el("strong",{class:"armor-total-value",text:"+"+value.toFixed(2)+"%"},card);
-   });
-  }
+  el("h3",{text:"Combined Selected Visage Effects"},armorEffects);
+  const totalsGrid=el("div",{class:"armor-stat-totals visage-stat-totals"},armorEffects);
+  const visibleEffects=["Elemental Damage","Ultimate Charge Rate",...Object.keys(totalEffects).filter(name=>name!=="Elemental Damage"&&name!=="Ultimate Charge Rate")];
+  visibleEffects.forEach(name=>{
+   const card=el("div",{class:"armor-total-card"},totalsGrid);
+   el("span",{class:"armor-total-label",text:"✧ "+name},card);
+   el("strong",{class:"armor-total-value",text:"+"+(totalEffects[name]||0).toFixed(2)+"%"},card);
+  });
  }
  el("h3",{text:"Ink Set Bonuses"},resultRoot);
  const counts={};chosen.forEach(({s})=>counts[s.ink]=(counts[s.ink]||0)+1);
