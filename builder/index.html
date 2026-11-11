@@ -276,7 +276,7 @@ function drawVisages(){
    const option=el("button",{type:"button",class:"visage-picker-option"+(s.name===x.name?" is-selected":""),role:"option","aria-selected":String(s.name===x.name)},pickerList);
    const icon=el("span",{class:"visage-picker-placeholder",text:visageArtwork[x.name]?"":"◇"},option);
    icon.setAttribute("aria-hidden","true");
-   const artPath="assets/visages/"+x.name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")+".webp";
+   const artPath="assets/"+x.name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")+".webp";
    const art=el("img",{src:"../"+artPath,alt:"",class:"visage-picker-art"},icon);
    art.addEventListener("load",()=>{icon.textContent="";icon.append(art)});
    art.addEventListener("error",()=>{art.remove();if(visageArtwork[x.name]){const fallback=el("img",{src:visageArtwork[x.name],alt:"",class:"visage-picker-art"},icon);fallback.addEventListener("error",()=>fallback.remove())}else icon.textContent="◇"});
