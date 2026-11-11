@@ -42,3 +42,20 @@ footer{padding:28px 20px;border-top:1px solid #363943;text-align:center;color:va
 .showcase .gallery figure{padding:clamp(10px,2vw,20px)}
 @media(min-width:1000px){.showcase .gallery{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.showcase main{padding-inline:16px}.showcase .panel{padding:18px}.showcase .hero{padding-top:28px}}
+
+/* Responsive build library and build details */
+@media(max-width:700px){
+ main{padding:20px clamp(12px,4vw,18px) 55px}
+ .hero{padding:24px 0}
+ .panel{padding:clamp(14px,4vw,20px);margin-bottom:16px}
+ .grid,.gallery{grid-template-columns:minmax(0,1fr);gap:14px}
+ .grid .panel,.gallery .panel{margin:0}
+ figure{margin-inline:0}
+ .showcase .hero{padding:24px 0 18px}
+ .showcase .panel{padding:clamp(12px,4vw,18px)}
+ .showcase .gallery{grid-template-columns:minmax(0,1fr)}
+ .showcase .gallery figure{padding:8px}
+ .upgrade-values{grid-template-columns:minmax(0,1fr)}
+ .showcase .build-cover figcaption{padding:10px 12px 15px}
+ .summary{font-size:1rem}
+}
