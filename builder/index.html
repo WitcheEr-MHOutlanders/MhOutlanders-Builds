@@ -139,7 +139,7 @@
 #armor-gallery .armor-card-skill .pdf-skill-icon{width:16px!important;height:16px!important;flex:0 0 16px!important;min-width:16px!important;min-height:16px!important;margin:0!important;image-rendering:pixelated!important}
 #armor-gallery .armor-card-skill{align-items:center!important;gap:10px!important}
 #armor-gallery .armor-card-skill .skill-glyph{color:#d6a16c!important;min-width:16px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
-</style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
+</style><style id="authentic-armor-icons">#armor-gallery .armor-type-art{background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;background-blend-mode:normal!important}</style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
 
 <main><p class="pill">FREE · INTERACTIVE BUILDER</p><h1>🔥 Build your hunter</h1><p class="muted">Choose your equipment and five Visages. Matching Ink sets activate automatically. No account needed.</p>
 <section class="panel"><h2>⚔ Equipment</h2><div class="grid" id="equipment"></div><div id="armor-home"></div></section>
@@ -226,10 +226,11 @@ function paintArmorCards(){
   const side=node("div",null,card,"armor-card-side");
   node("div","Rarity "+p.rarity,side,"armor-rarity");
   const art=node("div",null,side,"armor-type-art");
-  art.style.backgroundImage=`url("${armorIconSprite}")`;
-  art.style.backgroundSize="370px 74px";
+  const authenticArmorIcons={"Head armor":"armor-helmet.png","Body armor":"armor-chest.png","Arm armor":"armor-gloves.png","Waist armor":"armor-waist.png","Leg armor":"armor-legs.png"};
+  art.style.backgroundImage=`url("../assets/${authenticArmorIcons[p.slot]||"armor-helmet.png"}")`;
+  art.style.backgroundSize="contain";
   art.style.backgroundRepeat="no-repeat";
-  art.style.backgroundPosition=`-${(slotSymbols[p.slot]??0)*74}px center`;
+  art.style.backgroundPosition="center";
   art.setAttribute("role","img");
   art.setAttribute("aria-label",p.slot+" icon");
   const content=node("div",null,card,"armor-card-content");
