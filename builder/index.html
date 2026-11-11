@@ -213,8 +213,14 @@ const visageRoot=document.getElementById("visages"),resultRoot=document.getEleme
 visageRoot.className="visage-card-list";
 const slotState=Array.from({length:5},()=>({ink:"Ink of Flames",name:"",rolls:["",""],tiers:["high","high"]}));
 let expandedSlot=0;
-const confirmedInGameVisages=new Set(["Great Jagras","Ruger Aidal"]);
-const rollOptions={"Ruger Aidal":[{id:"charge",name:"Ultimate Charge Rate",low:2.92,high:2.92},{id:"elemental",name:"Elemental Damage",low:4.27,high:4.27}],"Great Jagras":[{id:"charge",name:"Ultimate Charge Rate",low:1.67,high:3.34},{id:"elemental",name:"Elemental Damage",low:2.44,high:4.88}]};
+const confirmedInGameVisages=new Set(["Great Jagras","Kulu-Ya-Ku","Pukei-Pukei","Great Girros","Tzitzi-Ya-Ku","Jyuratodus","Barroth","Anjanath","Tobi-Kadachi","Paolumu","Radobaan","Rathian","Rathalos","Legiana","Diablos","Odogaron","Pink Rathian","Ruger Aidal","Radiant Great Jagras","Radiant Kulu-Ya-Ku","Radiant Pukei-Pukei","Radiant Great Girros","Radiant Tzitzi-Ya-Ku","Radiant Jyuratodus","Radiant Barroth","Radiant Anjanath","Radiant Tobi-Kadachi","Radiant Paolumu","Radiant Rathian","Radiant Odogaron","Jagras","Girros","Shamos","Kestodon","Gastodon","Aptonoth","Apceros","Hornetaur","Gajau","Kelbi","Warrior Atecoli","Pitcher Atecoli","Mernos","Noios","Raphinos","Barnos"]);
+const rollOptions={"Ruger Aidal":[{id:"charge",name:"Ultimate Charge Rate",low:2.92,high:2.92},{id:"elemental",name:"Elemental Damage",low:4.27,high:4.27}]};
+const rollTemplates={
+ 1:[{id:"affinity",name:"Affinity",low:0.92,high:1.84},{id:"charge",name:"Ultimate Charge Rate",low:0.91,high:1.81},{id:"elemental",name:"Elemental Damage",low:1.56,high:3.11}],
+ 3:[{id:"charge",name:"Ultimate Charge Rate",low:1.67,high:3.34},{id:"elemental",name:"Elemental Damage",low:2.44,high:4.88}],
+ 4:[{id:"affinity",name:"Affinity",low:1.75,high:3.51},{id:"charge",name:"Ultimate Charge Rate",low:1.81,high:3.62}]
+};
+visageRows.forEach(v=>{if(!rollOptions[v.name])rollOptions[v.name]=rollTemplates[v.cost].map(x=>({...x}))});
 function rollValue(x,tier){return tier==="low"?x.low:x.high}
 function currentVisage(i){return visageRows.find(v=>v.name===slotState[i].name)}
 function setSlot(i,patch){Object.assign(slotState[i],patch);drawVisages()}
@@ -273,7 +279,7 @@ function drawVisages(){
    if(visageArtwork[x.name])el("img",{src:visageArtwork[x.name],alt:"",class:"visage-picker-art"},icon);
    const info=el("span",{class:"visage-picker-info"},option);
    el("strong",{text:x.name},info);
-   el("small",{text:confirmedInGameVisages.has(x.name)?"Superior Visage · Confirmed in-game":"Visage · Rarity pending verification"},info);
+   el("small",{text:"Superior Visage"},info);
    el("span",{class:"visage-picker-cost",text:"Cost "+x.cost},option);
    option.addEventListener("click",()=>setSlot(i,{name:x.name,rolls:["",""],tiers:["high","high"]}));
   });
@@ -305,7 +311,7 @@ function drawVisages(){
     }
    }
   }else el("p",{class:"muted visage-pending",text:"Possible effect values awaiting confirmation for this Visage."},body);
-  if(v.effect){
+  if(v.cost>1&&v.effect){
    const core=el("div",{class:"visage-core-panel"},body);
    const title=el("div",{class:"visage-card-head"},core);
    el("strong",{text:"✧ Core Effect"},title);
