@@ -171,7 +171,7 @@
 .visage-reset:hover{background:#473024}
 #results h3{color:#ffbd71;margin:20px 0 10px}
 @media(max-width:420px){.visage-overview{gap:8px}.visage-overview-stat{padding:11px}.visage-card-body{padding:12px}}
-</style><style id="visage-roll-tier-style">.visage-roll-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.visage-roll-button{padding:10px;border:1px solid #875b3d;border-radius:12px;background:#272124;color:#e5c8aa;font-weight:700}.visage-roll-button.selected{background:#a66a34;border-color:#e7a35a;color:#fff5e8}.visage-roll-button:hover{border-color:#f0b477}</style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
+</style><style id="visage-roll-tier-style">.visage-roll-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.visage-roll-button{padding:10px;border:1px solid #875b3d;border-radius:12px;background:#272124;color:#e5c8aa;font-weight:700}.visage-roll-button.selected{background:#a66a34;border-color:#e7a35a;color:#fff5e8}.visage-roll-button:hover{border-color:#f0b477}</style><style id="visage-confirmed-style">.visage-confirmed-game{display:inline-block;width:fit-content;margin-top:5px;padding:5px 10px;border-radius:20px;border:1px solid #5d9871;background:#1c3829;color:#b7e7c4;font-size:12px;font-weight:700}</style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
 
 <main><p class="pill">FREE · INTERACTIVE BUILDER</p><h1>🔥 Build your hunter</h1><p class="muted">Choose your equipment and five Visages. Matching Ink sets activate automatically. No account needed.</p>
 <section class="panel"><h2>⚔ Equipment</h2><div class="grid" id="equipment"></div><div id="armor-home"></div></section>
@@ -198,6 +198,7 @@ const visageRoot=document.getElementById("visages"),resultRoot=document.getEleme
 visageRoot.className="visage-card-list";
 const slotState=Array.from({length:5},()=>({ink:"Ink of Flames",name:"",rolls:["",""],tiers:["high","high"]}));
 let expandedSlot=0;
+const confirmedInGameVisages=new Set(["Great Jagras"]);
 const rollOptions={"Ruger Aidal":[{id:"charge",name:"Ultimate Charge Rate",low:2.92,high:2.92},{id:"elemental",name:"Elemental Damage",low:4.27,high:4.27}],"Great Jagras":[{id:"charge",name:"Ultimate Charge Rate",low:1.67,high:3.34},{id:"elemental",name:"Elemental Damage",low:2.44,high:4.88}]};
 function rollValue(x,tier){return tier==="low"?x.low:x.high}
 function currentVisage(i){return visageRows.find(v=>v.name===slotState[i].name)}
@@ -243,6 +244,7 @@ function drawVisages(){
   const selected=el("div",{class:"visage-selected"},body);
   el("strong",{text:v.name+" · Cost "+v.cost},selected);
   el("small",{text:s.ink},selected);
+  if(confirmedInGameVisages.has(v.name))el("span",{class:"visage-confirmed-game",text:"✓ Confirmed from in-game screenshots"},selected);
   const available=rollOptions[v.name];
   if(available){
    for(let j=0;j<2;j++){
