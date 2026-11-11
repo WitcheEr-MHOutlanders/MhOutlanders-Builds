@@ -279,7 +279,6 @@ function drawVisages(){
   const selected=el("div",{class:"visage-selected"},body);
   el("strong",{text:v.name+" · Cost "+v.cost},selected);
   el("small",{text:s.ink},selected);
-  if(confirmedInGameVisages.has(v.name))el("span",{class:"visage-confirmed-game",text:"✓ Confirmed from in-game screenshots"},selected);
   const available=rollOptions[v.name];
   if(available){
    for(let j=0;j<2;j++){
