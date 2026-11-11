@@ -139,7 +139,7 @@
 #armor-gallery .armor-card-skill .pdf-skill-icon{width:16px!important;height:16px!important;flex:0 0 16px!important;min-width:16px!important;min-height:16px!important;margin:0!important;image-rendering:pixelated!important}
 #armor-gallery .armor-card-skill{align-items:center!important;gap:10px!important}
 #armor-gallery .armor-card-skill .skill-glyph{color:#d6a16c!important;min-width:16px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
-</style><style id="authentic-armor-icons">#armor-gallery .armor-type-art{background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;background-blend-mode:normal!important}</style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
+</style><style id="authentic-armor-icons">#armor-gallery .armor-type-art{background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;background-blend-mode:normal!important}</style><style id="visage-detail-card-style">#visages .visage-selection-details:not(:empty){padding:12px;border:1px solid #74523c;border-radius:10px;background:#251f1e;margin-top:8px;line-height:1.5}#visages .visage-selection-details p{margin:5px 0 0;overflow-wrap:anywhere}#visages .visage-selection-details strong{color:#ffd49b}</style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
 
 <main><p class="pill">FREE · INTERACTIVE BUILDER</p><h1>🔥 Build your hunter</h1><p class="muted">Choose your equipment and five Visages. Matching Ink sets activate automatically. No account needed.</p>
 <section class="panel"><h2>⚔ Equipment</h2><div class="grid" id="equipment"></div><div id="armor-home"></div></section>
@@ -166,27 +166,30 @@ for(let i=0;i<5;i++){
  el("label",{text:i===0?"Core Visage · Slot 1":"Visage "+(i+1)},wrap);
  const setLabel=el("label",{text:"Choose Ink Set"},wrap);
  const setSelect=dropdown(wrap,sets,"All Ink Sets");
- const visageLabel=el("label",{text:"Choose Visage"},wrap);
+ const visageLabel=el("label",{text:"Choose Visage · Name and Cost"},wrap);
  const select=dropdown(wrap,visageRows.map(v=>v.name),"Empty slot");
- const details=el("p",{class:"muted"},wrap);
- const coreStatus=i===0?el("p",{class:"muted"},wrap):null;
+ const details=el("div",{class:"visage-selection-details"},wrap);
  function refreshVisages(){
   const chosenSet=setSelect.value;
   const previous=select.value;
   select.replaceChildren();
   el("option",{value:"",text:"Empty slot"},select);
-  visageRows.filter(v=>!chosenSet||v.inks.includes(chosenSet)).forEach(v=>el("option",{value:v.name,text:v.name},select));
+  visageRows.filter(v=>!chosenSet||v.inks.includes(chosenSet)).forEach(v=>el("option",{value:v.name,text:v.name+" · Cost "+v.cost},select));
   select.value=visageRows.some(v=>v.name===previous&&(!chosenSet||v.inks.includes(chosenSet)))?previous:"";
   refreshSelected();
  }
  function refreshSelected(){
   const v=visageRows.find(x=>x.name===select.value);
-  if(!v){details.textContent="";if(coreStatus)coreStatus.textContent="";equippedVisages[i]=null;render();return}
+  details.replaceChildren();
+  if(!v){equippedVisages[i]=null;render();return}
   const selectedInk=setSelect.value&&v.inks.includes(setSelect.value)?setSelect.value:v.inks[0];
   equippedVisages[i]={...v,selectedInk};
-  details.textContent="Cost "+v.cost+" · "+selectedInk+(v.name==="Ruger Aidal"?" · Possible effects: Ultimate Charge Rate +2.92% / Elemental Damage +4.27% (potential rolls)":"");
-  if(coreStatus)coreStatus.textContent=v.effect?"Core effect: "+v.effect:"No Core Effect listed";
-  else details.textContent+=" · Core effect inactive outside Slot 1";
+  el("strong",{text:v.name+" · Cost "+v.cost},details);
+  el("p",{class:"muted",text:"Ink Set: "+selectedInk},details);
+  if(v.effect){
+   el("p",{class:"muted",text:"Core Effect "+(i===0?"(Core slot)":"(inactive in this slot)")+": "+v.effect},details);
+  }else el("p",{class:"muted",text:"No Core Effect listed"},details);
+  if(v.name==="Ruger Aidal")el("p",{class:"muted",text:"Possible rolls: Ultimate Charge Rate +2.92% / Elemental Damage +4.27%"},details);
   render();
  }
  setSelect.addEventListener("change",refreshVisages);
