@@ -1,2 +1,26 @@
 /* Outlanders Arsenal: original hamburger dropdown, four destinations */
 .unified-nav,.unified-nav *{box-sizing:border-box}.unified-nav{position:relative;z-index:9999;display:flex;justify-content:flex-end;align-items:center;padding:10px 18px;background:#151820;border-bottom:1px solid #8b532c;min-height:64px;font-family:system-ui,sans-serif}.unified-nav details{position:relative}.unified-nav summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:46px;height:44px;border:1px solid #a56b3e;border-radius:10px;background:#29211d;color:#ffca82;font-size:27px;line-height:1}.unified-nav summary::-webkit-details-marker{display:none}.unified-nav summary:hover{background:#4b3024}.unified-nav summary:focus-visible,.unified-nav .menu-links a:focus-visible{outline:3px solid #ffad52;outline-offset:2px}.unified-nav .menu-links{position:absolute;right:0;top:calc(100% + 8px);width:205px;display:flex;flex-direction:column;background:#1b1c22;border:1px solid #a56b3e;border-radius:12px;padding:7px;box-shadow:0 12px 32px #000a}.unified-nav .menu-links a{display:block;color:#ffca82!important;text-decoration:none!important;padding:12px;border-radius:8px;font:600 16px/1.3 system-ui,sans-serif}.unified-nav .menu-links a:hover,.unified-nav .menu-links a:focus-visible,.unified-nav .menu-links a[aria-current="page"]{background:#78401f;color:white!important}@media(max-width:480px){.unified-nav{padding:8px 12px}.unified-nav .menu-links{width:min(240px,calc(100vw - 24px))}}
+
+/* Shared mobile usability improvements (2026-11) */
+html{max-width:100%;scroll-padding-top:12px;-webkit-text-size-adjust:100%}
+body{max-width:100%;overflow-x:clip}
+img,video,iframe,svg{max-width:100%}
+img{height:auto}
+main,section,article,header,footer,figure,.panel,.card{min-width:0}
+h1,h2,h3,h4,p,li{overflow-wrap:break-word}
+button,input,select,textarea{font-family:inherit}
+button,a,summary,select{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.unified-nav{width:100%;max-width:100%;isolation:isolate}
+.unified-nav .menu-links{max-width:calc(100vw - 24px);max-height:min(70dvh,560px);overflow-y:auto;overscroll-behavior:contain}
+.unified-nav .menu-links a{min-height:44px;display:flex;align-items:center}
+.unified-nav details:not([open]) .menu-links{display:none}
+@media(max-width:600px){
+ .unified-nav{gap:8px!important;padding:8px 12px!important}
+ .unified-nav .arsenal-brand{min-width:0!important;flex:1 1 auto!important;overflow-wrap:anywhere!important;white-space:normal!important}
+ .unified-nav details{flex-shrink:0!important;margin-left:auto!important}
+ .unified-nav summary{min-width:44px;min-height:44px}
+ .unified-nav .menu-links{right:0!important}
+ main{max-width:100%}
+ input:not([type=checkbox]):not([type=radio]),select,textarea{max-width:100%}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}
