@@ -171,7 +171,7 @@
 .visage-reset:hover{background:#473024}
 #results h3{color:#ffbd71;margin:20px 0 10px}
 @media(max-width:420px){.visage-overview{gap:8px}.visage-overview-stat{padding:11px}.visage-card-body{padding:12px}}
-</style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
+</style><style id="visage-roll-tier-style">.visage-roll-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.visage-roll-button{padding:10px;border:1px solid #875b3d;border-radius:12px;background:#272124;color:#e5c8aa;font-weight:700}.visage-roll-button.selected{background:#a66a34;border-color:#e7a35a;color:#fff5e8}.visage-roll-button:hover{border-color:#f0b477}</style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
 
 <main><p class="pill">FREE · INTERACTIVE BUILDER</p><h1>🔥 Build your hunter</h1><p class="muted">Choose your equipment and five Visages. Matching Ink sets activate automatically. No account needed.</p>
 <section class="panel"><h2>⚔ Equipment</h2><div class="grid" id="equipment"></div><div id="armor-home"></div></section>
@@ -196,9 +196,10 @@ const equippedVisages=Array(5).fill(null);
 
 const visageRoot=document.getElementById("visages"),resultRoot=document.getElementById("results");
 visageRoot.className="visage-card-list";
-const slotState=Array.from({length:5},()=>({ink:"Ink of Flames",name:"",rolls:["",""]}));
+const slotState=Array.from({length:5},()=>({ink:"Ink of Flames",name:"",rolls:["",""],tiers:["high","high"],tiers:["high","high"]}));
 let expandedSlot=0;
-const rollOptions={"Ruger Aidal":[{id:"charge",name:"Ultimate Charge Rate",value:2.92},{id:"elemental",name:"Elemental Damage",value:4.27}]};
+const rollOptions={"Ruger Aidal":[{id:"charge",name:"Ultimate Charge Rate",low:2.92,high:2.92},{id:"elemental",name:"Elemental Damage",low:4.27,high:4.27}],"Great Jagras":[{id:"charge",name:"Ultimate Charge Rate",low:1.67,high:3.34},{id:"elemental",name:"Elemental Damage",low:2.44,high:4.88}]};
+function rollValue(x,tier){return tier==="low"?x.low:x.high}
 function currentVisage(i){return visageRows.find(v=>v.name===slotState[i].name)}
 function setSlot(i,patch){Object.assign(slotState[i],patch);drawVisages()}
 function drawVisages(){
@@ -231,13 +232,13 @@ function drawVisages(){
   const body=el("div",{class:"visage-card-body"},card);
   el("label",{text:"Choose Ink Set"},body);
   const inkSelect=dropdown(body,sets,"Choose Ink Set");inkSelect.value=s.ink;
-  inkSelect.addEventListener("change",()=>setSlot(i,{ink:inkSelect.value,name:"",rolls:["",""]}));
+  inkSelect.addEventListener("change",()=>setSlot(i,{ink:inkSelect.value,name:"",rolls:["",""],tiers:["high","high"]}));
   el("label",{text:"Choose Visage · Name and Cost"},body);
   const select=el("select",{},body);
   el("option",{value:"",text:"Choose Visage"},select);
   visageRows.filter(x=>x.inks.includes(s.ink)).sort((a,b)=>b.cost-a.cost||a.name.localeCompare(b.name)).forEach(x=>el("option",{value:x.name,text:x.name+" · Cost "+x.cost},select));
   select.value=s.name;
-  select.addEventListener("change",()=>setSlot(i,{name:select.value,rolls:["",""]}));
+  select.addEventListener("change",()=>setSlot(i,{name:select.value,rolls:["",""],tiers:["high","high"]}));
   if(!v)continue;
   const selected=el("div",{class:"visage-selected"},body);
   el("strong",{text:v.name+" · Cost "+v.cost},selected);
@@ -248,15 +249,21 @@ function drawVisages(){
     el("label",{text:"Possible Effect "+(j+1)},body);
     const rollSelect=el("select",{},body);
     el("option",{value:"",text:"Choose effect"},rollSelect);
-    available.forEach(x=>el("option",{value:x.id,text:x.name+" +"+x.value.toFixed(2)+"%"},rollSelect));
+    available.forEach(x=>el("option",{value:x.id,text:x.name},rollSelect));
     rollSelect.value=s.rolls[j];
     rollSelect.addEventListener("change",()=>{s.rolls[j]=rollSelect.value;drawVisages()});
+    const choice=available.find(x=>x.id===s.rolls[j]);
+    if(choice){
+     const tierButtons=el("div",{class:"visage-roll-buttons"},body);
+     ["low","high"].forEach(tier=>{
+      const btn=el("button",{type:"button",class:"visage-roll-button"+((s.tiers||[])[j]===tier?" selected":""),text:tier==="low"?"Low Roll":"High Roll"},tierButtons);
+      btn.addEventListener("click",()=>{if(!s.tiers)s.tiers=["high","high"];s.tiers[j]=tier;drawVisages()});
+     });
+     const line=el("div",{class:"visage-summary-row"},body);
+     el("span",{text:"Selected effect value"},line);
+     el("strong",{text:"+"+rollValue(choice,(s.tiers||[])[j]).toFixed(2)+"%"},line);
+    }
    }
-   const summary=el("div",{class:"visage-effect-summary"},body);
-   el("strong",{text:"Combined Selected Effects"},summary);
-   const totals={};s.rolls.forEach(id=>{const x=available.find(y=>y.id===id);if(x)totals[x.name]=(totals[x.name]||0)+x.value});
-   if(!Object.keys(totals).length)el("small",{text:"Choose two effects. Duplicate selections are allowed."},summary);
-   Object.entries(totals).forEach(([name,value])=>{const line=el("div",{class:"visage-summary-row"},summary);el("span",{text:name},line);el("strong",{text:"+"+value.toFixed(2)+"%"},line)});
   }else el("p",{class:"muted visage-pending",text:"Possible effect values awaiting confirmation for this Visage."},body);
   if(v.effect){
    const core=el("div",{class:"visage-core-panel"},body);
@@ -268,7 +275,7 @@ function drawVisages(){
   }
  }
  const totalEffects={};
- chosen.forEach(({s,v})=>(rollOptions[v.name]||[]).forEach(x=>{const count=s.rolls.filter(id=>id===x.id).length;if(count)totalEffects[x.name]=(totalEffects[x.name]||0)+count*x.value}));
+ chosen.forEach(({s,v})=>s.rolls.forEach((id,j)=>{const x=(rollOptions[v.name]||[]).find(x=>x.id===id);if(x)totalEffects[x.name]=(totalEffects[x.name]||0)+rollValue(x,(s.tiers||[])[j])}));
  resultRoot.replaceChildren();
  const armorEffects=document.getElementById("armor-visage-effects");
  if(armorEffects){
@@ -296,7 +303,7 @@ function drawVisages(){
   });
  });
  const reset=el("button",{type:"button",class:"visage-reset",text:"↺ Reset All Visages"},resultRoot);
- reset.addEventListener("click",()=>{slotState.forEach(s=>Object.assign(s,{ink:"Ink of Flames",name:"",rolls:["",""]}));expandedSlot=0;drawVisages()});
+ reset.addEventListener("click",()=>{slotState.forEach(s=>Object.assign(s,{ink:"Ink of Flames",name:"",rolls:["",""],tiers:["high","high"]}));expandedSlot=0;drawVisages()});
 }
 drawVisages();
 </script><script>
