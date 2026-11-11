@@ -275,8 +275,12 @@ function drawVisages(){
   armorEffects.replaceChildren();
   if(Object.keys(totalEffects).length){
    el("h3",{text:"Combined Selected Visage Effects"},armorEffects);
-   const totalsCard=el("div",{class:"visage-effect-summary"},armorEffects);
-   Object.entries(totalEffects).forEach(([name,value])=>{const line=el("div",{class:"visage-summary-row"},totalsCard);el("span",{text:name},line);el("strong",{text:"+"+value.toFixed(2)+"%"},line)});
+   const totalsGrid=el("div",{class:"armor-stat-totals visage-stat-totals"},armorEffects);
+   Object.entries(totalEffects).forEach(([name,value])=>{
+    const card=el("div",{class:"armor-total-card"},totalsGrid);
+    el("span",{class:"armor-total-label",text:"✧ "+name},card);
+    el("strong",{class:"armor-total-value",text:"+"+value.toFixed(2)+"%"},card);
+   });
   }
  }
  el("h3",{text:"Ink Set Bonuses"},resultRoot);
