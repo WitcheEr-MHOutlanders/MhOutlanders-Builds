@@ -143,7 +143,7 @@
 
 <main><p class="pill">FREE · INTERACTIVE BUILDER</p><h1>🔥 Build your hunter</h1><p class="muted">Choose your equipment and five Visages. Matching Ink sets activate automatically. No account needed.</p>
 <section class="panel"><h2>⚔ Equipment</h2><div class="grid" id="equipment"></div><div id="armor-home"></div></section>
-<section class="panel"><h2>🃏 Visage · 5 slots</h2><p class="muted">Slot 1 is the Core Visage. Only it can activate a Core Effect. Select Visages and Ink variants to calculate costs and set bonuses.</p><div class="grid" id="visages"></div><div id="results" aria-live="polite"></div><p class="muted"><small>Ink variants and effects are based on the supplied Visage list. Conditional bonuses activate in-game only when their requirements are met.</small></p></section>
+<section class="panel"><h2>🃏 Visage · 5 slots</h2><p class="muted">Slot 1 is the Core Visage. Choose an Ink Set first to see matching Visages, including those with two possible Ink Sets.</p><div class="grid" id="visages"></div><div id="results" aria-live="polite"></div><p class="muted"><small>Ink variants and effects are based on the supplied Visage list. Conditional bonuses activate in-game only when their requirements are met.</small></p></section>
 
 <section id="armor-catalog" hidden aria-hidden="true"><h2>📚 Armor set catalog</h2><p class="muted">Seven confirmed armor sets and 35 pieces from the latest in-game forge PDF.</p><div id="set-catalog" class="grid"></div><h2 style="margin-top:24px">Import confirmed armor records</h2><p class="muted">Import a JSON array of armor pieces. Each record needs id, name, slot, skills, max, and optionally unlock and rarity. Imported pieces become selectable in the five-piece builder and stay saved on this device.</p><input type="file" id="armor-import" accept=".json,application/json" aria-label="Import armor records JSON"><p id="armor-import-status" role="status" class="muted"></p><button type="button" id="armor-export">Export armor database JSON</button></section><section class="panel" id="armor-builder"><h3>Armor and skill calculator</h3><p class="muted">Choose five armor pieces and compare their current skills with their projected Rarity 10 skills. Upgrades replace the prior skill level; they never stack.</p><div class="armor-controls"><label for="armor-r10"><input id="armor-r10" type="checkbox" checked> Apply Rarity 10 unlocks</label></div><details id="armor-advanced" style="margin:16px 0;padding:16px;border:1px solid #654a3d;border-radius:16px;background:#261e1d"><summary style="cursor:pointer;font-weight:700;font-size:1.05rem">⚙ Skill Filter</summary><div style="display:grid;gap:12px;margin-top:16px"><label for="armor-filter-search">Search armor name<input id="armor-filter-search" type="search" placeholder="Search armor name..." style="width:100%;margin-top:6px"></label><fieldset style="border:0;padding:0;margin:0"><legend style="font-weight:700;margin-bottom:8px">Armor type</legend><div id="armor-filter-types" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px"></div></fieldset><label for="armor-filter-set">Armor set<select id="armor-filter-set" style="width:100%;margin-top:6px"><option value="">All sets</option></select></label><label for="armor-filter-skill">Contains skill<select id="armor-filter-skill" style="width:100%;margin-top:6px"><option value="">All skills</option></select></label><label><input type="checkbox" id="armor-filter-upgrades"> Only armor with recorded rarity upgrades</label><p class="muted" id="armor-filter-count" aria-live="polite"></p><button type="button" id="armor-filter-reset">Reset filters</button></div></details><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin:14px 0"><strong>Equipped armor</strong><button type="button" id="armor-unequip-all" style="padding:10px 14px">↺ Unequip all armor</button></div><div id="armor-slots" class="grid"></div><section id="armor-gallery" class="armor-gallery" hidden><div class="armor-gallery-head"><h3 id="armor-gallery-title">Choose armor</h3><button id="armor-gallery-close" type="button">Close cards</button></div><div id="armor-gallery-filters"></div><p class="muted" style="font-size:13px;margin:0 0 12px">Tap the circle on an armor card to equip it. Recorded rarity unlocks are listed under its skills; the Rarity 10 checkbox controls combined skills.</p><div id="armor-gallery-list" class="armor-gallery-list"></div></section><h2 style="margin-top:22px">Combined Skills, Defense &amp; Adventurer Power</h2><div id="armor-stat-totals" class="armor-stat-totals" aria-live="polite"></div><div id="armor-skills" class="armor-result" aria-live="polite"></div><div id="armor-bonuses"></div><div class="armor-actions"><button id="armor-copy" type="button">Copy armor build</button></div><p id="armor-message" class="muted" role="status"></p></section><div id="bottom-return-nav" class="bottom-return-nav"><a href="../" aria-label="Back to Home">← Back to Home</a></div></main><footer>Fan-made Monster Hunter Outlanders builder · Equipment and Visage catalog expanding</footer>
 <script>
@@ -164,23 +164,39 @@ const equippedVisages=Array(5).fill(null);
 for(let i=0;i<5;i++){
  const wrap=el("div",{class:"slot"},document.getElementById("visages"));
  el("label",{text:i===0?"Core Visage · Slot 1":"Visage "+(i+1)},wrap);
+ const setLabel=el("label",{text:"Choose Ink Set"},wrap);
+ const setSelect=dropdown(wrap,sets,"All Ink Sets");
+ const visageLabel=el("label",{text:"Choose Visage"},wrap);
  const select=dropdown(wrap,visageRows.map(v=>v.name),"Empty slot");
- const inkSelect=dropdown(wrap,[],"Select Ink variant");
  const details=el("p",{class:"muted"},wrap);
  const coreStatus=i===0?el("p",{class:"muted"},wrap):null;
- select.addEventListener("change",()=>{
-  inkSelect.replaceChildren();const v=visageRows.find(x=>x.name===select.value);
-  if(!v){inkSelect.hidden=true;details.textContent="";if(coreStatus)coreStatus.textContent="";equippedVisages[i]=null;render();return}
-  v.inks.forEach(ink=>el("option",{value:ink,text:ink},inkSelect));
-  inkSelect.hidden=v.inks.length<2;
-  equippedVisages[i]={...v,selectedInk:v.inks[0]};
-  details.textContent="Cost "+v.cost+(v.name==="Ruger Aidal"?" · Possible effects: Ultimate Charge Rate +2.92% / Elemental Damage +4.27% (potential rolls)":"");
+ function refreshVisages(){
+  const chosenSet=setSelect.value;
+  const previous=select.value;
+  select.replaceChildren();
+  el("option",{value:"",text:"Empty slot"},select);
+  visageRows.filter(v=>!chosenSet||v.inks.includes(chosenSet)).forEach(v=>el("option",{value:v.name,text:v.name},select));
+  select.value=visageRows.some(v=>v.name===previous&&(!chosenSet||v.inks.includes(chosenSet)))?previous:"";
+  refreshSelected();
+ }
+ function refreshSelected(){
+  const v=visageRows.find(x=>x.name===select.value);
+  if(!v){details.textContent="";if(coreStatus)coreStatus.textContent="";equippedVisages[i]=null;render();return}
+  const selectedInk=setSelect.value&&v.inks.includes(setSelect.value)?setSelect.value:v.inks[0];
+  equippedVisages[i]={...v,selectedInk};
+  details.textContent="Cost "+v.cost+" · "+selectedInk+(v.name==="Ruger Aidal"?" · Possible effects: Ultimate Charge Rate +2.92% / Elemental Damage +4.27% (potential rolls)":"");
   if(coreStatus)coreStatus.textContent=v.effect?"Core effect: "+v.effect:"No Core Effect listed";
   else details.textContent+=" · Core effect inactive outside Slot 1";
   render();
+ }
+ setSelect.addEventListener("change",refreshVisages);
+ select.addEventListener("change",()=>{
+  const v=visageRows.find(x=>x.name===select.value);
+  if(v&&!setSelect.value&&v.inks.length>1){
+   setSelect.value=v.inks[0];
+   refreshVisages();
+  }else refreshSelected();
  });
- inkSelect.hidden=true;
- inkSelect.addEventListener("change",()=>{if(equippedVisages[i])equippedVisages[i].selectedInk=inkSelect.value;render()});
 }
 function render(){
  const root=document.getElementById("results");root.replaceChildren();
