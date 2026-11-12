@@ -14,6 +14,8 @@ jobs:
         with:
           python-version: '3.12'
       - run: python3 -m unittest discover -s tests -v
+      - name: Check internal links, images, and accessible markup
+        run: python3 scripts/check_site.py
       # Validate build data and required pages without overwriting hand-customized HTML.
       - name: Validate build data and required pages
         run: |
