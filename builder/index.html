@@ -234,7 +234,7 @@ const equippedVisages=Array(5).fill(null);
 
 const visageRoot=document.getElementById("visages"),resultRoot=document.getElementById("results");
 visageRoot.className="visage-card-list";
-const slotState=Array.from({length:5},()=>({ink:"Ink of Flames",name:"",rolls:["",""],tiers:["high","high"]}));
+const slotState=Array.from({length:5},()=>({ink:"",name:"",rolls:["",""],tiers:["high","high"]}));
 let expandedSlot=0;
 const confirmedInGameVisages=new Set(["Great Jagras","Kulu-Ya-Ku","Pukei-Pukei","Great Girros","Tzitzi-Ya-Ku","Jyuratodus","Barroth","Anjanath","Tobi-Kadachi","Paolumu","Radobaan","Rathian","Rathalos","Legiana","Diablos","Odogaron","Pink Rathian","Ruger Aidal","Radiant Great Jagras","Radiant Kulu-Ya-Ku","Radiant Pukei-Pukei","Radiant Great Girros","Radiant Tzitzi-Ya-Ku","Radiant Jyuratodus","Radiant Barroth","Radiant Anjanath","Radiant Tobi-Kadachi","Radiant Paolumu","Radiant Rathian","Radiant Odogaron","Jagras","Girros","Shamos","Kestodon","Gastodon","Aptonoth","Apceros","Hornetaur","Gajau","Kelbi","Warrior Atecoli","Pitcher Atecoli","Mernos","Noios","Raphinos","Barnos"]);
 const rollOptions={"Ruger Aidal":[{id:"charge",name:"Ultimate Charge Rate",low:2.92,high:2.92},{id:"elemental",name:"Elemental Damage",low:4.27,high:4.27}]};
@@ -270,17 +270,17 @@ function drawVisages(){
   const info=el("span",{class:"visage-card-head"},toggle);
   const nameBox=el("span",{},info);
   el("strong",{text:v?v.name:"Empty Slot"},nameBox);
-  const miniInk=el("small",{class:"ink-set-name"},nameBox);if(v)inkIcon(s.ink,miniInk);miniInk.append(document.createTextNode(v?s.ink:"Select a Visage"));
+  const miniInk=el("small",{class:"ink-set-name"},nameBox);if(v)inkIcon(s.ink,miniInk);miniInk.append(document.createTextNode(v?s.ink:"Choose Ink Set"));
   el("span",{class:"visage-cost-pill",text:(v?v.cost:0)+" Cost"},info);
   toggle.addEventListener("click",()=>{expandedSlot=expandedSlot===i?-1:i;drawVisages()});
   if(expandedSlot!==i)continue;
   const body=el("div",{class:"visage-card-body"},card);
   el("label",{text:"Choose Ink Set"},body);
   const inkPicker=el("div",{class:"ink-picker"},body);
-  const inkButton=el("button",{type:"button",class:"ink-picker-trigger","aria-expanded":"false","aria-label":"Choose Ink Set, currently "+s.ink},inkPicker);
+  const inkButton=el("button",{type:"button",class:"ink-picker-trigger","aria-expanded":"false","aria-label":s.ink?"Choose Ink Set, currently "+s.ink:"Choose Ink Set"},inkPicker);
   const currentInk=el("span",{class:"ink-picker-choice"},inkButton);
   inkIcon(s.ink,currentInk);
-  el("span",{class:"ink-picker-label",text:s.ink},currentInk);
+  el("span",{class:"ink-picker-label",text:s.ink||"Choose Ink Set"},currentInk);
   el("span",{text:"⌄","aria-hidden":"true"},inkButton);
   const inkList=el("div",{class:"ink-picker-list",role:"listbox","aria-label":"Ink Sets"},inkPicker);inkList.hidden=true;
   sets.forEach(name=>{
@@ -294,7 +294,7 @@ function drawVisages(){
   inkList.addEventListener("keydown",e=>{if(e.key==="Escape"){inkList.hidden=true;inkButton.setAttribute("aria-expanded","false");inkButton.focus()}});
 
   el("label",{text:"Choose Visage · Name and Cost"},body);
-  const choices=visageRows.filter(x=>x.inks.includes(s.ink)).sort((a,b)=>b.cost-a.cost||a.name.localeCompare(b.name));
+  const choices=s.ink?visageRows.filter(x=>x.inks.includes(s.ink)).sort((a,b)=>b.cost-a.cost||a.name.localeCompare(b.name)):[];
   const picker=el("div",{class:"visage-picker"},body);
   const pickerButton=el("button",{type:"button",class:"visage-picker-trigger","aria-expanded":"false"},picker);
   const pickerName=el("span",{text:v?v.name+" · Cost "+v.cost:"Choose Visage"},pickerButton);
@@ -302,7 +302,8 @@ function drawVisages(){
   const pickerList=el("div",{class:"visage-picker-list",role:"listbox"},picker);
   pickerList.hidden=true;
   function closePicker(){pickerList.hidden=true;pickerButton.setAttribute("aria-expanded","false")}
-  pickerButton.addEventListener("click",()=>{pickerList.hidden=!pickerList.hidden;pickerButton.setAttribute("aria-expanded",String(!pickerList.hidden))});
+  pickerButton.disabled=!s.ink;pickerButton.title=s.ink?"Choose a Visage":"Choose Ink Set first";
+  pickerButton.addEventListener("click",()=>{if(!s.ink)return;pickerList.hidden=!pickerList.hidden;pickerButton.setAttribute("aria-expanded",String(!pickerList.hidden))});
   const emptyOption=el("button",{type:"button",class:"visage-picker-option",role:"option"},pickerList);
   el("span",{class:"visage-picker-placeholder",text:"◇"},emptyOption);
   const emptyInfo=el("span",{class:"visage-picker-info"},emptyOption);
@@ -390,7 +391,7 @@ function drawVisages(){
   });
  });
  const reset=el("button",{type:"button",class:"visage-reset",text:"↺ Reset All Visages"},resultRoot);
- reset.addEventListener("click",()=>{slotState.forEach(s=>Object.assign(s,{ink:"Ink of Flames",name:"",rolls:["",""],tiers:["high","high"]}));expandedSlot=0;drawVisages()});
+ reset.addEventListener("click",()=>{slotState.forEach(s=>Object.assign(s,{ink:"",name:"",rolls:["",""],tiers:["high","high"]}));expandedSlot=0;drawVisages()});
 }
 drawVisages();
 </script><script>
