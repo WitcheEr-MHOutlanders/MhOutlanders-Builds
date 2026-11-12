@@ -57,3 +57,11 @@ input[type="checkbox"],input[type="radio"]{max-width:none}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* Keyboard-first navigation: hidden until focused, then visible above the header. */
+.site-skip-link{position:fixed;top:10px;left:12px;z-index:2147483647;transform:translateY(-180%);padding:12px 18px;border:2px solid #ffca82;border-radius:10px;background:#1b1c22;color:#fff1d8!important;font:700 16px/1.35 system-ui,sans-serif;text-decoration:none!important;box-shadow:0 6px 22px #0009}
+.site-skip-link:focus,.site-skip-link:focus-visible{transform:translateY(0);outline:3px solid #ffb65e;outline-offset:2px}
+@media(max-width:480px){.site-skip-link{max-width:calc(100vw - 24px)}}
+/* Keep navigation usable without introducing sideways overflow on narrow phones. */
+.unified-nav .menu-links{overflow-wrap:anywhere}
+.unified-nav .menu-links a{white-space:normal!important}
