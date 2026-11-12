@@ -338,6 +338,7 @@ main :is(input:not([type=checkbox]):not([type=radio]),select,textarea){min-width
 @media(max-width:420px){.equipped-armor-heading{align-items:flex-start}.equipped-armor-heading h3{font-size:19px}#armor-unequip-all{font-size:13px;padding:10px 12px}}
 </style><style id="builder-reset-button-theme">
 /* Match the existing Copy armor build button without changing reset behavior. */
+main #armor-copy,
 main #armor-unequip-all,
 main button.visage-reset{
  display:inline-flex;
@@ -361,11 +362,13 @@ main button.visage-reset{
  box-shadow:none;
 }
 main button.visage-reset{margin-top:18px}
+main #armor-copy:hover,
 main #armor-unequip-all:hover,
 main button.visage-reset:hover{background:#ff9a43;border-color:#ff9a43;color:#17110d}
+main #armor-copy:active,
 main #armor-unequip-all:active,
 main button.visage-reset:active{background:#d97322;border-color:#d97322}
-@media(max-width:420px){main #armor-unequip-all,main button.visage-reset{padding:11px 14px;font-size:13px}}
+@media(max-width:420px){main #armor-copy,main #armor-unequip-all,main button.visage-reset{padding:11px 14px;font-size:13px}}
 </style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
 
 <main><p class="pill">FREE · INTERACTIVE BUILDER</p><h1>🔥 Build your hunter</h1><p class="muted">Choose your equipment and five Visages. Matching Ink sets activate automatically. No account needed.</p>
