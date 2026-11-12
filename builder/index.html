@@ -387,6 +387,17 @@ main button.visage-reset:active{background:#d97322;border-color:#d97322}
 .visage-roll-button:disabled{opacity:.42;filter:grayscale(1);cursor:not-allowed;background:#252326;color:#aaa19b;border-color:#5e5652}
 .visage-roll-button:disabled:hover{border-color:#5e5652}
 @media(max-width:380px){.visage-roll-button{font-size:12px;padding:10px 6px}}
+</style><style id="visage-roll-reference-layout">
+/* Four-roll comparison: compact label over prominent numeric value. */
+.visage-roll-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0}
+.visage-roll-button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:74px;padding:10px 8px;border:1px solid #655047;border-radius:12px;background:#171618;color:#f6eee8;text-align:center;line-height:1.25}
+.visage-roll-label{font-size:12px;font-weight:700}
+.visage-roll-value{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums}
+.visage-roll-button.selected{background:#35251e;border:2px solid #f29a43;color:#fff4e7;box-shadow:inset 0 0 0 1px #e48a3b44}
+.visage-roll-button:hover:not(:disabled){background:#352821;border-color:#f29a43}
+.visage-roll-button:disabled{opacity:.4;filter:grayscale(1);cursor:not-allowed}
+.visage-roll-button:disabled .visage-roll-value{font-size:12px}
+@media(max-width:380px){.visage-roll-button{min-height:76px;padding:9px 5px}.visage-roll-label{font-size:11px}.visage-roll-value{font-size:16px}}
 </style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
 
 <main><p class="pill">FREE · INTERACTIVE BUILDER</p><h1>🔥 Build your hunter</h1><p class="muted">Choose your equipment and five Visages. Matching Ink sets activate automatically. No account needed.</p>
@@ -547,7 +558,10 @@ function drawVisages(){
      const tierButtons=el("div",{class:"visage-roll-buttons"},body);
      [{id:"low",label:"Base Low Roll"},{id:"high",label:"Base High Roll"},{id:"low-10",label:"Base Low Roll Level 10"},{id:"high-10",label:"Base High Roll Level 10"}].forEach(tier=>{
       const confirmed=rollValue(choice,tier.id,v.cost);
-      const btn=el("button",{type:"button",class:"visage-roll-button"+((s.tiers||[])[j]===tier.id?" selected":""),text:tier.label},tierButtons);
+      const btn=el("button",{type:"button",class:"visage-roll-button"+((s.tiers||[])[j]===tier.id?" selected":"")},tierButtons);
+      el("span",{class:"visage-roll-label",text:tier.label},btn);
+      el("strong",{class:"visage-roll-value",text:confirmed===null?"Not confirmed":confirmed.toFixed(2)+"%"},btn);
+      btn.setAttribute("aria-pressed",String((s.tiers||[])[j]===tier.id));
       btn.disabled=confirmed===null;
       if(btn.disabled)btn.title="Level 10 value not yet confirmed";
       btn.addEventListener("click",()=>{if(btn.disabled)return;if(!s.tiers)s.tiers=["high","high"];s.tiers[j]=tier.id;drawVisages()});
