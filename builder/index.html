@@ -8,6 +8,21 @@
 .ink-set-name{display:inline-flex;align-items:center;gap:7px;min-width:0;max-width:100%;flex-wrap:wrap}
 .ink-set-preview{display:flex;align-items:center;gap:9px;margin:7px 0 12px;color:#f9d1a3;font-weight:650}
 @media(max-width:420px){.ink-set-icon{width:23px;height:23px;min-width:23px}.ink-set-name{gap:5px}}
+
+/* Ink Set artwork dropdown, matching the Visage image picker */
+.ink-picker{position:relative;width:100%;margin:4px 0 12px}
+.ink-picker-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;background:#302725;color:#fff1dc;border:2px solid #e59b49;border-radius:12px;padding:9px 12px;min-height:58px;cursor:pointer}
+.ink-picker-trigger:focus-visible,.ink-picker-option:focus-visible{outline:3px solid #ffc77c;outline-offset:2px}
+.ink-picker-choice{display:flex;align-items:center;gap:12px;min-width:0}
+.ink-picker-choice .ink-set-icon{width:43px;height:43px;min-width:43px;border-radius:8px;object-fit:contain}
+.ink-picker-label{font-weight:750;overflow-wrap:anywhere}
+.ink-picker-list{position:relative;width:100%;max-height:350px;overflow-y:auto;overscroll-behavior:contain;background:#251f20;border:1px solid #b47943;border-radius:10px;margin-top:5px;box-shadow:0 10px 25px #0007;z-index:5}
+.ink-picker-option{width:100%;display:flex;align-items:center;gap:12px;min-height:62px;padding:8px 12px;text-align:left;color:#fff3e0;background:#251f20;border:0;border-bottom:1px solid #5a3c30;cursor:pointer}
+.ink-picker-option:hover,.ink-picker-option.is-selected{background:#503329}
+.ink-picker-option .ink-set-icon{width:48px;height:48px;min-width:48px;border-radius:8px}
+.ink-picker-option strong{font-size:15px}.ink-picker-option small{display:block;color:#f4bd83;font-size:12px;margin-top:3px}
+.ink-picker-list[hidden]{display:none!important}
+@media(max-width:420px){.ink-picker-trigger{padding:8px;min-height:54px}.ink-picker-option{padding:7px;gap:9px;min-height:56px}.ink-picker-option .ink-set-icon{width:40px;height:40px;min-width:40px}.ink-picker-choice .ink-set-icon{width:36px;height:36px;min-width:36px}}
 </style><style>
 .armor-controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:12px 0}.armor-controls label{margin:0}.armor-controls input{width:auto}.armor-result{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.armor-skill{background:#29221e;border:1px solid #735239;border-radius:10px;padding:12px}.armor-skill b{color:#ffca82}.armor-note{border-left:3px solid #e9a65c;padding:8px 12px;background:#2a221d}.armor-actions{display:flex;gap:8px;flex-wrap:wrap}
 .pdf-skill-icon{width:19px;height:19px;object-fit:contain;vertical-align:-4px;margin-right:7px;image-rendering:auto}.armor-card-skill{display:block;line-height:1.65}.armor-slot-picker{width:100%;display:flex;align-items:center;gap:13px;padding:15px 13px;min-height:84px;border:1px solid #826047;border-radius:14px;background:linear-gradient(120deg,#22232c,#30251f);color:#f5e9d9;text-align:left;box-shadow:inset 0 1px 0 #ffffff13;transition:border-color .2s,transform .2s}.armor-slot-picker:active{transform:scale(.99)}.armor-slot-picker:focus-visible{outline:3px solid #e9a65c;outline-offset:3px}.armor-slot-picker-art{display:grid;place-items:center;flex:0 0 48px;height:48px;border-radius:12px;border:1px solid #74533d;background:radial-gradient(circle at 30% 25%,#795b3a,#26232b 72%);font-size:27px;color:#e7b46e}.armor-slot-picker-text{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}.armor-slot-picker-text strong{font-size:16px;line-height:1.3;overflow-wrap:anywhere}.armor-slot-picker-text small{font-size:12px;color:#c9a88a}.armor-slot-picker-arrow{font-size:30px;color:#e6aa66;line-height:1}.armor-slot-picker.has-armor{border-color:#c99354;background:linear-gradient(120deg,#26232d,#38291f)}.armor-slot-picker.has-armor .armor-slot-picker-art{box-shadow:0 0 18px #e7a65c22}#armor-gallery-filters #armor-advanced{margin:0 0 15px!important;border-color:#81583b!important;background:linear-gradient(140deg,#2c211e,#1e1b20)!important}#armor-gallery-filters #armor-advanced summary{color:#ffcc90}#armor-gallery-filters #armor-advanced[open]{box-shadow:0 8px 24px #0003}#armor-gallery-filters #armor-advanced select,#armor-gallery-filters #armor-advanced input[type="search"]{font-size:16px}#armor-advanced label[for="armor-filter-search"],#armor-advanced fieldset,#armor-advanced label[for="armor-filter-set"],#armor-advanced label:has(#armor-filter-upgrades){display:none!important}#armor-advanced #armor-filter-reset{padding:10px 12px}#armor-rarity-sort{margin:0 0 14px!important}.armor-gallery-head{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;gap:10px!important;flex-wrap:nowrap!important}.armor-gallery-head h3{min-width:0!important;overflow-wrap:anywhere!important;margin:0!important}.armor-gallery-head #armor-gallery-close{justify-self:end!important;white-space:nowrap!important;max-width:100%!important;margin:0!important}@media(max-width:380px){.armor-gallery-head h3{font-size:clamp(16px,4.5vw,20px)!important}.armor-gallery-head #armor-gallery-close{padding:10px 12px!important;font-size:14px!important}}
@@ -261,9 +276,23 @@ function drawVisages(){
   if(expandedSlot!==i)continue;
   const body=el("div",{class:"visage-card-body"},card);
   el("label",{text:"Choose Ink Set"},body);
-  const inkSelect=dropdown(body,sets,"Choose Ink Set");inkSelect.value=s.ink;
-  const inkPreview=el("div",{class:"ink-set-preview"},body);inkIcon(s.ink,inkPreview);el("span",{text:s.ink},inkPreview);
-  inkSelect.addEventListener("change",()=>setSlot(i,{ink:inkSelect.value,name:"",rolls:["",""],tiers:["high","high"]}));
+  const inkPicker=el("div",{class:"ink-picker"},body);
+  const inkButton=el("button",{type:"button",class:"ink-picker-trigger","aria-expanded":"false","aria-label":"Choose Ink Set, currently "+s.ink},inkPicker);
+  const currentInk=el("span",{class:"ink-picker-choice"},inkButton);
+  inkIcon(s.ink,currentInk);
+  el("span",{class:"ink-picker-label",text:s.ink},currentInk);
+  el("span",{text:"⌄","aria-hidden":"true"},inkButton);
+  const inkList=el("div",{class:"ink-picker-list",role:"listbox","aria-label":"Ink Sets"},inkPicker);inkList.hidden=true;
+  sets.forEach(name=>{
+   const option=el("button",{type:"button",class:"ink-picker-option"+(s.ink===name?" is-selected":""),role:"option","aria-selected":String(s.ink===name)},inkList);
+   inkIcon(name,option);
+   const label=el("span",{},option);el("strong",{text:name},label);el("small",{text:"Ink Set"},label);
+   option.addEventListener("click",()=>setSlot(i,{ink:name,name:"",rolls:["",""],tiers:["high","high"]}));
+  });
+  inkButton.addEventListener("click",()=>{inkList.hidden=!inkList.hidden;inkButton.setAttribute("aria-expanded",String(!inkList.hidden))});
+  inkButton.addEventListener("keydown",e=>{if(e.key==="Escape"){inkList.hidden=true;inkButton.setAttribute("aria-expanded","false")}else if(e.key==="ArrowDown"){e.preventDefault();inkList.hidden=false;inkButton.setAttribute("aria-expanded","true");inkList.querySelector("button")?.focus()}});
+  inkList.addEventListener("keydown",e=>{if(e.key==="Escape"){inkList.hidden=true;inkButton.setAttribute("aria-expanded","false");inkButton.focus()}});
+
   el("label",{text:"Choose Visage · Name and Cost"},body);
   const choices=visageRows.filter(x=>x.inks.includes(s.ink)).sort((a,b)=>b.cost-a.cost||a.name.localeCompare(b.name));
   const picker=el("div",{class:"visage-picker"},body);
