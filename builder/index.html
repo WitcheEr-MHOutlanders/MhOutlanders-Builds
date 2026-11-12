@@ -243,7 +243,6 @@ const visageRoot=document.getElementById("visages"),resultRoot=document.getEleme
 visageRoot.className="visage-card-list";
 const slotState=Array.from({length:5},()=>({ink:"",name:"",rolls:["",""],tiers:["high","high"]}));
 let expandedSlot=0;
-let huntingMasterRankOne=false;
 const confirmedInGameVisages=new Set(["Great Jagras","Kulu-Ya-Ku","Pukei-Pukei","Great Girros","Tzitzi-Ya-Ku","Jyuratodus","Barroth","Anjanath","Tobi-Kadachi","Paolumu","Radobaan","Rathian","Rathalos","Legiana","Diablos","Odogaron","Pink Rathian","Ruger Aidal","Radiant Great Jagras","Radiant Kulu-Ya-Ku","Radiant Pukei-Pukei","Radiant Great Girros","Radiant Tzitzi-Ya-Ku","Radiant Jyuratodus","Radiant Barroth","Radiant Anjanath","Radiant Tobi-Kadachi","Radiant Paolumu","Radiant Rathian","Radiant Odogaron","Jagras","Girros","Shamos","Kestodon","Gastodon","Aptonoth","Apceros","Hornetaur","Gajau","Kelbi","Warrior Atecoli","Pitcher Atecoli","Mernos","Noios","Raphinos","Barnos"]);
 const rollOptions={"Ruger Aidal":[{id:"charge",name:"Ultimate Charge Rate",low:2.92,high:2.92},{id:"elemental",name:"Elemental Damage",low:4.27,high:4.27}]};
 const rollTemplates={
@@ -268,12 +267,6 @@ function drawVisages(){
  el("small",{text:"Equipped Visages"},equipBox);
  el("strong",{text:chosen.length+" / 5"},equipBox);
  el("small",{text:"Core + four normal"},equipBox);
- const rankControl=el("label",{class:"visage-rank-toggle"},visageRoot);
- const rankCheck=el("input",{type:"checkbox"},rankControl);rankCheck.checked=huntingMasterRankOne;
- const rankText=el("span",{},rankControl);
- el("strong",{text:"Hunting Master Rank 1 · Core Set Privilege"},rankText);
- el("small",{text:"When unlocked, the Core Visage counts as 2 pieces toward its Ink Set bonuses."},rankText);
- rankCheck.addEventListener("change",()=>{huntingMasterRankOne=rankCheck.checked;drawVisages()});
  for(let i=0;i<5;i++){
   const s=slotState[i],v=currentVisage(i);
   const card=el("div",{class:"visage-card"},visageRoot);
@@ -392,13 +385,13 @@ function drawVisages(){
   });
  }
  el("h3",{text:"Ink Set Bonuses"},resultRoot);
- const counts={};chosen.forEach(({s,i})=>{if(s.ink)counts[s.ink]=(counts[s.ink]||0)+1+(huntingMasterRankOne&&i===0?1:0)});
+ const counts={};chosen.forEach(({s,i})=>{if(s.ink)counts[s.ink]=(counts[s.ink]||0)+1+(i===0?1:0)});
  if(!chosen.length)el("p",{class:"muted",text:"No Ink Set bonuses equipped."},resultRoot);
  Object.entries(counts).sort((a,b)=>b[1]-a[1]).forEach(([name,count])=>{
   const card=el("div",{class:"visage-bonus-card"},resultRoot);
   const heading=el("div",{class:"visage-card-head"},card);
   const inkHeading=el("strong",{class:"ink-set-name"},heading);inkIcon(name,inkHeading);inkHeading.append(document.createTextNode(name));el("span",{class:"visage-cost-pill",text:count+"/4"},heading);
-  if(huntingMasterRankOne&&chosen.some(({s,i})=>i===0&&s.ink===name))el("small",{class:"visage-core-rank-note",text:"Core slot contributes 2 pieces"},card);
+  if(chosen.some(({s,i})=>i===0&&s.ink===name))el("small",{class:"visage-core-rank-note",text:"Core slot contributes 2 pieces"},card);
   [2,4].forEach((threshold,j)=>{
    const row=el("div",{class:"visage-bonus-row"},card);
    el("strong",{class:count>=threshold?"visage-good":"muted",text:(count>=threshold?"✓ ":"○ ")+threshold+"-Piece · "+(count>=threshold?"Active":"Inactive")},row);
@@ -406,7 +399,7 @@ function drawVisages(){
   });
  });
  const reset=el("button",{type:"button",class:"visage-reset",text:"↺ Reset All Visages"},resultRoot);
- reset.addEventListener("click",()=>{slotState.forEach(s=>Object.assign(s,{ink:"",name:"",rolls:["",""],tiers:["high","high"]}));expandedSlot=0;huntingMasterRankOne=false;drawVisages()});
+ reset.addEventListener("click",()=>{slotState.forEach(s=>Object.assign(s,{ink:"",name:"",rolls:["",""],tiers:["high","high"]}));expandedSlot=0;drawVisages()});
 }
 drawVisages();
 </script><script>
