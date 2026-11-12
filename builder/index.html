@@ -284,7 +284,44 @@ main :is(.visage-warning){color:#ff9a8b}
 }
 @media(prefers-reduced-motion:reduce){main :is(button,.visage-picker-trigger,.ink-picker-trigger){transition:none}}
 </style>
-</head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
+
+<style id="builder-responsive-audit-2026">
+/* Narrow-screen safety: preserve full content instead of clipping it. */
+html,body{width:100%;min-width:0}
+header,main,footer{width:100%;min-width:0;box-sizing:border-box}
+main :is(.panel,.grid,.slot,.armor-result,.armor-gallery,.armor-gallery-list,.armor-visual-card,.armor-card-content,.visage-card,.visage-card-body,.visage-overview,.visage-effect-summary,.visage-bonus-card,.ink-picker,.visage-picker){min-width:0;max-width:100%}
+main :is(.armor-result,.visage-overview,#armor-stat-totals){grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+main :is(.armor-gallery-head,.armor-actions,.visage-card-head){flex-wrap:wrap}
+main :is(.armor-card-name,.armor-card-set,.armor-card-skill,.visage-picker-info,.ink-picker-label,.visage-selected,.visage-bonus-row){overflow-wrap:anywhere}
+main :is(.armor-gallery-list,.ink-picker-list,.visage-picker-list){overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+main :is(.ink-picker-option,.visage-picker-option){min-width:0;white-space:normal}
+main :is(.ink-picker-option strong,.visage-picker-info strong){overflow-wrap:anywhere}
+main :is(.armor-gallery img,.visage-picker img,.ink-picker img){max-width:100%;object-fit:contain}
+main :is(input:not([type=checkbox]):not([type=radio]),select,textarea){min-width:0}
+@media(max-width:700px){
+ header,main,footer{padding-inline:clamp(12px,3.5vw,20px)}
+ main .panel{padding:clamp(12px,3.5vw,18px)}
+ main :is(.armor-result,.visage-overview,#armor-stat-totals){grid-template-columns:repeat(2,minmax(0,1fr))}
+ main :is(.armor-gallery-head,.armor-actions){gap:10px}
+ main :is(.armor-gallery-list,.visage-picker-list,.ink-picker-list){max-height:min(55vh,420px)}
+ main :is(button,[role=button],summary){min-height:44px}
+ main :is(input:not([type=checkbox]):not([type=radio]),select,textarea){font-size:16px}
+}
+@media(max-width:480px){
+ main :is(.armor-result,#armor-stat-totals){grid-template-columns:minmax(0,1fr)}
+ main .visage-overview{grid-template-columns:repeat(2,minmax(0,1fr))}
+ main .armor-visual-card{grid-template-columns:minmax(54px,68px) minmax(0,1fr);gap:10px}
+ main :is(.visage-card-body,.armor-gallery){padding:12px}
+ main :is(.ink-picker-option,.visage-picker-option){padding:9px;gap:9px}
+ main :is(.ink-picker-option .ink-set-icon,.visage-picker-placeholder){width:42px;height:42px;min-width:42px;flex-basis:42px}
+ main :is(.armor-actions button,#armor-unequip-all){white-space:normal}
+}
+@media(max-width:350px){
+ main .visage-overview{grid-template-columns:minmax(0,1fr)}
+ main .armor-visual-card{grid-template-columns:54px minmax(0,1fr)}
+ main .visage-card-head{align-items:flex-start}
+}
+</style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
 
 <main><p class="pill">FREE · INTERACTIVE BUILDER</p><h1>🔥 Build your hunter</h1><p class="muted">Choose your equipment and five Visages. Matching Ink sets activate automatically. No account needed.</p>
 <section class="panel"><h2>⚔ Equipment</h2><div class="grid" id="equipment"></div><div id="armor-home"></div></section>
