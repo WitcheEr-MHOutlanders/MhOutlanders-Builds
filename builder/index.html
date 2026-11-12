@@ -467,14 +467,6 @@ function drawVisages(){
     }
    }
   }else el("p",{class:"muted visage-pending",text:"Possible effect values awaiting confirmation for this Visage."},body);
-  if(v.cost>1&&v.effect){
-   const core=el("div",{class:"visage-core-panel"},body);
-   const title=el("div",{class:"visage-card-head"},core);
-   el("strong",{text:"✧ Core Effect"},title);
-   if(i!==0)el("span",{class:"visage-inactive-pill",text:"Inactive"},title);
-   el("p",{text:v.effect},core);
-   el("small",{text:i===0?"Core slot only; combat conditions still apply.":"Core Effects activate only in Slot 1."},core);
-  }
  }
  const totalEffects={};
  chosen.forEach(({s,v})=>s.rolls.forEach((id,j)=>{const x=(rollOptions[v.name]||[]).find(x=>x.id===id);if(x)totalEffects[x.name]=(totalEffects[x.name]||0)+rollValue(x,(s.tiers||[])[j])}));
@@ -508,6 +500,14 @@ function drawVisages(){
    el("p",{class:"muted",text:inkBonuses[name][j]},row);
   });
  });
+ const coreVisage=chosen.find(({i,v})=>i===0&&v.cost>1&&v.effect);
+ if(coreVisage){
+  const core=el("div",{class:"visage-bonus-card visage-core-panel"},inkBonusRoot);
+  const title=el("div",{class:"visage-card-head"},core);
+  el("strong",{text:"✧ Core Effect"},title);
+  el("p",{text:coreVisage.v.effect},core);
+  el("small",{text:"Core slot only; combat conditions still apply."},core);
+ }
  }
  const reset=el("button",{type:"button",class:"visage-reset",text:"↺ Reset All Visages"},resultRoot);
  reset.addEventListener("click",()=>{slotState.forEach(s=>Object.assign(s,{ink:"",name:"",rolls:["",""],tiers:["high","high"]}));expandedSlot=0;drawVisages()});
