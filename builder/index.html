@@ -336,6 +336,36 @@ main :is(input:not([type=checkbox]):not([type=radio]),select,textarea){min-width
 #armor-slots .armor-slot-picker-arrow{color:var(--builder-accent,#ffb568)}
 #armor-slots .armor-slot-picker-art{border-color:var(--builder-border-strong,#aa774c);background-color:var(--builder-control,#302724)}
 @media(max-width:420px){.equipped-armor-heading{align-items:flex-start}.equipped-armor-heading h3{font-size:19px}#armor-unequip-all{font-size:13px;padding:10px 12px}}
+</style><style id="builder-reset-button-theme">
+/* Match the existing Copy armor build button without changing reset behavior. */
+main #armor-unequip-all,
+main button.visage-reset{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ width:auto;
+ max-width:100%;
+ min-height:46px;
+ margin:0;
+ padding:12px 18px;
+ background:#ee852d;
+ border:1px solid #ee852d;
+ border-radius:11px;
+ color:#17110d;
+ font-family:inherit;
+ font-size:14px;
+ font-weight:700;
+ line-height:1.35;
+ text-align:center;
+ cursor:pointer;
+ box-shadow:none;
+}
+main button.visage-reset{margin-top:18px}
+main #armor-unequip-all:hover,
+main button.visage-reset:hover{background:#ff9a43;border-color:#ff9a43;color:#17110d}
+main #armor-unequip-all:active,
+main button.visage-reset:active{background:#d97322;border-color:#d97322}
+@media(max-width:420px){main #armor-unequip-all,main button.visage-reset{padding:11px 14px;font-size:13px}}
 </style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
 
 <main><p class="pill">FREE · INTERACTIVE BUILDER</p><h1>🔥 Build your hunter</h1><p class="muted">Choose your equipment and five Visages. Matching Ink sets activate automatically. No account needed.</p>
