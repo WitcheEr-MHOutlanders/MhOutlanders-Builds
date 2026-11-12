@@ -426,10 +426,16 @@ main button.visage-reset:active{background:#d97322;border-color:#d97322}
  .ink-picker-option .ink-set-icon,.ink-picker-trigger .ink-set-icon,.ink-picker-choice .ink-set-icon{flex-basis:42px;width:42px;height:42px;min-width:42px;padding:2px}
 }
 </style><style id="ink-optical-alignment">
-/* Optical alignment for artwork with uneven transparent padding. */
-.ink-set-icon--frost{object-position:52% 50%!important}
-.ink-set-icon--combat{object-position:50% 52%!important}
-.ink-set-icon--protection{object-position:50% 48%!important}
+/* Align the artwork INSIDE its tile. object-position did not move square images. 
+   Unequal inner padding shifts the visible symbol without shifting its border. */
+.ink-set-icon--frost{padding:3px 1px 3px 5px!important;object-position:center!important}
+.ink-set-icon--combat{padding:5px 3px 1px 3px!important;object-position:center!important}
+.ink-set-icon--protection{padding:1px 3px 5px 3px!important;object-position:center!important}
+@media(max-width:420px){
+ .ink-set-icon--frost{padding:2px 0 2px 4px!important}
+ .ink-set-icon--combat{padding:4px 2px 0 2px!important}
+ .ink-set-icon--protection{padding:0 2px 4px 2px!important}
+}
 </style></head><body><a class="site-skip-link" href="#main">Skip to content</a><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
 
 <main id="main"><p class="pill">FREE · INTERACTIVE BUILDER</p><h1>🔥 Build your hunter</h1><p class="muted">Choose your equipment and five Visages. Matching Ink sets activate automatically. No account needed.</p>
