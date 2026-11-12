@@ -584,7 +584,7 @@ function paintArmorCards(){
   const equip=node("button",equipped?"✓":"○",card,"armor-equip");
   equip.type="button";
   equip.setAttribute("aria-label",(equipped?"Unequip ":"Equip ")+p.name);
-  equip.addEventListener("click",()=>{selected[gallerySlot]=equipped?"":p.id;refreshChoices();slotSelectors[gallerySlot].dispatchEvent(new Event("change"));paintArmorCards()});
+  equip.addEventListener("click",()=>{const slotIndex=gallerySlot;selected[slotIndex]=equipped?"":p.id;refreshChoices();slotSelectors[slotIndex].dispatchEvent(new Event("change"));if(!equipped){gallery.hidden=true;gallerySlot=-1}else{paintArmorCards()}});
   const stats=node("div",null,content,"armor-card-stats");
   const power=node("span",null,stats,"armor-stat");power.textContent="Adventurer Power ";node("b",p.adventurer_power==null?"—":String(p.adventurer_power),power);
   const defense=node("span",null,stats,"armor-stat");defense.textContent="Defense ";node("b",p.defense==null?"—":String(p.defense),defense);
