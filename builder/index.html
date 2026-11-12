@@ -764,16 +764,6 @@ render();
   if(!timestamp||!Number.isFinite(Date.parse(timestamp)))throw new Error("Missing timestamp");
   const formatted=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",month:"long",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit",hour12:true,timeZoneName:"short"}).format(new Date(timestamp));
   label.textContent="Last updated: "+formatted;
-  if(latest.html_url){
-   const link=document.createElement("a");
-   link.href=latest.html_url;
-   link.target="_blank";
-   link.rel="noopener noreferrer";
-   link.textContent="View update";
-   link.style.cssText="color:#ffce91;text-decoration:underline;text-underline-offset:3px;margin-left:5px";
-   label.appendChild(document.createTextNode(" · "));
-   label.appendChild(link);
-  }
  }catch(_error){label.textContent="Last updated: temporarily unavailable";}
 })();
 </script></body></html>
