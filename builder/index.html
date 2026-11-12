@@ -518,13 +518,35 @@ function drawVisages(){
  }
  const totalEffects={};
  chosen.forEach(({s,v})=>s.rolls.forEach((id,j)=>{const x=(rollOptions[v.name]||[]).find(x=>x.id===id);if(x)totalEffects[x.name]=(totalEffects[x.name]||0)+rollValue(x,(s.tiers||[])[j])}));
+ // Unconditional two-piece Ink bonuses are always active once the threshold is reached.
+ // Element-specific bonuses remain separate from generic Elemental Damage because
+ // their applicability depends on the equipped weapon's element.
+ const inkTwoPieceEffects={
+  "Ink of Might":"Physical Damage",
+  "Ink of Flames":"Fire Damage",
+  "Ink of Water":"Water Damage",
+  "Ink of Thunder":"Thunder Damage",
+  "Ink of Combat":"Affinity",
+  "Ink of Guidance":"Ultimate Charge Rate",
+  "Ink of Grace":"Ultimate Charge Rate",
+  "Ink of Protection":"Ultimate Charge Rate",
+  "Ink of Dragon":"Dragon Damage",
+  "Ink of Resonance":"Affinity",
+  "Ink of Frost":"Ice Damage"
+ };
+ const inkCounts={};
+ chosen.forEach(({s,i})=>{if(s.ink)inkCounts[s.ink]=(inkCounts[s.ink]||0)+1+(i===0?1:0)});
+ Object.entries(inkCounts).forEach(([inkName,count])=>{
+  const stat=inkTwoPieceEffects[inkName];
+  if(count>=2&&stat)totalEffects[stat]=(totalEffects[stat]||0)+5;
+ });
  resultRoot.replaceChildren();
  const inkBonusRoot=document.getElementById("combined-ink-set-bonuses");
  if(inkBonusRoot)inkBonusRoot.replaceChildren();
  const armorEffects=document.getElementById("armor-visage-effects");
  if(armorEffects){
   armorEffects.replaceChildren();
-  el("h2",{class:"combined-results-heading",text:"Combined Selected Visage Effects"},armorEffects);
+  el("h2",{class:"combined-results-heading",text:"Combined Visage Effects & Active Ink Bonuses"},armorEffects);
   const totalsGrid=el("div",{class:"armor-stat-totals visage-stat-totals"},armorEffects);
   const visibleEffects=["Elemental Damage","Ultimate Charge Rate","Affinity",...Object.keys(totalEffects).filter(name=>!["Elemental Damage","Ultimate Charge Rate","Affinity"].includes(name))];
   visibleEffects.forEach(name=>{
@@ -535,7 +557,7 @@ function drawVisages(){
  }
  if(inkBonusRoot){
  el("h2",{class:"combined-results-heading",text:"Ink Set Bonuses"},inkBonusRoot);
- const counts={};chosen.forEach(({s,i})=>{if(s.ink)counts[s.ink]=(counts[s.ink]||0)+1+(i===0?1:0)});
+ const counts=inkCounts;
  if(!chosen.length)el("p",{class:"muted",text:"No Ink Set bonuses equipped."},inkBonusRoot);
  Object.entries(counts).sort((a,b)=>b[1]-a[1]).forEach(([name,count])=>{
   const card=el("div",{class:"visage-bonus-card"},inkBonusRoot);
