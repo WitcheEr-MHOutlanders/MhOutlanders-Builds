@@ -436,7 +436,7 @@ document.getElementById("armor-import").addEventListener("change",async e=>{cons
 document.getElementById("armor-export").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(pieces,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="outlanders-armor-database.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
 const slots=["Head armor","Body armor","Arm armor","Waist armor","Leg armor"],store="outlanders-armor-builder-v3";
 let saved={};try{saved=JSON.parse(localStorage.getItem(store)||"{}")||{}}catch{}
-let selected=Array.isArray(saved.selected)&&saved.selected.length===5?saved.selected:["helm","mail","arms","waist","legs"];
+let selected=["","","","",""];
 const toggle=document.getElementById("armor-r10");toggle.checked=saved.r10!==false;
 const root=document.getElementById("armor-slots"),results=document.getElementById("armor-skills"),bonuses=document.getElementById("armor-bonuses");
 function node(tag,txt,parent,cls){const e=document.createElement(tag);if(txt!==null)e.textContent=txt;if(cls)e.className=cls;parent.append(e);return e}
@@ -448,7 +448,7 @@ selected.forEach(id=>{const p=pieces.find(x=>x.id===id);if(!p)return;count++;if(
 for(const [label,value,known,icon] of [["Total Defense",defenseTotal,defenseKnown,"🛡"],["Total Adventurer Power",powerTotal,powerKnown,"⚡"]]){const card=node("div",null,statTotals,"armor-total-card");node("span",icon+" "+label,card,"armor-total-label");node("strong",known?value.toLocaleString():"Incomplete",card,"armor-total-value");}if(!count){node("p","Choose armor to see skill totals.",results,"muted")}else Object.entries(totals).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).forEach(([name,value])=>{const c=node("div",null,results,"armor-skill");const label=node("div",null,c);const icon=makePdfSkillIcon(name);if(icon)label.append(icon);label.append(document.createTextNode(name));node("b",value+"/"+(limits[name]||"?"),c)});
 for(const s of setData){const n=setCounts[s.name]||0,b=s.bonus;if(!b||n<b.required_pieces)continue;const d=node("div",null,bonuses,"status active");node("strong",b.name+" · "+b.required_pieces+"-piece bonus",d);node("p",b.effect||"",d);if(b.skill_bonus){const [skill,value]=b.skill_bonus;node("small",skill+" including set bonus: "+((totals[skill]||0)+value),d)}}
 
-try{localStorage.setItem(store,JSON.stringify({selected,r10:toggle.checked}))}catch{}
+try{localStorage.setItem(store,JSON.stringify({r10:toggle.checked}))}catch{}
 }
 const filterSearch=document.getElementById("armor-filter-search"),filterSet=document.getElementById("armor-filter-set"),filterSkill=document.getElementById("armor-filter-skill"),filterUpgrades=document.getElementById("armor-filter-upgrades"),filterCount=document.getElementById("armor-filter-count");
 let filterType="All";
