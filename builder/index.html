@@ -410,12 +410,21 @@ main button.visage-reset:active{background:#d97322;border-color:#d97322}
 #visages .visage-card-toggle{padding:17px 16px}
 @media(max-width:420px){#visages .visage-card-toggle>.visage-card-head:first-child{font-size:17px}#visages .visage-card-toggle>.visage-card-head:nth-child(2) strong{font-size:18px}}
 </style><style id="ink-icon-clarity">
-/* Show the authentic low-resolution Ink artwork near native size, not stretched to 48px. */
-.ink-picker-option .ink-set-icon{width:36px;height:36px;min-width:36px;object-fit:contain;border-radius:6px;background:#302a28;border:1px solid #6f5544;box-shadow:0 1px 4px #0006}
-.ink-picker-option{gap:12px;min-height:60px;padding:9px 12px}
-.ink-picker-trigger .ink-set-icon{width:32px;height:32px;min-width:32px;object-fit:contain;background:#302a28;border:1px solid #76543e;border-radius:6px}
-.ink-set-preview .ink-set-icon,.visage-card-toggle .ink-set-icon{width:28px;height:28px;min-width:28px;object-fit:contain}
-@media(max-width:420px){.ink-picker-option .ink-set-icon{width:34px;height:34px;min-width:34px}.ink-picker-option{min-height:58px;gap:10px}}
+/* Redesigned Ink Set art: centered square icon tiles with consistent spacing. */
+.ink-picker-option{gap:14px;min-height:70px;padding:9px 13px;box-sizing:border-box}
+.ink-picker-option .ink-set-icon,.ink-picker-trigger .ink-set-icon,.ink-picker-choice .ink-set-icon{
+ box-sizing:border-box;display:block;flex:0 0 46px;width:46px;height:46px;min-width:46px;
+ object-fit:contain;object-position:center;padding:3px;border-radius:10px;
+ background:#171315;border:1px solid #9b6946;box-shadow:inset 0 0 0 1px #ffffff0b,0 2px 6px #0008;
+}
+.ink-picker-choice{align-items:center;gap:13px}
+.ink-picker-option strong{font-size:15px;line-height:1.35}
+.ink-picker-option small{line-height:1.4}
+.ink-set-preview .ink-set-icon,.visage-card-toggle .ink-set-icon{box-sizing:border-box;width:32px;height:32px;min-width:32px;object-fit:contain;object-position:center;border:1px solid #866041;border-radius:7px;padding:2px;background:#171315}
+@media(max-width:420px){
+ .ink-picker-option{gap:11px;min-height:66px;padding:8px 10px}
+ .ink-picker-option .ink-set-icon,.ink-picker-trigger .ink-set-icon,.ink-picker-choice .ink-set-icon{flex-basis:42px;width:42px;height:42px;min-width:42px;padding:2px}
+}
 </style></head><body><nav class="unified-nav" aria-label="Site menu"><a class="arsenal-brand" href="../"><span class="brand-mark">⚔</span><span>OUTLANDERS ARSENAL</span></a><details><summary aria-label="Open navigation menu" title="Menu">☰</summary><div class="menu-links"><a href="../">Home</a><a href="../builder/" aria-current="page">Builder</a><a href="../builds/">Build Library</a><a href="../guide/">Guides</a></div></details></nav>
 
 <main><p class="pill">FREE · INTERACTIVE BUILDER</p><h1>🔥 Build your hunter</h1><p class="muted">Choose your equipment and five Visages. Matching Ink sets activate automatically. No account needed.</p>
