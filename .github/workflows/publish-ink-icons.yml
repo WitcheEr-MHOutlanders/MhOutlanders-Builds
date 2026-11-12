@@ -1,0 +1,32 @@
+name: Publish transparent Ink Set icons
+on:
+  push:
+    paths:
+      - scripts/build_ink_pngs.py
+      - .github/workflows/publish-ink-icons.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build-icons:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install image processing dependencies
+        run: python -m pip install pillow numpy
+      - name: Generate symbol-only transparent PNG icons and update Builder
+        run: python scripts/build_ink_pngs.py
+      - name: Commit and publish icons
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add builder/index.html assets/ink-sets/ink-*.png
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish transparent Ink icons with single Builder frame"
+            git push
+          fi
