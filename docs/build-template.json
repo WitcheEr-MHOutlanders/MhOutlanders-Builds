@@ -4,11 +4,35 @@
   "summary": "Brief description supported by the screenshots or user.",
   "weapon": "Exact weapon name from source",
   "weapon_type": "Weapon type from source",
-  "armor": ["Head: exact item name", "Chest: exact item name"],
-  "skills": ["Exact skill name — visible level (label targets separately)"],
+  "armor": [
+    "Head: exact item name",
+    "Chest: exact item name"
+  ],
+  "skills": [
+    "Exact skill name — visible level (label targets separately)"
+  ],
   "rotation": [],
-  "notes": ["List source limitations or user-confirmed advice here."],
+  "notes": [
+    "List source limitations or user-confirmed advice here."
+  ],
   "screenshots": [
-    {"file": "loadout.png", "alt": "Describe the visible equipment and skills", "caption": "Equipment screenshot supplied by the build author."}
-  ]
+    {
+      "file": "loadout.png",
+      "alt": "Describe the visible equipment and skills",
+      "caption": "Equipment screenshot supplied by the build author."
+    }
+  ],
+  "footer_navigation": {
+    "back_to_library": {
+      "label": "← Back to Build Library",
+      "href": "../"
+    },
+    "feedback": {
+      "label": "Feedback",
+      "href": "../../community/",
+      "required": true,
+      "placement": "At the end of every individual build page, beside Back to Build Library",
+      "note": "For builds/<slug>/index.html use ../../community/. For builds/<slug>.html use ../community/."
+    }
+  }
 }
