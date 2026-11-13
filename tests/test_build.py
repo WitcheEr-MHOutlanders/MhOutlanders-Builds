@@ -27,7 +27,10 @@ class BuildTests(unittest.TestCase):
         page = result[builder.ROOT / 'builds/test-build.html']
         library = result[builder.ROOT / 'builds/index.html']
         self.assertIn('test-build.html', library)
-        self.assertIn('../index.html', library)
+        self.assertNotIn('Inferno Heavy Bowgun', library)
+        self.assertIn('Feedback in Hunter Community', page)
+        self.assertIn('../community/', page)
+        self.assertIn('Back to Build Library', page)
         self.assertNotIn('<script>bad</script>', page)
         self.assertIn('&lt;script&gt;bad&lt;/script&gt;', page)
         self.assertIn('../assets/builds/test-build/loadout.png', page)
