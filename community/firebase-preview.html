@@ -18,7 +18,7 @@ import {initializeApp} from "https://www.gstatic.com/firebasejs/11.10.0/firebase
 import {getAuth,onAuthStateChanged,GoogleAuthProvider,GithubAuthProvider,signInWithPopup,signInWithEmailAndPassword,createUserWithEmailAndPassword,sendPasswordResetEmail,signOut} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import {getFirestore,collection,query,where,orderBy,limit,startAfter,getDocs,addDoc,updateDoc,deleteDoc,doc,serverTimestamp} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 const config={apiKey:"AIzaSyDRMFTUz7ikT5TR9rIUnviw9nyVfEzIeOQ",authDomain:"outlanders-arsenal.firebaseapp.com",projectId:"outlanders-arsenal",storageBucket:"outlanders-arsenal.firebasestorage.app",messagingSenderId:"944666716790",appId:"1:944666716790:web:31a00430031237f664cd57"};
-const OWNER_UID=""; // Set to the owner's Firebase Authentication UID after first sign-in.
+const OWNER_UID="i1uYMs2JQlMXWFTHKWen8zgbAwJ3"; // Set to the owner's Firebase Authentication UID after first sign-in.
 window.__firebasePreviewReady=true;document.getElementById("auth-status").textContent="Login is ready. Choose a sign-in method.";const app=initializeApp(config),auth=getAuth(app),db=getFirestore(app),posts=collection(db,"communityComments");
 const $=id=>document.getElementById(id);let user=null,last=null,loading=false;
 const status=(id,msg,err=false)=>{const e=$(id);e.textContent=msg;e.className=err?"error":"muted"};
