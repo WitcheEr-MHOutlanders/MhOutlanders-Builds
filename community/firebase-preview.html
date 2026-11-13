@@ -7,13 +7,19 @@
 <section class="panel"><h2>Hunter Account</h2><div id="signed-out"><div class="row"><button id="google">Continue with Google</button><button id="github">Continue with GitHub</button></div><form id="email-form"><label>Email address<input id="email" type="email" autocomplete="email" required></label><label>Password<input id="password" type="password" minlength="6" autocomplete="current-password" required></label><div class="row"><button type="submit" id="login">Sign in</button><button type="button" id="signup" class="secondary">Create account</button><button type="button" id="reset" class="secondary">Reset password</button></div></form></div><div id="signed-in" class="hidden"><p>Signed in as <strong id="who"></strong> <span id="owner-tag" class="hidden">👑 Owner</span></p><button id="logout" class="secondary">Sign out</button></div><p id="auth-status" role="status" aria-live="polite"></p></section>
 <section class="panel"><h2>💬 Hunter Comments</h2><form id="post-form" class="hidden"><label>Share a thought<textarea id="message" maxlength="2000" required placeholder="Suggestions, build ideas, bug reports..."></textarea></label><button type="submit">Post comment</button></form><p id="login-hint" class="muted">Sign in to post or reply. Everyone can read the discussion.</p><p id="comments-status" role="status" aria-live="polite"></p><div id="comments"></div><button id="more" class="secondary hidden">Load more comments</button></section>
 <p><a href="./">← Back to the existing Community and Giscus discussion</a></p></main><footer>Outlanders Arsenal · Built for hunters, by hunters</footer>
+<script>
+window.__firebasePreviewReady=false;
+window.addEventListener("error",function(e){const t=document.getElementById("auth-status");if(t&&!window.__firebasePreviewReady){t.textContent="Login code failed to load: "+(e.message||"A browser script was blocked. Try refreshing or disabling extensions for this site.");t.className="error"}});
+window.addEventListener("unhandledrejection",function(e){const t=document.getElementById("auth-status");if(t){t.textContent="Login setup error: "+(e.reason?.message||String(e.reason));t.className="error"}});
+document.addEventListener("DOMContentLoaded",()=>{const t=document.getElementById("auth-status");t.textContent="Loading Firebase login…";setTimeout(()=>{if(!window.__firebasePreviewReady){t.textContent="Firebase login did not finish loading. Press Ctrl+Shift+R, or try a private window without extensions.";t.className="error"}},7000)});
+</script>
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import {getAuth,onAuthStateChanged,GoogleAuthProvider,GithubAuthProvider,signInWithPopup,signInWithEmailAndPassword,createUserWithEmailAndPassword,sendPasswordResetEmail,signOut} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import {getFirestore,collection,query,where,orderBy,limit,startAfter,getDocs,addDoc,updateDoc,deleteDoc,doc,serverTimestamp} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 const config={apiKey:"AIzaSyDRMFTUz7ikT5T9rIUnviw9nyVfEzIe0Q",authDomain:"outlanders-arsenal.firebaseapp.com",projectId:"outlanders-arsenal",storageBucket:"outlanders-arsenal.firebasestorage.app",messagingSenderId:"944666716790",appId:"1:944666716790:web:31a00430031237f664cd57"};
 const OWNER_UID=""; // Set to the owner's Firebase Authentication UID after first sign-in.
-const app=initializeApp(config),auth=getAuth(app),db=getFirestore(app),posts=collection(db,"communityComments");
+window.__firebasePreviewReady=true;document.getElementById("auth-status").textContent="Login is ready. Choose a sign-in method.";const app=initializeApp(config),auth=getAuth(app),db=getFirestore(app),posts=collection(db,"communityComments");
 const $=id=>document.getElementById(id);let user=null,last=null,loading=false;
 const status=(id,msg,err=false)=>{const e=$(id);e.textContent=msg;e.className=err?"error":"muted"};
 const isOwner=()=>Boolean(user&&OWNER_UID&&user.uid===OWNER_UID);
