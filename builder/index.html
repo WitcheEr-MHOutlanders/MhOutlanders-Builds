@@ -479,13 +479,19 @@ const rollTemplates={
  4:[{id:"affinity",name:"Affinity",low:1.75,high:3.51},{id:"charge",name:"Ultimate Charge Rate",low:1.81,high:3.62}]
 };
 // Verified Level 10 values only; do not estimate unconfirmed rolls.
+const rugerLevel10Rolls={charge:5.80,elemental:8.50};
 const level10Rolls={
  1:{affinity:{low:1.81,high:3.64},charge:{low:1.81,high:3.61},elemental:{low:3.09,high:6.26}},
  3:{elemental:{low:4.87}},
  4:{charge:{high:7.22}}
 };
 visageRows.forEach(v=>{if(!rollOptions[v.name])rollOptions[v.name]=rollTemplates[v.cost].map(x=>({...x}))});
-function rollValue(x,tier,cost){
+function rollValue(x,tier,cost,visageName){
+ if(visageName==="Ruger Aidal"){
+  if(tier==="high")return x.high;
+  if(tier==="high-10")return rugerLevel10Rolls[x.id]??null;
+  return null;
+ }
  const isLevel10=typeof tier==="string"&&tier.endsWith("-10");
  if(!["low","high","low-10","high-10"].includes(tier))return null;
  const baseTier=tier.startsWith("low")?"low":"high";
@@ -597,33 +603,33 @@ function drawVisages(){
     el("option",{value:"",text:"Choose effect"},rollSelect);
     available.forEach(x=>el("option",{value:x.id,text:x.name},rollSelect));
     rollSelect.value=s.rolls[j];
-    rollSelect.addEventListener("change",()=>{s.rolls[j]=rollSelect.value;s.tiers[j]=v.name==="Ruger Aidal"&&rollSelect.value?"high":"";const complete=v.name==="Ruger Aidal"&&s.rolls.every((id,k)=>id&&s.tiers[k]==="high");if(complete)expandedSlot=-1;drawVisages();if(complete){const closedCard=visageRoot.querySelectorAll(".visage-card")[i];if(closedCard)closedCard.scrollIntoView({block:"nearest",behavior:"instant"});}});
+    rollSelect.addEventListener("change",()=>{s.rolls[j]=rollSelect.value;s.tiers[j]="";const complete=false;if(complete)expandedSlot=-1;drawVisages();if(complete){const closedCard=visageRoot.querySelectorAll(".visage-card")[i];if(closedCard)closedCard.scrollIntoView({block:"nearest",behavior:"instant"});}});
     const choice=available.find(x=>x.id===s.rolls[j]);
     if(choice){
-     if(v.name!=="Ruger Aidal"){
+     {
      const tierButtons=el("div",{class:"visage-roll-buttons"},body);
-     [{id:"low",label:"Base Low Roll"},{id:"high",label:"Base High Roll"},{id:"low-10",label:"Base Low Roll Level 10"},{id:"high-10",label:"Base High Roll Level 10"}].forEach(tier=>{
-      const confirmed=rollValue(choice,tier.id,v.cost);
+     (v.name==="Ruger Aidal"?[{id:"high",label:"Base High Roll"},{id:"high-10",label:"Base High Roll Level 10"}]:[{id:"low",label:"Base Low Roll"},{id:"high",label:"Base High Roll"},{id:"low-10",label:"Base Low Roll Level 10"},{id:"high-10",label:"Base High Roll Level 10"}]).forEach(tier=>{
+      const confirmed=rollValue(choice,tier.id,v.cost,v.name);
       const btn=el("button",{type:"button",class:"visage-roll-button"+((s.tiers||[])[j]===tier.id?" selected":"")},tierButtons);
       el("span",{class:"visage-roll-label",text:tier.label},btn);
       el("strong",{class:"visage-roll-value",text:confirmed===null?"Not confirmed":confirmed.toFixed(2)+"%"},btn);
       btn.setAttribute("aria-pressed",String((s.tiers||[])[j]===tier.id));
       btn.disabled=confirmed===null;
       if(btn.disabled)btn.title="Level 10 value not yet confirmed";
-      btn.addEventListener("click",()=>{if(btn.disabled)return;if(!s.tiers)s.tiers=["",""];s.tiers[j]=tier.id;const completed=s.rolls.every((id,k)=>id&&s.tiers[k]&&available.some(effect=>effect.id===id&&rollValue(effect,s.tiers[k],v.cost)!==null));if(completed)expandedSlot=-1;drawVisages();if(completed){const closedCard=visageRoot.querySelectorAll(".visage-card")[i];if(closedCard)closedCard.scrollIntoView({block:"nearest",behavior:"instant"});}});
+      btn.addEventListener("click",()=>{if(btn.disabled)return;if(!s.tiers)s.tiers=["",""];s.tiers[j]=tier.id;const completed=s.rolls.every((id,k)=>id&&s.tiers[k]&&available.some(effect=>effect.id===id&&rollValue(effect,s.tiers[k],v.cost,v.name)!==null));if(completed)expandedSlot=-1;drawVisages();if(completed){const closedCard=visageRoot.querySelectorAll(".visage-card")[i];if(closedCard)closedCard.scrollIntoView({block:"nearest",behavior:"instant"});}});
      });
      }
      const line=el("div",{class:"visage-summary-row"},body);
      el("span",{text:"Selected effect value"},line);
      const selectedTier=(s.tiers||[])[j];
-     const selectedValue=rollValue(choice,v.name==="Ruger Aidal"?"high":selectedTier,v.cost);
-     el("strong",{text:v.name==="Ruger Aidal"?"Fixed Base High Roll · +"+selectedValue.toFixed(2)+"%":!selectedTier?"Choose a roll":selectedValue===null?"Not yet confirmed":"+"+selectedValue.toFixed(2)+"%"},line);
+     const selectedValue=rollValue(choice,selectedTier,v.cost,v.name);
+     el("strong",{text:!selectedTier?"Choose a roll":selectedValue===null?"Not yet confirmed":"+"+selectedValue.toFixed(2)+"%"},line);
     }
    }
   }else el("p",{class:"muted visage-pending",text:"Possible effect values awaiting confirmation for this Visage."},body);
  }
  const totalEffects={};
- chosen.forEach(({s,v})=>s.rolls.forEach((id,j)=>{const x=(rollOptions[v.name]||[]).find(x=>x.id===id);if(x){const val=rollValue(x,v.name==="Ruger Aidal"?"high":(s.tiers||[])[j],v.cost);if(val!==null)totalEffects[x.name]=(totalEffects[x.name]||0)+val}}));
+ chosen.forEach(({s,v})=>s.rolls.forEach((id,j)=>{const x=(rollOptions[v.name]||[]).find(x=>x.id===id);if(x){const val=rollValue(x,(s.tiers||[])[j],v.cost,v.name);if(val!==null)totalEffects[x.name]=(totalEffects[x.name]||0)+val}}));
  // Unconditional two-piece Ink bonuses are always active once the threshold is reached.
  // Element-specific bonuses remain separate from generic Elemental Damage because
  // their applicability depends on the equipped weapon's element.
