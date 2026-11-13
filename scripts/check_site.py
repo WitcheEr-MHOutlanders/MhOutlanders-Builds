@@ -61,6 +61,20 @@ def check():
                 continue
             if not target.is_file():
                 errors.append(f"{relative}: missing local target: {ref}")
+    # All published build detail pages should include both navigation actions.
+    for page in sorted((ROOT / "builds").rglob("*.html")):
+        if page == ROOT / "builds/index.html":
+            continue
+        content = page.read_text(encoding="utf-8")
+        relative = page.relative_to(ROOT)
+        if "Back to Build Library" not in content:
+            errors.append(f"{relative}: missing Back to Build Library action")
+        if "Feedback" not in content or "community/" not in content:
+            errors.append(f"{relative}: missing Feedback to Community action")
+    for section in ("index.html", "builder/index.html", "builds/index.html", "guide/index.html", "community/index.html"):
+        content = (ROOT / section).read_text(encoding="utf-8")
+        if 'class="unified-nav"' not in content or 'aria-label="Open navigation menu"' not in content:
+            errors.append(f"{section}: missing shared mobile navigation")
     if errors:
         raise SystemExit("Site validation failed:\n" + "\n".join(errors))
     print(f"Validated {len(pages)} HTML pages: local links, image references, IDs, viewport and image alt.")
