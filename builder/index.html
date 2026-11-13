@@ -603,7 +603,7 @@ function drawVisages(){
     el("option",{value:"",text:"Choose effect"},rollSelect);
     available.forEach(x=>el("option",{value:x.id,text:x.name},rollSelect));
     rollSelect.value=s.rolls[j];
-    rollSelect.addEventListener("change",()=>{s.rolls[j]=rollSelect.value;s.tiers[j]="";const complete=false;if(complete)expandedSlot=-1;drawVisages();if(complete){const closedCard=visageRoot.querySelectorAll(".visage-card")[i];if(closedCard)closedCard.scrollIntoView({block:"center",behavior:"smooth"});}});
+    rollSelect.addEventListener("change",()=>{s.rolls[j]=rollSelect.value;s.tiers[j]="";const complete=false;if(complete)expandedSlot=-1;drawVisages();if(complete){const cards=visageRoot.querySelectorAll(".visage-card");const scrollTarget=i===0?cards[1]:cards[i];if(scrollTarget)scrollTarget.scrollIntoView({block:"center",behavior:"smooth"});}});
     const choice=available.find(x=>x.id===s.rolls[j]);
     if(choice){
      {
@@ -616,7 +616,7 @@ function drawVisages(){
       btn.setAttribute("aria-pressed",String((s.tiers||[])[j]===tier.id));
       btn.disabled=confirmed===null;
       if(btn.disabled)btn.title="Level 10 value not yet confirmed";
-      btn.addEventListener("click",()=>{if(btn.disabled)return;if(!s.tiers)s.tiers=["",""];s.tiers[j]=tier.id;const completed=s.rolls.every((id,k)=>id&&s.tiers[k]&&available.some(effect=>effect.id===id&&rollValue(effect,s.tiers[k],v.cost,v.name)!==null));if(completed)expandedSlot=-1;drawVisages();if(completed){const closedCard=visageRoot.querySelectorAll(".visage-card")[i];if(closedCard)closedCard.scrollIntoView({block:"center",behavior:"smooth"});}});
+      btn.addEventListener("click",()=>{if(btn.disabled)return;if(!s.tiers)s.tiers=["",""];s.tiers[j]=tier.id;const completed=s.rolls.every((id,k)=>id&&s.tiers[k]&&available.some(effect=>effect.id===id&&rollValue(effect,s.tiers[k],v.cost,v.name)!==null));if(completed)expandedSlot=-1;drawVisages();if(completed){const cards=visageRoot.querySelectorAll(".visage-card");const scrollTarget=i===0?cards[1]:cards[i];if(scrollTarget)scrollTarget.scrollIntoView({block:"center",behavior:"smooth"});}});
      });
      }
      const line=el("div",{class:"visage-summary-row"},body);
