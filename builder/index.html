@@ -610,7 +610,7 @@ function drawVisages(){
       btn.setAttribute("aria-pressed",String((s.tiers||[])[j]===tier.id));
       btn.disabled=confirmed===null;
       if(btn.disabled)btn.title="Level 10 value not yet confirmed";
-      btn.addEventListener("click",()=>{if(btn.disabled)return;if(!s.tiers)s.tiers=["",""];s.tiers[j]=tier.id;drawVisages()});
+      btn.addEventListener("click",()=>{if(btn.disabled)return;if(!s.tiers)s.tiers=["",""];s.tiers[j]=tier.id;const completed=s.rolls.every((id,k)=>id&&s.tiers[k]&&available.some(effect=>effect.id===id&&rollValue(effect,s.tiers[k],v.cost)!==null));if(completed)expandedSlot=-1;drawVisages();if(completed){const closedCard=visageRoot.querySelectorAll(".visage-card")[i];if(closedCard)closedCard.scrollIntoView({block:"nearest",behavior:"instant"});}});
      });
      }
      const line=el("div",{class:"visage-summary-row"},body);
