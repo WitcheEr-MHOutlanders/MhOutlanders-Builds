@@ -1,5 +1,5 @@
 // Outlanders Arsenal — Firestore rules template.
-// BEFORE PUBLISHING: replace REPLACE_WITH_OWNER_FIREBASE_UID with the exact
+// BEFORE PUBLISHING: replace i1uYMs2JQlMXWFTHKWen8zgbAwJ3 with the exact
 // Firebase Authentication UID of the site owner. Never use an email or GitHub handle.
 // Keep existing production deny-all rules until the owner UID is known.
 rules_version = '2';
