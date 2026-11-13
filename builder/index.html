@@ -469,7 +469,7 @@ const equippedVisages=Array(5).fill(null);
 
 const visageRoot=document.getElementById("visages"),resultRoot=document.getElementById("results");
 visageRoot.className="visage-card-list";
-const slotState=Array.from({length:5},()=>({ink:"",name:"",rolls:["",""],tiers:["high","high"]}));
+const slotState=Array.from({length:5},()=>({ink:"",name:"",rolls:["",""],tiers:["",""]}));
 let expandedSlot=0;
 const confirmedInGameVisages=new Set(["Great Jagras","Kulu-Ya-Ku","Pukei-Pukei","Great Girros","Tzitzi-Ya-Ku","Jyuratodus","Barroth","Anjanath","Tobi-Kadachi","Paolumu","Radobaan","Rathian","Rathalos","Legiana","Diablos","Odogaron","Pink Rathian","Ruger Aidal","Radiant Great Jagras","Radiant Kulu-Ya-Ku","Radiant Pukei-Pukei","Radiant Great Girros","Radiant Tzitzi-Ya-Ku","Radiant Jyuratodus","Radiant Barroth","Radiant Anjanath","Radiant Tobi-Kadachi","Radiant Paolumu","Radiant Rathian","Radiant Odogaron","Jagras","Girros","Shamos","Kestodon","Gastodon","Aptonoth","Apceros","Hornetaur","Gajau","Kelbi","Warrior Atecoli","Pitcher Atecoli","Mernos","Noios","Raphinos","Barnos"]);
 const rollOptions={"Ruger Aidal":[{id:"charge",name:"Ultimate Charge Rate",low:2.92,high:2.92},{id:"elemental",name:"Elemental Damage",low:4.27,high:4.27}]};
@@ -487,7 +487,8 @@ const level10Rolls={
 visageRows.forEach(v=>{if(!rollOptions[v.name])rollOptions[v.name]=rollTemplates[v.cost].map(x=>({...x}))});
 function rollValue(x,tier,cost){
  const isLevel10=typeof tier==="string"&&tier.endsWith("-10");
- const baseTier=typeof tier==="string"&&tier.startsWith("low")?"low":"high";
+ if(!["low","high","low-10","high-10"].includes(tier))return null;
+ const baseTier=tier.startsWith("low")?"low":"high";
  if(isLevel10){
   const confirmed=level10Rolls[cost]?.[x.id]?.[baseTier];
   return confirmed===undefined?null:confirmed;
@@ -542,7 +543,7 @@ function drawVisages(){
    const option=el("button",{type:"button",class:"ink-picker-option"+(s.ink===name?" is-selected":""),role:"option","aria-selected":String(s.ink===name)},inkList);
    inkIcon(name,option);
    const label=el("span",{},option);el("strong",{text:name},label);el("small",{text:"Ink Set"},label);
-   option.addEventListener("click",()=>setSlot(i,{ink:name,name:"",rolls:["",""],tiers:["high","high"]}));
+   option.addEventListener("click",()=>setSlot(i,{ink:name,name:"",rolls:["",""],tiers:["",""]}));
   });
   inkButton.addEventListener("click",()=>{inkList.hidden=!inkList.hidden;inkButton.setAttribute("aria-expanded",String(!inkList.hidden))});
   inkButton.addEventListener("keydown",e=>{if(e.key==="Escape"){inkList.hidden=true;inkButton.setAttribute("aria-expanded","false")}else if(e.key==="ArrowDown"){e.preventDefault();inkList.hidden=false;inkButton.setAttribute("aria-expanded","true");inkList.querySelector("button")?.focus()}});
@@ -564,7 +565,7 @@ function drawVisages(){
   const emptyInfo=el("span",{class:"visage-picker-info"},emptyOption);
   el("strong",{text:"Unequip Visage"},emptyInfo);
   el("small",{text:"Clear this slot · Cost 0"},emptyInfo);
-  emptyOption.addEventListener("click",()=>setSlot(i,{name:"",rolls:["",""],tiers:["high","high"]}));
+  emptyOption.addEventListener("click",()=>setSlot(i,{name:"",rolls:["",""],tiers:["",""]}));
   const visageArtwork={"Great Jagras":"data:image/webp;base64,UklGRpoFAABXRUJQVlA4II4FAABQGwCdASpUAFQAPrVInUsnJCKhq5dumOAWiWQAyX/yUom+iKcoWzjpwHoAUCnTvYJ9vD9ZguoiamO0JRG4CfsoRRwflAHS0oUAUQv1CDwyQG6NTnwXznQFtqxGI3f27d/ijwHfOhZuMrQ11WVNkCMLuaJwFWzJJ1Zte00y0obrwmMmwLYCm/EcPdxAsyFKOQ+2uSCZilAS+NIf/4lbpj+bXfFwdKk+9FvGi70FGUm3fxIqsE+zSIci/3MbamxdjhVEB1Q6biRlOuElD2OarJLa6wJvsfAHU+jOEd8jOv6JJmbhAAD+y/JT3gEyQO9ZRalh5aydnlbHsFf/xvuv1tD3v8xSpG2/j9EmxJWMlIVLvK0oyKk1Uq+xXirXRC+oKIpy1bvVOHF+qvm6N/d5nHJFvfk/AwkxBu+gcqFBVVNO0W24EzB3hhSwpgjemg6Y9nsCLBlsfg6QejBWnGx0AWSCeEQP92ZxtSqxXFLjzgWVxeWJqjwKzfvkrgdZh7G8n8QaEJEnF4NpWAgEs8T1qgdWOk24SKL/oVnVq1jyQDdSxm8H8buSjAfSm8DX21ru6lYe++/Yt+XnilcZDHQMX4qKeDt2kw2724KXmDRU2KBYM/BmjOST8TwJR1QEnQbksPagIUFXvsi8yKdz0uLOQAl60FppXvveQiNMCamefy1HhfyezRVSLXsJX4zEjhsCgpr8/gCs8V4ZVKJ/XBlt/c3d3W5j/RoNMOIc8rn27GrYH40np84pyuCt2buZGPZiZtuo4EG4/pPRseynUSaKnq+4P753HfreRoNYrOhP8GDtZHeFsazOzBtSaltLpZkfBPDASECRbD+02OOwl4C4BUMfnNn94EsTO9bz2dStOELtsdBFeoQdTyx8y5Gwl4W0kSAI4TI15+3UhsR0Z23O3qEKLAN0jk5jxkA+rLvajzUDF9I0hyeNj1CKJbPKF4LZANgQRmr/AydUw61J9/eqX/xWB1KmtOx2aEuPwLKJB9GqMpaV6FHHbqRAGVXrhU5JIUMxQ6KX5h3Lm9cFvCJe9lPO7qILScwd0l2yxOR9eg8LuChSNdLmMORq6dTOfU+8g7WqmzNkNBGja+YDJn37j40km7NIEWQRDDVfVM0dkScvnvwG5jvOkRA8/2lmoDwd8YouDQbcVTOfsj9aql8fwabvzVXNCMSZlKInysIROcqTHBWsEQ8fNWS3jtGd1IG5YA/bDJJe6i0qCXAGwDqEGXMc2lQSqi2WQ53cqgsUeUMNpkqyf7MSjxhENs/PbrpX9DH872ljIfuJ+Nb/F2IvMTM0OH+8kRz7z7lceE0cbFXA/rMpTTLBESEerTHsYi5j16bvWsYZctk5P+u/7xnnzWgsw+c+4RDnKI0kJzdFALUhYVnMgBi1AwcxSnCoFzDmpB8Pj44LhwbHZtQ2S3ksztDVU11v3Zp4rpARTSuEuw1MTUlk2I7h8t/Irp0QS29O8gnrgUBcVMX113tn2BJjer4Uwm4tjbq2SrXRulkm1i8lbc+9S8A76Thj9cQbMs3kkqhgJbs6zPa5IYe0R6MXqmb4DcolvE2254pphd3IrrWPWTIdDWlgFe7IXkqSO70oeeTO6EDjzkNDWpy4/HTfTDN+7Poy0k+pvnoPdOw1ZKYdEmNbjqX0n/f9cZm+GanLm20ezArR/HfUFpSq9NUHG96cQyaWuQOrSG3tM31cK6GbjuRepjlSOsg7Mdu44F/17X+/PziZcWSjRaYnGiHjFdDoRxjD8nisxq+tEiNGeiLQcUZF/kQsULefAl+TpoCjP/1st0VaUlBB8nkKA/PkL6vOmGBEZhUf53h3eXENU/78s4DWSTiP422BAwe9byDpJ5Aq8eW4WUQwsTz0+7lyKFywEtnfhgOtGLQmR+6WYAA=","Ruger Aidal":"data:image/webp;base64,UklGRqIFAABXRUJQVlA4IJYFAACQGwCdASpUAFQAPrVInUunI6KhrVZtUOAWiWIAwCCT1BSnstdoDTioGZ/YNB7zTBCaH0vhkRBCZeiJFcHP8VVqZJ2NaNg4v/tdYJnNwtAULPHJQzNrCpH99bGK+PA7Fx/O0bbIr8eQOd20jL++PteJ1UpPBlLxJxwgef7y2x7wCYRrTxpO1lJvVUmSJYMip4e7XdrdQdwA60UCtXnq4d1/B9CNlQGOzs2Wvy7aYliVHHWgrYsMvuqu9iiyV1rlEFeGtzg9leBpY9D5/Hcx3eRTcgOUfrYXUTBWoch8U+/qO2t/obAAAP7LRIhSDdaJ0vHv8eHqsu0DWh/435M6tVYnVMcgxYVMRCXA85+RXTJ2EJFlaWs9e3VKUdm1QgAWwAPh2FutsWBqogti+EORUnZEU8t91qN2jY/MYt4fTPKu3cLBO5gSzbpcWIyek3j38yEsoVcz30uHh3bTuh6LQw/qNaZHHCGSAY5x0noW45Bnn8H1OSE3uS/Bk0AdgCfLphKBhWXiIXw+3eUJ3dlPw9vEg7y4cW3jeig3IVIvfZzBuMlCAJ8Em5YuUPW2KmzyGInzcyBw1Rr3/FOo86hh+HvmFWK88avSME6+F3WD0RAVRlYvNf0gaXSYstRQLiV554qbFFatlEC0KTWjcWHd+oeruExBIbL1zGt4fHffEU9im6vrz8qzN6+ilGWMcffXRHPutx/Z4IQU5FTMsUT5/vrWyVndFaa8tyeIRTgyaTGTlFCkkL3T7gcczOROGK1TZaYmqFBwcLPGcZ81ph9O1ycXUNe8FxD59UeMdjL+sE4V7NUQhvoVrPTq/Q3orLL64hY5Hh4XXK4XyITMOt1lv9uc+o+H3pYT+cuLjtdHJmD+PrFKPRpadyI8qcs/3EmeJW6MBv93TmhEQyqx/ob2pYfDYNlVZ6hqVvBhoOg40MtLC906eVjHytPPOe0oHSXqQ46E32FeYLadMnoLjX6xOgUoIEpR/BSqYTCB4KbLpeA/WGLyS6pmv3chjdxMqmg2NSj+d5hWz5si3JVRHrd3pwKn43d+clO1skSXL0zaCrH7UGURgtgND2Zz6q3A5OQUnA2o/J9HwntCBceM4NDsSc3ABco5Duhffp4NJWiiU2NcQviGSuh5kIPxFlk8Pngv1kf9xqoE99cOf313ss5LlsbcU2mflL5TYTl6J1qso7mnjoIovKFoaOL5U63oDNgHBkNQluB8hzYqceWZ55qV+eGegMclelMX8a2J8aiVAGD9iLESoisHzI854ALWJbS5zWre7tVtMSQajRIk6I29R5ip7VUjDsfU/ysok46qXU9M6W7SfeFMI4KFzlaNCrTZpbpIMZyBxfl28bD14bHUudYYfZ3VeMhWbQrRnMzfx1HpS3xpUDC5uS8JEzwzAqkWy9Y4KDySFyfC8LcSAVo3HjGEZ/wOQyK3teUw70cZKqfOFh9Uja/26H5HuVCc0oPoYJkjjrWoz+za5AjxKnF33Kaehu8FjSvrxcbIz8thS8z2aGmucYhj0bm58JQQGQaoqtKRMDir+1eItn5dBTzLwU+GoaHBilT9NaQK1/k3iNARbnp8zT+8FeH8WrROpvVSkmyA782CFxXnMK6n5t4sM+04VOVVfd0TG0p0Rlo/z5NbkmwETCuXGW6UTC01+GqSck+vfqclZ7bIt1n/nLmQtifS2N4sip9lzglhf7Vx7f8DDFZ6Z35hS+0AdDN2GKn9eNqLgcdPw0XY33yhSahvZ18nEgfdbYDQv841w9Ozec42Mmqp9DFSetUE07J5v+ALU4mRyvVwxbk84ESRzh0vjp2MrGBeAzFkCN81DH/hWan9rI3eI75rgdQJeqz6b5ylGPPT5R0wZ/7wD5QPiyu+djghZuqe5+6F1vJkoOXXAEAQRefm80AAAA=="};
   const remainingCost=12-(cost-(v?v.cost:0));
   choices.forEach(x=>{
@@ -582,7 +583,7 @@ function drawVisages(){
    el("strong",{text:x.name},info);
    el("small",{text:overLimit?"Unavailable · Exceeds cost limit":"Superior Visage"},info);
    el("span",{class:"visage-picker-cost",text:"Cost "+x.cost},option);
-   option.addEventListener("click",()=>setSlot(i,{name:x.name,rolls:["",""],tiers:["high","high"]}));
+   option.addEventListener("click",()=>setSlot(i,{name:x.name,rolls:["",""],tiers:["",""]}));
   });
   if(!v)continue;
   const selected=el("div",{class:"visage-selected"},body);
@@ -596,10 +597,10 @@ function drawVisages(){
     el("option",{value:"",text:"Choose effect"},rollSelect);
     available.forEach(x=>el("option",{value:x.id,text:x.name},rollSelect));
     rollSelect.value=s.rolls[j];
-    rollSelect.addEventListener("change",()=>{s.rolls[j]=rollSelect.value;drawVisages()});
+    rollSelect.addEventListener("change",()=>{s.rolls[j]=rollSelect.value;s.tiers[j]="";drawVisages()});
     const choice=available.find(x=>x.id===s.rolls[j]);
     if(choice){
-     if(choice.low!==choice.high){
+     {
      const tierButtons=el("div",{class:"visage-roll-buttons"},body);
      [{id:"low",label:"Base Low Roll"},{id:"high",label:"Base High Roll"},{id:"low-10",label:"Base Low Roll Level 10"},{id:"high-10",label:"Base High Roll Level 10"}].forEach(tier=>{
       const confirmed=rollValue(choice,tier.id,v.cost);
@@ -609,13 +610,14 @@ function drawVisages(){
       btn.setAttribute("aria-pressed",String((s.tiers||[])[j]===tier.id));
       btn.disabled=confirmed===null;
       if(btn.disabled)btn.title="Level 10 value not yet confirmed";
-      btn.addEventListener("click",()=>{if(btn.disabled)return;if(!s.tiers)s.tiers=["high","high"];s.tiers[j]=tier.id;drawVisages()});
+      btn.addEventListener("click",()=>{if(btn.disabled)return;if(!s.tiers)s.tiers=["",""];s.tiers[j]=tier.id;drawVisages()});
      });
      }
      const line=el("div",{class:"visage-summary-row"},body);
      el("span",{text:"Selected effect value"},line);
-     const selectedValue=rollValue(choice,(s.tiers||[])[j],v.cost);
-     el("strong",{text:selectedValue===null?"Not yet confirmed":"+"+selectedValue.toFixed(2)+"%"},line);
+     const selectedTier=(s.tiers||[])[j];
+     const selectedValue=rollValue(choice,selectedTier,v.cost);
+     el("strong",{text:!selectedTier?"Choose a roll":selectedValue===null?"Not yet confirmed":"+"+selectedValue.toFixed(2)+"%"},line);
     }
    }
   }else el("p",{class:"muted visage-pending",text:"Possible effect values awaiting confirmation for this Visage."},body);
@@ -684,7 +686,7 @@ function drawVisages(){
  }
  }
  const reset=el("button",{type:"button",class:"visage-reset",text:"↺ Reset All Visages"},resultRoot);
- reset.addEventListener("click",()=>{slotState.forEach(s=>Object.assign(s,{ink:"",name:"",rolls:["",""],tiers:["high","high"]}));expandedSlot=0;drawVisages()});
+ reset.addEventListener("click",()=>{slotState.forEach(s=>Object.assign(s,{ink:"",name:"",rolls:["",""],tiers:["",""]}));expandedSlot=0;drawVisages()});
 }
 drawVisages();
 </script><script>
