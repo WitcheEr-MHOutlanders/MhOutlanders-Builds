@@ -470,7 +470,7 @@ const equippedVisages=Array(5).fill(null);
 const visageRoot=document.getElementById("visages"),resultRoot=document.getElementById("results");
 visageRoot.className="visage-card-list";
 const slotState=Array.from({length:5},()=>({ink:"",name:"",rolls:["",""],tiers:["",""]}));
-let expandedSlot=0;
+let expandedSlot=-1;
 const confirmedInGameVisages=new Set(["Great Jagras","Kulu-Ya-Ku","Pukei-Pukei","Great Girros","Tzitzi-Ya-Ku","Jyuratodus","Barroth","Anjanath","Tobi-Kadachi","Paolumu","Radobaan","Rathian","Rathalos","Legiana","Diablos","Odogaron","Pink Rathian","Ruger Aidal","Radiant Great Jagras","Radiant Kulu-Ya-Ku","Radiant Pukei-Pukei","Radiant Great Girros","Radiant Tzitzi-Ya-Ku","Radiant Jyuratodus","Radiant Barroth","Radiant Anjanath","Radiant Tobi-Kadachi","Radiant Paolumu","Radiant Rathian","Radiant Odogaron","Jagras","Girros","Shamos","Kestodon","Gastodon","Aptonoth","Apceros","Hornetaur","Gajau","Kelbi","Warrior Atecoli","Pitcher Atecoli","Mernos","Noios","Raphinos","Barnos"]);
 const rollOptions={"Ruger Aidal":[{id:"charge",name:"Ultimate Charge Rate",low:2.92,high:2.92},{id:"elemental",name:"Elemental Damage",low:4.27,high:4.27}]};
 const rollTemplates={
@@ -692,7 +692,7 @@ function drawVisages(){
  }
  }
  const reset=el("button",{type:"button",class:"visage-reset",text:"↺ Reset All Visages"},resultRoot);
- reset.addEventListener("click",()=>{slotState.forEach(s=>Object.assign(s,{ink:"",name:"",rolls:["",""],tiers:["",""]}));expandedSlot=0;drawVisages()});
+ reset.addEventListener("click",()=>{slotState.forEach(s=>Object.assign(s,{ink:"",name:"",rolls:["",""],tiers:["",""]}));expandedSlot=-1;drawVisages()});
 }
 drawVisages();
 </script><script>
