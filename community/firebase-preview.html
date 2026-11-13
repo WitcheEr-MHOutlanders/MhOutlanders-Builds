@@ -20,7 +20,7 @@ import {getFirestore,collection,query,where,orderBy,limit,startAfter,getDocs,add
 const config={apiKey:"AIzaSyDRMFTUz7ikT5TR9rIUnviw9nyVfEzIeOQ",authDomain:"outlanders-arsenal.firebaseapp.com",projectId:"outlanders-arsenal",storageBucket:"outlanders-arsenal.firebasestorage.app",messagingSenderId:"944666716790",appId:"1:944666716790:web:31a00430031237f664cd57"};
 const OWNER_UID="i1uYMs2JQlMXWFTHKWen8zgbAwJ3"; // Set to the owner's Firebase Authentication UID after first sign-in.
 window.__firebasePreviewReady=true;document.getElementById("auth-status").textContent="Login is ready. Choose a sign-in method.";const app=initializeApp(config),auth=getAuth(app),db=getFirestore(app),posts=collection(db,"communityComments");
-const $=id=>document.getElementById(id);let user=null,last=null,loading=false;
+const $=id=>document.getElementById(id);let user=null,last=0,loading=false;
 const status=(id,msg,err=false)=>{const e=$(id);e.textContent=msg;e.className=err?"error":"muted"};
 const isOwner=()=>Boolean(user&&OWNER_UID&&user.uid===OWNER_UID);
 const authAction=async fn=>{try{status("auth-status","Working...");await fn();status("auth-status","")}catch(e){status("auth-status",e.message||"Sign-in failed",true)}};
@@ -37,6 +37,38 @@ function button(text,fn,cls="secondary"){const b=el("button",cls,text);b.type="b
 function editor(card,item){if(card.querySelector("form"))return;const f=el("form");const t=el("textarea");t.maxLength=2000;t.required=true;t.value=item.body;f.append(t,button("Cancel",()=>f.remove()));const save=el("button","","Save changes");save.type="submit";f.append(save);f.onsubmit=async e=>{e.preventDefault();const body=t.value.trim();if(!body)return;try{await updateDoc(doc(db,"communityComments",item.id),{body,updatedAt:serverTimestamp()});await load(true)}catch(err){alert(err.message)}};card.append(f)}
 async function reply(item){if(!user)return;const body=prompt("Reply to this hunter (max 2000 characters):");if(!body?.trim())return;if(body.length>2000){alert("Reply too long.");return}try{await addDoc(posts,{body:body.trim(),authorId:user.uid,authorName:(user.displayName||user.email?.split("@")[0]||"Hunter").slice(0,80),parentId:item.parentId||item.id,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});await load(true)}catch(e){alert(e.message)}}
 function render(item){const card=el("article","comment"+(item.parentId?" reply":""));card.dataset.comment=item.id;const name=el("span","author",item.authorName||"Hunter");const date=el("small","",item.createdAt?.toDate?.().toLocaleString()||"Just now");card.append(name,el("span",""," · "),date,el("div","body",item.body));const actions=el("div","actions");if(user)actions.append(button("Reply",()=>reply(item)));if(user&&(user.uid===item.authorId||isOwner())){if(user.uid===item.authorId)actions.append(button("Edit",()=>editor(card,item)));actions.append(button("Delete",async()=>{if(!confirm("Delete this comment?"))return;try{await deleteDoc(doc(db,"communityComments",item.id));await load(true)}catch(e){alert(e.message)}}))}card.append(actions);return card}
-async function load(reset=false){if(loading)return;loading=true;$("more").disabled=true;if(reset){last=null;$("comments").replaceChildren()}status("comments-status","Loading comments...");try{const constraints=[where("parentId","==",null),orderBy("createdAt","desc"),limit(15)];if(last)constraints.push(startAfter(last));const snap=await getDocs(query(posts,...constraints));last=snap.docs.at(-1)||null;const roots=snap.docs.map(d=>({id:d.id,...d.data()}));const ids=roots.map(x=>x.id);const replies=[];for(let i=0;i<ids.length;i+=10){const sub=await getDocs(query(posts,where("parentId","in",ids.slice(i,i+10)),orderBy("createdAt","asc"),limit(100)));replies.push(...sub.docs.map(d=>({id:d.id,...d.data()})))}for(const item of roots){$("comments").append(render(item));for(const r of replies.filter(x=>x.parentId===item.id))$("comments").append(render(r))}status("comments-status",roots.length?"":"No comments yet. Be the first hunter to post!");$("more").classList.toggle("hidden",snap.size<15)}catch(e){status("comments-status","Comments unavailable: "+e.message,true);$("more").classList.add("hidden")}finally{loading=false;$("more").disabled=false}}
+async function load(reset=false){
+  if(loading)return;
+  loading=true;
+  $("more").disabled=true;
+  if(reset){last=0;$("comments").replaceChildren()}
+  status("comments-status","Loading comments...");
+  try{
+    // Single-field queries avoid composite-index setup. Sort and paginate roots in browser.
+    const rootSnap=await getDocs(query(posts,where("parentId","==",null)));
+    const allRoots=rootSnap.docs.map(d=>({id:d.id,...d.data()}));
+    const millis=x=>x?.toMillis?.()??0;
+    allRoots.sort((a,b)=>millis(b.createdAt)-millis(a.createdAt));
+    const start=last||0;
+    const roots=allRoots.slice(start,start+15);
+    last=start+roots.length;
+    const ids=roots.map(x=>x.id);
+    const replies=[];
+    for(let i=0;i<ids.length;i+=10){
+      const sub=await getDocs(query(posts,where("parentId","in",ids.slice(i,i+10))));
+      replies.push(...sub.docs.map(d=>({id:d.id,...d.data()})));
+    }
+    replies.sort((a,b)=>millis(a.createdAt)-millis(b.createdAt));
+    for(const item of roots){
+      $("comments").append(render(item));
+      for(const r of replies.filter(x=>x.parentId===item.id))$("comments").append(render(r));
+    }
+    status("comments-status",allRoots.length?"":"No comments yet. Be the first hunter to post!");
+    $("more").classList.toggle("hidden",last>=allRoots.length);
+  }catch(e){
+    status("comments-status","Comments unavailable: "+e.message,true);
+    $("more").classList.add("hidden");
+  }finally{loading=false;$("more").disabled=false}
+}
 $("more").onclick=()=>load(false);
 </script></body></html>
