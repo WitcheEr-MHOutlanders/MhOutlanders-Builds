@@ -62,7 +62,7 @@ def document(title, body, featured=False):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{escape(title)} | Outlanders Arsenal</title>
-<link rel="stylesheet" href="../assets/builds.css">
+<link rel="stylesheet" href="../assets/builds.css">\n<style>.bottom-return-nav{{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:36px auto;padding:0 12px}}.bottom-return-nav a{{display:inline-flex;justify-content:center;align-items:center;min-height:48px;padding:12px 20px;background:#995a30;border:1px solid #c48b57;border-radius:12px;color:#fff1df;text-decoration:none;font-weight:700}}@media(max-width:480px){{.bottom-return-nav a{{width:100%}}}}</style>
 </head>
 <body{' class="showcase"' if featured else ''}>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -96,11 +96,13 @@ def page(data):
     for shot in data['screenshots']:
         src = f'../assets/builds/{data["slug"]}/{shot["file"]}'
         body += f'<figure class="panel"><a href="{escape(src)}"><img src="{escape(src)}" alt="{escape(shot["alt"])}" loading="lazy" decoding="async"></a><figcaption>{escape(shot["caption"])}</figcaption></figure>'
-    return document(data['title'], body + '</div></section>', featured='progression' in data)
+    body += '</div></section>'
+    body += '<nav class="bottom-return-nav" aria-label="Build page actions"><a href="./" aria-label="Back to Build Library">← Back to Build Library</a><a href="../community/" aria-label="Feedback in Hunter Community">Feedback</a></nav>'
+    return document(data['title'], body, featured='progression' in data)
 
 def outputs():
     result = {}
-    cards = ['<article class="panel"><p class="eyebrow">Featured fire build</p><h2><a href="../index.html">Inferno Heavy Bowgun</a></h2><p>Read the original build guide.</p></article>']
+    cards = []
     for path in sorted((ROOT / 'data/builds').glob('*.json')):
         data = validate(json.loads(path.read_text()))
         if path.stem != data['slug']:
