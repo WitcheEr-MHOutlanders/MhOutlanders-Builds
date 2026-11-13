@@ -1,0 +1,52 @@
+// Outlanders Arsenal — Firestore rules template.
+// BEFORE PUBLISHING: replace REPLACE_WITH_OWNER_FIREBASE_UID with the exact
+// Firebase Authentication UID of the site owner. Never use an email or GitHub handle.
+// Keep existing production deny-all rules until the owner UID is known.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function owner() {
+      return signedIn() && request.auth.uid == 'REPLACE_WITH_OWNER_FIREBASE_UID';
+    }
+    function validComment() {
+      return request.resource.data.keys().hasOnly([
+        'body','authorId','authorName','parentId','createdAt','updatedAt'
+      ])
+      && request.resource.data.keys().hasAll([
+        'body','authorId','authorName','parentId','createdAt','updatedAt'
+      ])
+      && request.resource.data.body is string
+      && request.resource.data.body.size() > 0
+      && request.resource.data.body.size() <= 2000
+      && request.resource.data.authorName is string
+      && request.resource.data.authorName.size() > 0
+      && request.resource.data.authorName.size() <= 80
+      && request.resource.data.authorId is string
+      && (request.resource.data.parentId == null
+        || (request.resource.data.parentId is string
+          && request.resource.data.parentId.size() > 0
+          && request.resource.data.parentId.size() <= 128))
+      && request.resource.data.createdAt is timestamp
+      && request.resource.data.updatedAt is timestamp;
+    }
+    match /communityComments/{commentId} {
+      allow read: if true;
+      allow create: if signedIn()
+        && validComment()
+        && request.resource.data.authorId == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+      allow update: if signedIn()
+        && resource.data.authorId == request.auth.uid
+        && validComment()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['body','updatedAt'])
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if signedIn()
+        && (resource.data.authorId == request.auth.uid || owner());
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
