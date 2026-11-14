@@ -693,7 +693,7 @@ function drawVisages(){
     el("span",{class:"armor-total-label",text:"✧ "+label},card);
     el("strong",{class:"armor-total-value",text:"+"+value.toFixed(2)+"% Elemental Damage"},card);
    });
-   el("p",{class:"muted",text:"Combined total includes active base bonuses: Tempest 1-piece +2%, Tempest 2-piece +3%, and Kushala Core +10% (Core slot only). When suppressed, +10% replaces the 2-piece +3%; against broken parts, +18% replaces the Core +10%. Both upgrades can apply together if both conditions are met. Season 0 only."},armorEffects);
+   
   }
  // Ink of Flames 4-piece is a temporary conditional Fire Damage bonus.
  // Keep it separate from the unconditional +5% two-piece Fire Damage total.
@@ -703,7 +703,7 @@ function drawVisages(){
   const flameCard=el("div",{class:"armor-total-card"},flameGrid);
   el("span",{class:"armor-total-label",text:"✧ Good or decent hitzone hit · 20s"},flameCard);
   el("strong",{class:"armor-total-value",text:"+"+((totalEffects["Fire Damage"]||0)+24).toFixed(2)+"% Fire Damage"},flameCard);
-  el("p",{class:"muted",text:"After hitting a monster part with good or decent hitzone values, gain +24% Fire Damage for 20 seconds. This conditional total includes the active 2-piece +5% Fire Damage bonus and any other combined Fire Damage effects; it is not included in the unconditional total."},armorEffects);
+  
  }
  // Show the actual activation requirements for every equipped Core Visage and active 4-piece Ink.
  // These are conditional descriptions, not unconditional additions to stat totals.
@@ -784,9 +784,9 @@ function drawVisages(){
       el("small",{class:"muted",text:"Base "+base.toFixed(2)+"% + conditional "+bonus.toFixed(2)+"%"},both);
      });
     }
-    el("p",{class:"muted",text:"Scenario values assume the listed triggers are met and maximum stacks are maintained. Bonuses are added as displayed percentage-point totals, not as a verified final damage multiplier. Always-active totals above remain unchanged; bonuses affecting squad damage or other stats are tracked separately."},armorEffects);
+    
    }
-   el("p",{class:"muted",text:"These effects activate only when their listed combat conditions are met. Core effects require Visage Slot 1; 4-piece Ink effects require the set threshold. Conditional totals are hypothetical scenarios, not always-active bonuses. Different damage types (including generic Damage and Squad Damage) are calculated separately; effects without confirmed numeric percentages remain descriptive."},armorEffects);
+   
   }
  }
  if(inkBonusRoot){
