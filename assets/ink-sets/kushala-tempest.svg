@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Kushala Daora Tempest">
+<defs><linearGradient id="wind" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dceaff"/><stop offset=".55" stop-color="#a9c8f4"/><stop offset="1" stop-color="#729bd2"/></linearGradient></defs>
+<path fill="url(#wind)" d="M10 19C18 10 34 8 48 12 38 11 25 14 20 19c8-3 21-3 33 1-7 1-15 2-20 5 8-1 16 1 20 5-7 5-16 7-24 7 5 2 12 2 17 0-3 7-11 12-18 12 3 1 7 1 10 0l-8 10-3-11c-7-3-11-7-14-13 8 4 18 5 25 1-11 0-23-3-29-10 10 3 23 3 32-1-11-1-23-1-31 3 0-3 0-6 0-9z"/>
+</svg>
