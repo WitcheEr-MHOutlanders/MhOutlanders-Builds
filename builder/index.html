@@ -730,14 +730,14 @@ function drawVisages(){
    });
    // Scenario totals use only explicitly stated percentages, never speculative multipliers.
    // Preserve the baseline; show each active trigger and the combined maximum separately.
-   const statPattern=/(elemental damage|physical damage|fire damage|water damage|thunder damage|ice damage|dragon damage|squad damage|ultimate damage|affinity|ultimate charge rate)\\s*\\+\\s*(\\d+(?:\\.\\d+)?)%/ig;
+   const statPattern=/(elemental damage|physical damage|fire damage|water damage|thunder damage|ice damage|dragon damage|squad damage|ultimate damage|affinity|ultimate charge rate)\s*\+\s*(\d+(?:\.\d+)?)%/ig;
    const scenarioBonuses=[];
    conditionalEntries.forEach(entry=>{
     const bonuses=[];
     for(const match of entry.description.matchAll(statPattern)){
-     const label=match[1].toLowerCase().replace(/\\b\\w/g,c=>c.toUpperCase());
+     const label=match[1].toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
      const perStack=Number(match[2]);
-     const stackMatch=entry.description.match(/up to (\\d+) stacks?/i);
+     const stackMatch=entry.description.match(/up to (\d+) stacks?/i);
      const stacks=stackMatch?Number(stackMatch[1]):1;
      if(Number.isFinite(perStack)&&stacks>=1&&stacks<=20)bonuses.push({stat:label,amount:perStack*stacks,perStack,stacks});
     }
