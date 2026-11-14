@@ -695,6 +695,16 @@ function drawVisages(){
    });
    el("p",{class:"muted",text:"Combined total includes active base bonuses: Tempest 1-piece +2%, Tempest 2-piece +3%, and Kushala Core +10% (Core slot only). When suppressed, +10% replaces the 2-piece +3%; against broken parts, +18% replaces the Core +10%. Both upgrades can apply together if both conditions are met. Season 0 only."},armorEffects);
   }
+ // Ink of Flames 4-piece is a temporary conditional Fire Damage bonus.
+ // Keep it separate from the unconditional +5% two-piece Fire Damage total.
+ if((inkCounts["Ink of Flames"]||0)>=4&&armorEffects){
+  el("h3",{class:"combined-results-heading",text:"Ink of Flames · Special Condition"},armorEffects);
+  const flameGrid=el("div",{class:"armor-stat-totals visage-stat-totals"},armorEffects);
+  const flameCard=el("div",{class:"armor-total-card"},flameGrid);
+  el("span",{class:"armor-total-label",text:"✧ Good or decent hitzone hit · 20s"},flameCard);
+  el("strong",{class:"armor-total-value",text:"+"+((totalEffects["Fire Damage"]||0)+24).toFixed(2)+"% Fire Damage"},flameCard);
+  el("p",{class:"muted",text:"After hitting a monster part with good or decent hitzone values, gain +24% Fire Damage for 20 seconds. This conditional total includes the active 2-piece +5% Fire Damage bonus and any other combined Fire Damage effects; it is not included in the unconditional total."},armorEffects);
+ }
  if(inkBonusRoot){
  el("h2",{class:"combined-results-heading",text:"Ink Set Bonuses"},inkBonusRoot);
  const counts=inkCounts;
