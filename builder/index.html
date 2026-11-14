@@ -837,7 +837,7 @@ function paintArmorCards(){
   const bonus=setData.find(s=>s.name===p.set)?.bonus;
   node("div","✥ Set Effect - "+(bonus?.name||"Not recorded"),content,"armor-card-set");
   const upgrades=[...(p.upgrades||[])].sort((x,y)=>Number(x.rarity)-Number(y.rarity));
-  const maxFor=(name)=>p.max?.[name]||p.skill_details?.find(d=>d.name===name)?.max_level||"?";
+  const maxFor=(name)=>p.max?.[name]||p.skill_details?.find(d=>d.name===name)?.max_level||pieces.map(piece=>piece.max?.[name]||piece.skill_details?.find(d=>d.name===name)?.max_level).find(v=>Number(v)>0)||"?";
   const addSkill=(name,value,rarity)=>{
    const row=node("div",null,content,"armor-card-skill"+(rarity!=null?" armor-card-unlock":""));
    const img=makePdfSkillIcon(name);
