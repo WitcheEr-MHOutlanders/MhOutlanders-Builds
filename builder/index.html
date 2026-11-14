@@ -182,7 +182,7 @@
 #armor-gallery .armor-card-skill .pdf-skill-icon{width:16px!important;height:16px!important;flex:0 0 16px!important;min-width:16px!important;min-height:16px!important;margin:0!important;image-rendering:pixelated!important}
 #armor-gallery .armor-card-skill{align-items:center!important;gap:10px!important}
 #armor-gallery .armor-card-skill .skill-glyph{color:#d6a16c!important;min-width:16px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
-</style><style id="authentic-armor-icons">#armor-gallery .armor-type-art{background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;background-blend-mode:normal!important}</style><style id="visage-detail-card-style">#visages .visage-selection-details:not(:empty){padding:12px;border:1px solid #74523c;border-radius:10px;background:#251f1e;margin-top:8px;line-height:1.5}#visages .visage-selection-details p{margin:5px 0 0;overflow-wrap:anywhere}#visages .visage-selection-details strong{color:#ffd49b}</style><style id="visage-core-panel-style">#visages .visage-core-effect{margin-top:14px;padding:12px;border-top:1px solid #75523b;background:rgba(198,130,66,.07);border-radius:7px}#visages .visage-core-effect p{margin:7px 0 0;line-height:1.5}#visages .visage-core-effect strong{color:#ffd49b}</style><style id="visage-v2-theme">
+</style><style id="larger-original-skill-icons">#armor-gallery .armor-card-skill .pdf-skill-icon{width:26px!important;height:26px!important;flex:0 0 26px!important;min-width:26px!important;min-height:26px!important;margin:0!important;image-rendering:auto!important}@media(max-width:700px){#armor-gallery .armor-card-skill .pdf-skill-icon{width:24px!important;height:24px!important;flex-basis:24px!important;min-width:24px!important;min-height:24px!important}}</style><style id="authentic-armor-icons">#armor-gallery .armor-type-art{background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;background-blend-mode:normal!important}</style><style id="visage-detail-card-style">#visages .visage-selection-details:not(:empty){padding:12px;border:1px solid #74523c;border-radius:10px;background:#251f1e;margin-top:8px;line-height:1.5}#visages .visage-selection-details p{margin:5px 0 0;overflow-wrap:anywhere}#visages .visage-selection-details strong{color:#ffd49b}</style><style id="visage-core-panel-style">#visages .visage-core-effect{margin-top:14px;padding:12px;border-top:1px solid #75523b;background:rgba(198,130,66,.07);border-radius:7px}#visages .visage-core-effect p{margin:7px 0 0;line-height:1.5}#visages .visage-core-effect strong{color:#ffd49b}</style><style id="visage-v2-theme">
 #visages.visage-card-list{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
 .visage-overview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .visage-overview-stat,.visage-effect-summary,.visage-bonus-card{background:linear-gradient(140deg,#2e2521,#211d20);border:1px solid #765039;border-radius:13px;padding:15px}
@@ -769,8 +769,8 @@ function makePdfSkillIcon(skill){
  icon.style.cssText="display:inline-block;width:16px;height:16px;vertical-align:-3px;margin-right:5px;flex-shrink:0;background-repeat:no-repeat";
  if(idx>=0){
   icon.style.backgroundImage="url("+pdfSkillIconSprite+")";
-  icon.style.backgroundSize="128px 80px";
-  icon.style.backgroundPosition=(-16*(idx%8))+"px "+(-16*Math.floor(idx/8))+"px";
+  icon.style.backgroundSize="208px 130px";
+  icon.style.backgroundPosition=(-26*(idx%8))+"px "+(-26*Math.floor(idx/8))+"px";
  }
  const preferred=variant?originalSkillVariantBase+variant+".webp":verifiedOriginalSkillIcons[skillKey];
  if(preferred){
