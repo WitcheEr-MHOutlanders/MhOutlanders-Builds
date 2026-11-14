@@ -668,6 +668,20 @@ function drawVisages(){
    el("strong",{class:"armor-total-value",text:"+"+(totalEffects[name]||0).toFixed(2)+"%"},card);
   });
  }
+  // Kushala's Core Effect applies only when equipped in the Core Visage slot.
+  // Display conditional scenarios separately; never add these to base totalEffects.
+  const kushalaCoreActive=chosen.some(({i,v})=>i===0&&v.name==="Kushala Daora");
+  if(kushalaCoreActive){
+   const baseElemental=totalEffects["Elemental Damage"]||0;
+   const conditionalTitle=el("h3",{class:"combined-results-heading",text:"Kushala Daora · Conditional Core Effect"},armorEffects);
+   const conditionalGrid=el("div",{class:"armor-stat-totals visage-stat-totals"},armorEffects);
+   [["Core Effect active",10],["Against broken monster parts",18]].forEach(([label,bonus])=>{
+    const card=el("div",{class:"armor-total-card"},conditionalGrid);
+    el("span",{class:"armor-total-label",text:"✧ "+label},card);
+    el("strong",{class:"armor-total-value",text:"+"+(baseElemental+bonus).toFixed(2)+"%"},card);
+   });
+   el("p",{class:"muted",text:"Conditional totals include the selected Potential Effects and active unconditional Ink bonuses. The +18% replaces the +10% Core Effect; these bonuses do not stack. Only applies while the in-game Core Effect conditions are met."},armorEffects);
+  }
  if(inkBonusRoot){
  el("h2",{class:"combined-results-heading",text:"Ink Set Bonuses"},inkBonusRoot);
  const counts=inkCounts;
