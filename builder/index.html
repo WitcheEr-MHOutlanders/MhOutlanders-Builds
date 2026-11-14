@@ -728,6 +728,46 @@ function drawVisages(){
     el("span",{class:"armor-total-label",text:"✧ "+entry.title},card);
     el("strong",{class:"armor-total-value",text:entry.description},card);
    });
+   // Scenario totals use only explicitly stated percentages, never speculative multipliers.
+   // Preserve the baseline; show each active trigger and the combined maximum separately.
+   const statPattern=/(elemental damage|physical damage|fire damage|water damage|thunder damage|ice damage|dragon damage|squad damage|ultimate damage|affinity|ultimate charge rate)\\s*\\+\\s*(\\d+(?:\\.\\d+)?)%/ig;
+   const scenarioBonuses=[];
+   conditionalEntries.forEach(entry=>{
+    const bonuses=[];
+    for(const match of entry.description.matchAll(statPattern)){
+     const label=match[1].toLowerCase().replace(/\\b\\w/g,c=>c.toUpperCase());
+     const perStack=Number(match[2]);
+     const stackMatch=entry.description.match(/up to (\\d+) stacks?/i);
+     const stacks=stackMatch?Number(stackMatch[1]):1;
+     if(Number.isFinite(perStack)&&stacks>=1&&stacks<=20)bonuses.push({stat:label,amount:perStack*stacks,perStack,stacks});
+    }
+    if(bonuses.length)scenarioBonuses.push({entry,bonuses});
+   });
+   if(scenarioBonuses.length){
+    el("h3",{class:"combined-results-heading",text:"If Conditions Are Active · Calculated Totals"},armorEffects);
+    const scenarioGrid=el("div",{class:"armor-stat-totals visage-stat-totals"},armorEffects);
+    const combined={};
+    scenarioBonuses.forEach(({entry,bonuses})=>{
+     const card=el("div",{class:"armor-total-card"},scenarioGrid);
+     el("span",{class:"armor-total-label",text:"✧ "+entry.title+" · Active"},card);
+     bonuses.forEach(b=>{
+      const base=totalEffects[b.stat]||0;
+      el("strong",{class:"armor-total-value",text:"+"+(base+b.amount).toFixed(2)+"% "+b.stat},card);
+      el("small",{class:"muted",text:"Base "+base.toFixed(2)+"% + conditional "+b.amount.toFixed(2)+"%"+(b.stacks>1?" ("+b.stacks+" stacks × "+b.perStack+"%)":"")},card);
+      combined[b.stat]=(combined[b.stat]||0)+b.amount;
+     });
+    });
+    if(scenarioBonuses.length>1){
+     const both=el("div",{class:"armor-total-card"},scenarioGrid);
+     el("span",{class:"armor-total-label",text:"✧ All listed conditions active together"},both);
+     Object.entries(combined).forEach(([stat,bonus])=>{
+      const base=totalEffects[stat]||0;
+      el("strong",{class:"armor-total-value",text:"+"+(base+bonus).toFixed(2)+"% "+stat},both);
+      el("small",{class:"muted",text:"Base "+base.toFixed(2)+"% + conditional "+bonus.toFixed(2)+"%"},both);
+     });
+    }
+    el("p",{class:"muted",text:"Scenario values assume the listed triggers are met and maximum stacks are maintained. Bonuses are added as displayed percentage-point totals, not as a verified final damage multiplier. Always-active totals above remain unchanged; bonuses affecting squad damage or other stats are tracked separately."},armorEffects);
+   }
    el("p",{class:"muted",text:"These effects activate only when their listed combat conditions are met. Core effects require Visage Slot 1; 4-piece Ink effects require the set threshold. Temporary or situational bonuses are shown separately and are not automatically added to always-active stat totals."},armorEffects);
   }
  }
