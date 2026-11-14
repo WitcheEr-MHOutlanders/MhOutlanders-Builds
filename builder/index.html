@@ -732,18 +732,36 @@ function drawVisages(){
    // Preserve the baseline; show each active trigger and the combined maximum separately.
    const statPattern=/(elemental damage|physical damage|fire damage|water damage|thunder damage|ice damage|dragon damage|squad damage|ultimate damage|affinity|ultimate charge rate)\s*\+\s*(\d+(?:\.\d+)?)%/ig;
    const scenarioBonuses=[];
-   conditionalEntries.forEach(entry=>{
+   const parseBonuses=(description)=>{
     const bonuses=[];
-    for(const match of entry.description.matchAll(statPattern)){
-     const label=match[1].toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
+    for(const match of description.matchAll(statPattern)){
+     const stat=match[1].toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
      const perStack=Number(match[2]);
-     const stackMatch=entry.description.match(/up to (\d+) stacks?/i);
+     const stackMatch=description.match(/up to (\d+) stacks?/i);
      const stacks=stackMatch?Number(stackMatch[1]):1;
-     if(Number.isFinite(perStack)&&stacks>=1&&stacks<=20)bonuses.push({stat:label,amount:perStack*stacks,perStack,stacks});
+     if(Number.isFinite(perStack)&&stacks>=1&&stacks<=20)bonuses.push({stat,amount:perStack*stacks,perStack,stacks});
     }
+    // The source sometimes says "damage +N%" without naming an element.
+    // Treat it as generic Damage rather than silently adding it to elemental damage.
+    if(!bonuses.length){
+     const generic=description.match(/(?:^|[,\s])damage\s*\+\s*(\d+(?:\.\d+)?)%/i);
+     if(generic)bonuses.push({stat:"Damage",amount:Number(generic[1]),perStack:Number(generic[1]),stacks:1});
+    }
+    return bonuses;
+   };
+   conditionalEntries.forEach(entry=>{
+    const bonuses=parseBonuses(entry.description);
     if(bonuses.length)scenarioBonuses.push({entry,bonuses});
    });
+   // Keep every 4-piece set's conditions visible; only calculate a numeric scenario
+   // when the supplied effect actually states a percentage. No guessed values.
    if(scenarioBonuses.length){
+    const grouped=new Map();
+    scenarioBonuses.forEach(({entry,bonuses})=>bonuses.forEach(b=>{
+     if(!grouped.has(b.stat))grouped.set(b.stat,[]);
+     grouped.get(b.stat).push({entry,b});
+    }));
+
     el("h3",{class:"combined-results-heading",text:"If Conditions Are Active · Calculated Totals"},armorEffects);
     const scenarioGrid=el("div",{class:"armor-stat-totals visage-stat-totals"},armorEffects);
     const combined={};
@@ -768,7 +786,7 @@ function drawVisages(){
     }
     el("p",{class:"muted",text:"Scenario values assume the listed triggers are met and maximum stacks are maintained. Bonuses are added as displayed percentage-point totals, not as a verified final damage multiplier. Always-active totals above remain unchanged; bonuses affecting squad damage or other stats are tracked separately."},armorEffects);
    }
-   el("p",{class:"muted",text:"These effects activate only when their listed combat conditions are met. Core effects require Visage Slot 1; 4-piece Ink effects require the set threshold. Temporary or situational bonuses are shown separately and are not automatically added to always-active stat totals."},armorEffects);
+   el("p",{class:"muted",text:"These effects activate only when their listed combat conditions are met. Core effects require Visage Slot 1; 4-piece Ink effects require the set threshold. Conditional totals are hypothetical scenarios, not always-active bonuses. Different damage types (including generic Damage and Squad Damage) are calculated separately; effects without confirmed numeric percentages remain descriptive."},armorEffects);
   }
  }
  if(inkBonusRoot){
