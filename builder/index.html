@@ -658,8 +658,10 @@ function drawVisages(){
  Object.entries(inkCounts).forEach(([inkName,count])=>{
   const stat=inkTwoPieceEffects[inkName];
   if(count>=2&&stat)totalEffects[stat]=(totalEffects[stat]||0)+5;
-  if(inkName==="Kushala Daora\'s Tempest"&&count>=1)totalEffects["Elemental Damage"]=(totalEffects["Elemental Damage"]||0)+2;
+  if(inkName==="Kushala Daora\'s Tempest"){if(count>=1)totalEffects["Elemental Damage"]=(totalEffects["Elemental Damage"]||0)+2;if(count>=2)totalEffects["Elemental Damage"]=(totalEffects["Elemental Damage"]||0)+3;}
  });
+ // Kushala Core's unconditional base +10% applies in the Core slot.
+ if(chosen.some(({i,v})=>i===0&&v.name==="Kushala Daora"))totalEffects["Elemental Damage"]=(totalEffects["Elemental Damage"]||0)+10;
  resultRoot.replaceChildren();
  const inkBonusRoot=document.getElementById("combined-ink-set-bonuses");
  if(inkBonusRoot)inkBonusRoot.replaceChildren();
@@ -675,19 +677,23 @@ function drawVisages(){
    el("strong",{class:"armor-total-value",text:"+"+(totalEffects[name]||0).toFixed(2)+"%"},card);
   });
  }
-  // Kushala's Core Effect applies only when equipped in the Core Visage slot.
-  // Display conditional scenarios separately; never add these to base totalEffects.
+  // The +10% Core bonus is included in the combined base; conditional increases replace it.
   const kushalaCoreActive=chosen.some(({i,v})=>i===0&&v.name==="Kushala Daora");
-  if(kushalaCoreActive){
+  const tempestTwoActive=(inkCounts["Kushala Daora's Tempest"]||0)>=2;
+  if(kushalaCoreActive||tempestTwoActive){
    const baseElemental=totalEffects["Elemental Damage"]||0;
-   const conditionalTitle=el("h3",{class:"combined-results-heading",text:"Kushala Daora · Conditional Core Effect"},armorEffects);
+   el("h3",{class:"combined-results-heading",text:"Kushala Daora · Special Conditions"},armorEffects);
    const conditionalGrid=el("div",{class:"armor-stat-totals visage-stat-totals"},armorEffects);
-   [["Core Effect active",10],["Against broken monster parts",18]].forEach(([label,bonus])=>{
+   const scenarios=[];
+   if(tempestTwoActive)scenarios.push(["Monster suppressed",baseElemental+7]);
+   if(kushalaCoreActive)scenarios.push(["Against broken monster parts",baseElemental+8]);
+   if(tempestTwoActive&&kushalaCoreActive)scenarios.push(["Both conditions active",baseElemental+15]);
+   scenarios.forEach(([label,value])=>{
     const card=el("div",{class:"armor-total-card"},conditionalGrid);
     el("span",{class:"armor-total-label",text:"✧ "+label},card);
-    el("strong",{class:"armor-total-value",text:"+"+(baseElemental+bonus).toFixed(2)+"%"},card);
+    el("strong",{class:"armor-total-value",text:"+"+value.toFixed(2)+"% Elemental Damage"},card);
    });
-   el("p",{class:"muted",text:"Conditional totals include the selected Potential Effects and active unconditional Ink bonuses. The +18% replaces the +10% Core Effect; these bonuses do not stack. Only applies while the in-game Core Effect conditions are met."},armorEffects);
+   el("p",{class:"muted",text:"Combined total includes active base bonuses: Tempest 1-piece +2%, Tempest 2-piece +3%, and Kushala Core +10% (Core slot only). When suppressed, +10% replaces the 2-piece +3%; against broken parts, +18% replaces the Core +10%. Both upgrades can apply together if both conditions are met. Season 0 only."},armorEffects);
   }
  if(inkBonusRoot){
  el("h2",{class:"combined-results-heading",text:"Ink Set Bonuses"},inkBonusRoot);
