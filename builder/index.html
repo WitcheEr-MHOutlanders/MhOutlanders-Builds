@@ -753,8 +753,34 @@ const toggle=document.getElementById("armor-r10");toggle.checked=saved.r10!==fal
 const root=document.getElementById("armor-slots"),results=document.getElementById("armor-skills"),bonuses=document.getElementById("armor-bonuses");
 function node(tag,txt,parent,cls){const e=document.createElement(tag);if(txt!==null)e.textContent=txt;if(cls)e.className=cls;parent.append(e);return e}
 function current(p){const s={...p.skills};if(toggle.checked)for(const u of p.upgrades||[])s[u.name]=u.value;return s}
+// Original high-resolution in-game variants supplied by the site owner. No generated icons.
+// Color matches are provisional; missing assets automatically fall back to the existing sprite.
+const originalSkillColorMap={"item-master":"9740","piercing-strike":"9736","health-recovery":"9733","water-damage-up":"9736","sleep-resistance":"9737","suppression-recovery":"9736","grace-under-pressure":"9736","counter-boost":"9734","rejuvenation":"9729","stamina-conversion":"9736","weakspot-follow-up":"9734","adversity":"9732","morph-boost":"9736","relentless-pursuit":"9734","blessing":"9736","charged-power-shot":"9736","ballistics":"9734","gathering-master":"9739","airborne":"9736","radiant-sense":"9730","fire-damage-up":"9734","hunting-instinct":"9740","health-boost":"9733","poison-resistance":"9735","recovery-booster":"9733","capacity-boost":"9736","insight":"9730","instinct":"9734","spirit-bind-blade":"9734","ice-resistance":"9729","flash-draw":"9730","weakspot-exploit":"9730","windproof":"9729","ice-damage-up":"9729","ammo-enhancement":"9736","critical-element":"9729","flawless":"9734","offensive-defense":"9729","capturing-expert":"9731","stun-resistance":"9740","demonic-strength":"9732","bleeding-resistance":"9740","charge-up":"9734","fearless":"9732","charge-enhancement":"9736","intimidation":"9736","immovable-stance":"9736","iron-skin":"9740","thunder-resistance":"9740","battle-spirit":"9734","deterrence":"9729","bow-skill-boost":"9736","unleashed":"9734","paralysis-resistance":"9739","combo-enhancement":"9734","flinching-free":"9738","tremor-resistance":"9738","defense-up":"9740","dragon-damage-up":"9732","guard-technique":"9738","bento-lover":"9732","pierce":"9736","botanical-expert":"9739","roar-resistance":"9729","water-resistance":"9736","blast-resistance":"9740","quick-bite":"9740","fire-resistance":"9734","health-cycle":"9736","wrecker":"9736","breaker":"9738"};
+const originalSkillVariantBase="../assets/skill-icons/original-variants/";
 const verifiedOriginalSkillIcons={"ammo-enhancement":"https://www.gacha.gg/img/monster-hunter-outlanders/dm/ItemIcon/ItemIcon_RGArmor_18-91c07a86.webp","suppression-recovery":"https://www.gacha.gg/img/monster-hunter-outlanders/dm/ItemIcon/ItemIcon_RGArmor_18-91c07a86.webp"};
-function makePdfSkillIcon(skill){const skillKey=skill.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");const idx=pdfSkillIconNames.indexOf(skill.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""));if(idx<0&&!verifiedOriginalSkillIcons[skillKey])return null;const icon=document.createElement("span");icon.className="pdf-skill-icon";icon.setAttribute("aria-hidden","true");icon.style.cssText="display:inline-block;width:16px;height:16px;vertical-align:-3px;margin-right:5px;background-image:url("+pdfSkillIconSprite+");background-size:128px 80px;background-position:"+(-16*(idx%8))+"px "+(-16*Math.floor(idx/8))+"px;background-repeat:no-repeat;flex-shrink:0";if(verifiedOriginalSkillIcons[skillKey]){const img=new Image();img.onload=()=>{icon.style.backgroundImage="url("+verifiedOriginalSkillIcons[skillKey]+")";icon.style.backgroundSize="contain";icon.style.backgroundPosition="center";icon.style.backgroundRepeat="no-repeat"};img.src=verifiedOriginalSkillIcons[skillKey]}return icon}
+function makePdfSkillIcon(skill){
+ const skillKey=skill.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+ const idx=pdfSkillIconNames.indexOf(skillKey);
+ const variant=originalSkillColorMap[skillKey];
+ if(idx<0&&!variant&&!verifiedOriginalSkillIcons[skillKey])return null;
+ const icon=document.createElement("span");
+ icon.className="pdf-skill-icon";
+ icon.setAttribute("aria-hidden","true");
+ icon.style.cssText="display:inline-block;width:16px;height:16px;vertical-align:-3px;margin-right:5px;flex-shrink:0;background-repeat:no-repeat";
+ if(idx>=0){
+  icon.style.backgroundImage="url("+pdfSkillIconSprite+")";
+  icon.style.backgroundSize="128px 80px";
+  icon.style.backgroundPosition=(-16*(idx%8))+"px "+(-16*Math.floor(idx/8))+"px";
+ }
+ const preferred=variant?originalSkillVariantBase+variant+".webp":verifiedOriginalSkillIcons[skillKey];
+ if(preferred){
+  const img=new Image();
+  img.onload=()=>{icon.style.backgroundImage="url('"+preferred+"')";icon.style.backgroundSize="contain";icon.style.backgroundPosition="center"};
+  img.onerror=()=>{if(idx<0&&verifiedOriginalSkillIcons[skillKey]&&variant){const fallback=new Image();fallback.onload=()=>{icon.style.backgroundImage="url('"+fallback.src+"')";icon.style.backgroundSize="contain";icon.style.backgroundPosition="center"};fallback.src=verifiedOriginalSkillIcons[skillKey]}};
+  img.src=preferred;
+ }
+ return icon;
+}
 function render(){results.replaceChildren();bonuses.replaceChildren();const statTotals=document.getElementById("armor-stat-totals");statTotals.replaceChildren();const totals={},limits={};let count=0;let defenseTotal=0,powerTotal=0,defenseKnown=true,powerKnown=true;const setCounts={};
 selected.forEach(id=>{const p=pieces.find(x=>x.id===id);if(!p)return;count++;if(Number.isFinite(Number(p.defense))&&p.defense!=null)defenseTotal+=Number(p.defense);else defenseKnown=false;if(Number.isFinite(Number(p.adventurer_power))&&p.adventurer_power!=null)powerTotal+=Number(p.adventurer_power);else powerKnown=false;if(p.set)setCounts[p.set]=(setCounts[p.set]||0)+1;Object.entries(current(p)).forEach(([skill,value])=>{totals[skill]=(totals[skill]||0)+value;limits[skill]=p.max[skill]||limits[skill]||7})});
 for(const [label,value,known,icon] of [["Total Defense",defenseTotal,defenseKnown,"🛡"],["Total Adventurer Power",powerTotal,powerKnown,"⚡"]]){const card=node("div",null,statTotals,"armor-total-card");node("span",icon+" "+label,card,"armor-total-label");node("strong",known?value.toLocaleString():"Incomplete",card,"armor-total-value");}if(!count){node("p","Choose armor to see skill totals.",results,"armor-empty-message")}else Object.entries(totals).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).forEach(([name,value])=>{const c=node("div",null,results,"armor-skill");const label=node("div",null,c);const icon=makePdfSkillIcon(name);if(icon)label.append(icon);label.append(document.createTextNode(name));node("b",value+"/"+(limits[name]||"?"),c)});
