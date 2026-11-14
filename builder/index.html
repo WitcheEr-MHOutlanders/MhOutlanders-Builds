@@ -608,7 +608,7 @@ function drawVisages(){
     if(choice){
      {
      const tierButtons=el("div",{class:"visage-roll-buttons"},body);
-     ((v.name==="Ruger Aidal"||v.name==="Kushala Daora")?[{id:"high",label:"Fixed Potential Effect"},{id:"high-10",label:"Base High Roll Level 10"}]:[{id:"low",label:"Base Low Roll"},{id:"high",label:"Base High Roll"},{id:"low-10",label:"Base Low Roll Level 10"},{id:"high-10",label:"Base High Roll Level 10"}]).forEach(tier=>{
+     ((v.name==="Ruger Aidal"||v.name==="Kushala Daora")?[{id:"high",label:"Base High Roll"},{id:"high-10",label:"Base High Roll Level 10"}]:[{id:"low",label:"Base Low Roll"},{id:"high",label:"Base High Roll"},{id:"low-10",label:"Base Low Roll Level 10"},{id:"high-10",label:"Base High Roll Level 10"}]).forEach(tier=>{
       const confirmed=rollValue(choice,tier.id,v.cost,v.name);
       const btn=el("button",{type:"button",class:"visage-roll-button"+((s.tiers||[])[j]===tier.id?" selected":"")},tierButtons);
       el("span",{class:"visage-roll-label",text:tier.label},btn);
