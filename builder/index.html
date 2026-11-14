@@ -650,7 +650,8 @@ function drawVisages(){
  chosen.forEach(({s,i})=>{if(s.ink)inkCounts[s.ink]=(inkCounts[s.ink]||0)+1+(i===0?1:0)});
  Object.entries(inkCounts).forEach(([inkName,count])=>{
   const stat=inkTwoPieceEffects[inkName];
-  if(count>=2&&stat)totalEffects[stat]=(totalEffects[stat]||0)+5;\n  if(inkName==="Kushala Daora\'s Tempest"&&count>=1)totalEffects["Elemental Damage"]=(totalEffects["Elemental Damage"]||0)+2;
+  if(count>=2&&stat)totalEffects[stat]=(totalEffects[stat]||0)+5;
+  if(inkName==="Kushala Daora\'s Tempest"&&count>=1)totalEffects["Elemental Damage"]=(totalEffects["Elemental Damage"]||0)+2;
  });
  resultRoot.replaceChildren();
  const inkBonusRoot=document.getElementById("combined-ink-set-bonuses");
