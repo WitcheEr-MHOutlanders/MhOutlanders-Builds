@@ -646,8 +646,15 @@ function drawVisages(){
   "Ink of Resonance":"Affinity",
   "Ink of Frost":"Ice Damage"
  };
+ // Identical named Visages contribute to an Ink Set only once.
+ // A unique Visage in the Core slot contributes two pieces instead of one.
  const inkCounts={};
- chosen.forEach(({s,i})=>{if(s.ink)inkCounts[s.ink]=(inkCounts[s.ink]||0)+1+(i===0?1:0)});
+ const countedVisageNames=new Set();
+ chosen.forEach(({s,i,v})=>{
+  if(!s.ink||countedVisageNames.has(v.name))return;
+  countedVisageNames.add(v.name);
+  inkCounts[s.ink]=(inkCounts[s.ink]||0)+(i===0?2:1);
+ });
  Object.entries(inkCounts).forEach(([inkName,count])=>{
   const stat=inkTwoPieceEffects[inkName];
   if(count>=2&&stat)totalEffects[stat]=(totalEffects[stat]||0)+5;
