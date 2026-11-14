@@ -705,6 +705,32 @@ function drawVisages(){
   el("strong",{class:"armor-total-value",text:"+"+((totalEffects["Fire Damage"]||0)+24).toFixed(2)+"% Fire Damage"},flameCard);
   el("p",{class:"muted",text:"After hitting a monster part with good or decent hitzone values, gain +24% Fire Damage for 20 seconds. This conditional total includes the active 2-piece +5% Fire Damage bonus and any other combined Fire Damage effects; it is not included in the unconditional total."},armorEffects);
  }
+ // Show the actual activation requirements for every equipped Core Visage and active 4-piece Ink.
+ // These are conditional descriptions, not unconditional additions to stat totals.
+ // Kushala and Ink of Flames retain their separately verified numerical scenarios above.
+ if(armorEffects){
+  const conditionalEntries=[];
+  const activeCore=chosen.find(({i,v})=>i===0&&v.cost>1&&v.effect);
+  if(activeCore&&activeCore.v.name!=="Kushala Daora"){
+   conditionalEntries.push({title:activeCore.v.name+" · Core Effect",description:activeCore.v.effect});
+  }
+  Object.entries(inkCounts).forEach(([inkName,count])=>{
+   if(inkName==="Kushala Daora's Tempest"||inkName==="Ink of Flames")return;
+   if(count>=4&&inkBonuses[inkName]&&inkBonuses[inkName][1]){
+    conditionalEntries.push({title:inkName+" · 4-Piece Effect",description:inkBonuses[inkName][1]});
+   }
+  });
+  if(conditionalEntries.length){
+   el("h3",{class:"combined-results-heading",text:"Special Activation Conditions"},armorEffects);
+   const activationGrid=el("div",{class:"armor-stat-totals visage-stat-totals"},armorEffects);
+   conditionalEntries.forEach(entry=>{
+    const card=el("div",{class:"armor-total-card"},activationGrid);
+    el("span",{class:"armor-total-label",text:"✧ "+entry.title},card);
+    el("strong",{class:"armor-total-value",text:entry.description},card);
+   });
+   el("p",{class:"muted",text:"These effects activate only when their listed combat conditions are met. Core effects require Visage Slot 1; 4-piece Ink effects require the set threshold. Temporary or situational bonuses are shown separately and are not automatically added to always-active stat totals."},armorEffects);
+  }
+ }
  if(inkBonusRoot){
  el("h2",{class:"combined-results-heading",text:"Ink Set Bonuses"},inkBonusRoot);
  const counts=inkCounts;
