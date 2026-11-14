@@ -807,7 +807,7 @@ const armorIconSprite="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAB
 const slotSymbols={"Head armor":0,"Body armor":1,"Arm armor":2,"Waist armor":3,"Leg armor":4};
 function previewRarities(p){const base=Number(p.rarity)||8,cap=Number(p.rarity_cap)||base;const confirmed=[base,...(p.upgrades||[]).map(u=>Number(u.rarity)).filter(n=>Number.isFinite(n)&&n>=base&&n<=cap)];return [...new Set(confirmed)].sort((a,b)=>a-b)}
 function previewSkills(p,rarity){const out={...p.skills};for(const u of (p.upgrades||[])){if(Number(u.rarity)<=rarity)out[u.name]=u.value}return out}
-function showArmorCards(slotIndex){gallerySlot=slotIndex;gallery.hidden=false;advanced.open=false;filterSearch.value="";filterSet.value="";filterSkill.value="";filterUpgrades.checked=false;filterType="All";typeButtons.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b.textContent==="All")));refreshChoices();galleryTitle.textContent="Choose "+slots[slotIndex];paintArmorCards();gallery.scrollIntoView({behavior:"smooth",block:"nearest"})}
+function showArmorCards(slotIndex){gallerySlot=slotIndex;gallery.hidden=false;advanced.open=false;filterSearch.value="";filterSet.value="";filterUpgrades.checked=false;filterType="All";typeButtons.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b.textContent==="All")));refreshChoices();galleryTitle.textContent="Choose "+slots[slotIndex];paintArmorCards();gallery.scrollIntoView({behavior:"smooth",block:"nearest"})}
 function paintArmorCards(){
  if(gallerySlot<0||gallery.hidden)return;
  galleryList.replaceChildren();
