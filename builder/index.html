@@ -489,7 +489,7 @@ visageRows.forEach(v=>{if(!rollOptions[v.name])rollOptions[v.name]=rollTemplates
 function rollValue(x,tier,cost,visageName){
  if(visageName==="Ruger Aidal"||visageName==="Kushala Daora"){
   if(tier==="high")return x.high;
-  if(tier==="high-10")return visageName==="Ruger Aidal"?(rugerLevel10Rolls[x.id]??null):null;
+  if(tier==="high-10")return rugerLevel10Rolls[x.id]??null;
   return null;
  }
  const isLevel10=typeof tier==="string"&&tier.endsWith("-10");
