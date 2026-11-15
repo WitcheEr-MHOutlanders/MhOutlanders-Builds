@@ -843,7 +843,7 @@ const originalSkillColorMap={"item-master":"9740","piercing-strike":"9736","heal
 const originalSkillVariantBase="../assets/skill-icons/original-variants/";
 const verifiedOriginalSkillIcons={"ammo-enhancement":"https://www.gacha.gg/img/monster-hunter-outlanders/dm/ItemIcon/ItemIcon_RGArmor_18-91c07a86.webp","suppression-recovery":"https://www.gacha.gg/img/monster-hunter-outlanders/dm/ItemIcon/ItemIcon_RGArmor_18-91c07a86.webp"};
 function makePdfSkillIcon(skill){
- const skillKey=skill.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+ const skillKey=skill.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").replace(/^guild-might-(helm|mail|gauntlets|coil|greaves)$/,"guild-might");
  const idx=pdfSkillIconNames.indexOf(skillKey);
  const variant=originalSkillColorMap[skillKey];
  if(idx<0&&!variant&&!verifiedOriginalSkillIcons[skillKey])return null;
