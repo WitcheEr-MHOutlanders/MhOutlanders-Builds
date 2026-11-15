@@ -65,3 +65,16 @@ input[type="checkbox"],input[type="radio"]{max-width:none}
 /* Keep navigation usable without introducing sideways overflow on narrow phones. */
 .unified-nav .menu-links{overflow-wrap:anywhere}
 .unified-nav .menu-links a{white-space:normal!important}
+
+/* Navigation round-two usability */
+.unified-nav details[open] .menu-links{display:flex}
+.unified-nav .menu-links{min-width:0;max-width:min(260px,calc(100vw - 24px));overflow-x:hidden;overflow-y:auto;max-height:min(70vh,560px);max-height:min(70dvh,560px);scrollbar-gutter:stable}
+.unified-nav .menu-links a{min-height:46px;line-height:1.4;overflow-wrap:anywhere}
+.unified-nav summary{user-select:none;-webkit-user-select:none}
+.unified-nav summary:focus-visible,.unified-nav .menu-links a:focus-visible{outline:3px solid #ffd08a!important;outline-offset:3px!important}
+@media(max-width:480px){
+.unified-nav .menu-links{width:min(240px,calc(100vw - 24px));right:0}
+.unified-nav .menu-links a{padding:13px 12px}
+.unified-nav .arsenal-brand{max-width:calc(100% - 58px)}
+}
+@media(hover:none){.unified-nav summary,.unified-nav .menu-links a{touch-action:manipulation}}
