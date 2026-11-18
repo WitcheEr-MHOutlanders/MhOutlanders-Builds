@@ -37,8 +37,7 @@ self.onmessage=({data})=>{
   const extra=Object.entries(totals).filter(([s])=>!priorities.includes(s)).reduce((sum,[s,v])=>sum+Math.min(Number(v)||0,caps[s]||7),0);
   return {ids:state.ids,key:state.names.join("|"),score,extra,totals,active,profile:score.join("|"),unverified:state.unverified};
  }).sort((a,b)=>compareScore(a.score,b.score)||b.extra-a.extra||a.key.localeCompare(b.key));
- const top=[],seen=new Set();
- for(const item of ranked){if(seen.has(item.key))continue;seen.add(item.key);top.push(item);if(top.length===3)break}
+ const top=ranked.length?[ranked[0]]:[]
  self.postMessage({type:"result",token,top,shortlisted:true});
  }catch(error){self.postMessage({type:"error",token,message:error?.message||"Unable to calculate builds."})}
 };
