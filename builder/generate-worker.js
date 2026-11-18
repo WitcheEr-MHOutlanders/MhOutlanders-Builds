@@ -22,7 +22,7 @@ self.onmessage=({data})=>{
  function bound(depth,raw){
   if(top.length<3)return true;
   const threshold=top[top.length-1].score;
-  for(let j=0;j<4;j++){const skill=priorities[j];const optimistic=Math.min(max[skill],(raw[skill]||0)+rem[depth][j]+possibleBonus[j]);if(optimistic>threshold[j])return true;if(optimistic<threshold[j])return false}
+  for(let j=0;j<priorities.length;j++){const skill=priorities[j];const optimistic=Math.min(max[skill],(raw[skill]||0)+rem[depth][j]+possibleBonus[j]);if(optimistic>threshold[j])return true;if(optimistic<threshold[j])return false}
   return true;
  }
  function dfs(depth,chosen,raw,counts){
