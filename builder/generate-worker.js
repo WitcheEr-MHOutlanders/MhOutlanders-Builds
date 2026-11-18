@@ -1,46 +1,44 @@
 "use strict";
 self.onmessage=({data})=>{
  const {pieces,sets,priorities,token}=data;
+ try{
  const slots=["Head armor","Body armor","Arm armor","Waist armor","Leg armor"];
- const ranked=(p)=>priorities.reduce((score,skill,i)=>score+Math.min(7,Number(p.final[skill]||0))*Math.pow(12,priorities.length-i-1),0);
- const pools=slots.map(slot=>{
-  const all=pieces.filter(p=>p.slot===slot).sort((a,b)=>ranked(b)-ranked(a)||a.name.localeCompare(b.name));
-  const chosen=all.slice(0,10),seen=new Set(chosen.map(p=>p.id));
-  const bonusSets=new Set(sets.filter(s=>s.bonus?.skill_bonus&&priorities.includes(s.bonus.skill_bonus[0])).map(s=>s.name));
-  for(const p of all){if(chosen.length>=14)break;if(bonusSets.has(p.set)&&!seen.has(p.id)&&!chosen.some(x=>x.set===p.set)){chosen.push(p);seen.add(p.id)}}
-  return chosen;
- });
- const max={};for(const skill of priorities)max[skill]=Math.max(1,...pieces.map(p=>Number(p.max?.[skill]||0)),...sets.map(s=>s.bonus?.skill_bonus?.[0]===skill?7:0));
- const maxima=pools.map(pool=>priorities.map(skill=>Math.max(0,...pool.map(p=>Number(p.final[skill]||0)))));
- const rem=Array.from({length:6},()=>priorities.map(()=>0));for(let i=4;i>=0;i--)for(let j=0;j<priorities.length;j++)rem[i][j]=rem[i+1][j]+maxima[i][j];
- const possibleBonus=priorities.map(skill=>sets.reduce((s,x)=>s+(x.bonus?.skill_bonus?.[0]===skill?Number(x.bonus.skill_bonus[1]||0):0),0));
- const top=[];let visited=0;let last=-1;const skillCaps={};for(const p of pieces)for(const [s,v] of Object.entries(p.max||{}))skillCaps[s]=Math.max(skillCaps[s]||1,Number(v)||1);
- function cmp(a,b){for(let i=0;i<priorities.length;i++)if(a.score[i]!==b.score[i])return a.score[i]-b.score[i];return a.extra-b.extra||b.key.localeCompare(a.key)}
- function evaluate(chosen,raw,counts){
-  const totals={...raw},active=[];
-  for(const s of sets){const b=s.bonus;if(!b||counts[s.name]<b.required_pieces)continue;active.push({name:b.name,required:b.required_pieces,effect:b.effect||""});if(b.skill_bonus){const [skill,value]=b.skill_bonus;totals[skill]=(totals[skill]||0)+Number(value)}}
-  const score=priorities.map(s=>Math.min(max[s],totals[s]||0));
-  const extra=Object.entries(totals).filter(([s])=>!priorities.includes(s)).reduce((sum,[s,v])=>sum+Math.min(Number(v)||0,(skillCaps[s]||1)),0);
-  const ids=chosen.map(p=>p.id),key=chosen.map(p=>p.name).join("|"),profile=score.join("|");
-  const result={ids,key,score,extra,totals,active,profile,unverified:chosen.filter(p=>p.unverified).map(p=>p.name)};
-  const same=top.findIndex(t=>t.profile===profile);if(same>=0){if(cmp(result,top[same])>0)top.splice(same,1);else return}
-  top.push(result);top.sort((a,b)=>cmp(b,a));if(top.length>3)top.length=3;
- }
- function bound(depth,raw){
-  if(top.length<3)return true;
-  const threshold=top[top.length-1].score;
-  for(let j=0;j<priorities.length;j++){const skill=priorities[j];const optimistic=Math.min(max[skill],(raw[skill]||0)+rem[depth][j]+possibleBonus[j]);if(optimistic>threshold[j])return true;if(optimistic<threshold[j])return false}
-  return true;
- }
- function dfs(depth,chosen,raw,counts){
-  if(!bound(depth,raw))return;
-  if(depth===5){evaluate(chosen,raw,counts);return}
-  for(const p of pools[depth]){
-   const next={...raw};for(const [s,v] of Object.entries(p.final))next[s]=(next[s]||0)+Number(v);
-   counts[p.set]=(counts[p.set]||0)+1;chosen.push(p);dfs(depth+1,chosen,next,counts);chosen.pop();counts[p.set]--;
-   if(depth===0){visited++;const progress=Math.floor(visited*100/pools[0].length);if(progress!==last){last=progress;self.postMessage({type:"progress",token,progress})}}
+ const pools=slots.map(slot=>pieces.filter(p=>p.slot===slot));
+ if(pools.some(p=>!p.length))throw Error("Missing armor pieces for one or more slots.");
+ const caps={};for(const p of pieces)for(const [s,v] of Object.entries(p.max||{}))caps[s]=Math.max(caps[s]||0,Number(v)||0);
+ for(const skill of priorities)if(!caps[skill])caps[skill]=7;
+ const bonuses=sets.filter(s=>s.bonus?.skill_bonus).map(s=>({set:s.name,required:Number(s.bonus.required_pieces),name:s.bonus.name,skill:s.bonus.skill_bonus[0],value:Number(s.bonus.skill_bonus[1])||0,effect:s.bonus.effect||""}));
+ const add=(raw,p)=>{const next={...raw};for(const [skill,v] of Object.entries(p.final||{}))next[skill]=(next[skill]||0)+(Number(v)||0);return next};
+ const activeBonuses=(counts)=>bonuses.filter(b=>(counts[b.set]||0)>=b.required);
+ const scoreOf=(raw,counts)=>{const totals={...raw};const active=activeBonuses(counts);for(const b of active)totals[b.skill]=(totals[b.skill]||0)+b.value;return {totals,active,score:priorities.map(s=>Math.min(caps[s],totals[s]||0))}};
+ const compareScore=(a,b)=>{for(let i=0;i<priorities.length;i++)if(a[i]!==b[i])return b[i]-a[i];return 0};
+ const stateRank=(state,depth)=>{const {score}=scoreOf(state.raw,state.counts);let value=0;for(let i=0;i<priorities.length;i++)value+=score[i]*Math.pow(20,priorities.length-i-1);
+  // Favor pieces that can complete a relevant set bonus, without outranking a skill level.
+  let potential=0;for(const b of bonuses)if(priorities.includes(b.skill)){const n=state.counts[b.set]||0;if(n>0&&n<b.required&&b.required-n<=5-depth)potential+=0.03*n}
+  return value+potential;
+ };
+ let beam=[{ids:[],raw:{},counts:{},names:[],unverified:[]}];
+ const WIDTH=180;
+ for(let depth=0;depth<5;depth++){
+  const expanded=[];
+  for(const state of beam)for(const p of pools[depth]){
+   const counts={...state.counts,[p.set]:(state.counts[p.set]||0)+1};
+   expanded.push({ids:[...state.ids,p.id],raw:add(state.raw,p),counts,names:[...state.names,p.name],unverified:p.unverified?[...state.unverified,p.name]:state.unverified});
   }
+  expanded.sort((a,b)=>stateRank(b,depth+1)-stateRank(a,depth+1)||a.names.join("|").localeCompare(b.names.join("|")));
+  // Retain varied armor combinations, including alternate set choices.
+  const next=[],seen=new Set();
+  for(const state of expanded){const key=state.ids.slice(0,-1).join("|")+"|"+state.ids.at(-1);if(seen.has(key))continue;seen.add(key);next.push(state);if(next.length>=WIDTH)break}
+  beam=next;
+  self.postMessage({type:"progress",token,progress:Math.round((depth+1)*20)});
  }
- dfs(0,[],{},{});
- self.postMessage({type:"result",token,top,visited,shortlisted:true});
+ const ranked=beam.map(state=>{
+  const {totals,active,score}=scoreOf(state.raw,state.counts);
+  const extra=Object.entries(totals).filter(([s])=>!priorities.includes(s)).reduce((sum,[s,v])=>sum+Math.min(Number(v)||0,caps[s]||7),0);
+  return {ids:state.ids,key:state.names.join("|"),score,extra,totals,active,profile:score.join("|"),unverified:state.unverified};
+ }).sort((a,b)=>compareScore(a.score,b.score)||b.extra-a.extra||a.key.localeCompare(b.key));
+ const top=[],seen=new Set();
+ for(const item of ranked){if(seen.has(item.key))continue;seen.add(item.key);top.push(item);if(top.length===3)break}
+ self.postMessage({type:"result",token,top,shortlisted:true});
+ }catch(error){self.postMessage({type:"error",token,message:error?.message||"Unable to calculate builds."})}
 };
