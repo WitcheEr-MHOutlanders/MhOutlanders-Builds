@@ -5,10 +5,10 @@ self.onmessage=({data})=>{
  const pools=slots.map(slot=>pieces.filter(p=>p.slot===slot).sort((a,b)=>a.name.localeCompare(b.name)));
  const max={};for(const skill of priorities)max[skill]=Math.max(1,...pieces.map(p=>Number(p.max?.[skill]||0)),...sets.map(s=>s.bonus?.skill_bonus?.[0]===skill?7:0));
  const maxima=pools.map(pool=>priorities.map(skill=>Math.max(0,...pool.map(p=>Number(p.final[skill]||0)))));
- const rem=Array.from({length:6},()=>[0,0,0,0]);for(let i=4;i>=0;i--)for(let j=0;j<4;j++)rem[i][j]=rem[i+1][j]+maxima[i][j];
+ const rem=Array.from({length:6},()=>priorities.map(()=>0));for(let i=4;i>=0;i--)for(let j=0;j<priorities.length;j++)rem[i][j]=rem[i+1][j]+maxima[i][j];
  const possibleBonus=priorities.map(skill=>sets.reduce((s,x)=>s+(x.bonus?.skill_bonus?.[0]===skill?Number(x.bonus.skill_bonus[1]||0):0),0));
  const top=[];let visited=0;let last=-1;
- function cmp(a,b){for(let i=0;i<4;i++)if(a.score[i]!==b.score[i])return a.score[i]-b.score[i];return a.extra-b.extra||b.key.localeCompare(a.key)}
+ function cmp(a,b){for(let i=0;i<priorities.length;i++)if(a.score[i]!==b.score[i])return a.score[i]-b.score[i];return a.extra-b.extra||b.key.localeCompare(a.key)}
  function evaluate(chosen,raw,counts){
   const totals={...raw},active=[];
   for(const s of sets){const b=s.bonus;if(!b||counts[s.name]<b.required_pieces)continue;active.push({name:b.name,required:b.required_pieces,effect:b.effect||""});if(b.skill_bonus){const [skill,value]=b.skill_bonus;totals[skill]=(totals[skill]||0)+Number(value)}}
